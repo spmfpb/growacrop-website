@@ -1,0 +1,628 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GrowACrop - Quiz Engine v3 (Merged)</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:#f6fbf4;color:#1a2a16;padding:24px;max-width:900px;margin:0 auto}
+h1{font-size:22px;font-weight:700;color:#2a5c2a;margin-bottom:4px}
+.subtitle{font-size:13px;color:#6a886a;margin-bottom:24px}
+.q-block{margin-bottom:18px}
+.q-label{font-size:11px;font-weight:600;color:#4a5e44;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.q-num{width:22px;height:22px;border-radius:50%;background:#e8f0e8;border:1px solid #d8ecd0;display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#4a5e44;flex-shrink:0}
+.q-num.hard{background:#2a5c2a;border-color:#2a5c2a;color:white}
+.q-num.mod{background:#7a9270;border-color:#7a9270;color:white}
+.q-full{font-size:14px;font-weight:500;color:#1a2a16}
+.opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+.opt{padding:8px 16px;border-radius:100px;font-size:13px;cursor:pointer;border:1.5px solid #d8ecd0;color:#4a5e44;background:white;transition:all .15s;user-select:none}
+.opt:hover{border-color:#4a8c3a;color:#2a5c2a}
+.opt.selected{background:#2a5c2a;color:white;border-color:#2a5c2a}
+.divider{height:1px;background:#d8ecd0;margin:24px 0}
+/* RESULT */
+.result{display:none;margin-top:4px}
+.result.show{display:block}
+/* MATCH META GRID (from v2) */
+.match-meta{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:16px;padding:12px;background:white;border:1px solid #d8ecd0;border-radius:10px}
+.mm-cell{font-size:10px;line-height:1.3}
+.mm-label{color:#7a9270;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px}
+.mm-val{color:#1a2a16;font-weight:500}
+.mm-val.match{color:#2a5c2a}
+.mm-val.pending{color:#c4a010;font-style:italic}
+/* DUAL CARDS (from Codex) */
+.result-cards{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+@media(max-width:600px){.result-cards{grid-template-columns:1fr}}
+.rcard{border-radius:14px;padding:20px;border:1.5px solid #d8ecd0;background:white}
+.rcard.primary{border-color:#2a5c2a;box-shadow:0 0 0 3px rgba(42,92,42,0.08)}
+.rcard.secondary{border-color:#4a8c3a;border-style:dashed}
+.rbadge{font-size:10px;font-weight:700;padding:3px 10px;border-radius:100px;display:inline-block;margin-bottom:10px;text-transform:uppercase;letter-spacing:.1em}
+.rcard.primary .rbadge{background:#2a5c2a;color:white}
+.rcard.secondary .rbadge{background:#eaf3de;color:#2a5c2a;border:1px solid #c8e0c8}
+/* CONFIDENCE BADGES (from Codex) */
+.confidence{font-size:10px;font-weight:800;padding:3px 9px;border-radius:100px;display:inline-block;margin-left:6px;text-transform:uppercase;letter-spacing:.08em;vertical-align:middle}
+.confidence.ideal{background:#2a5c2a;color:white}
+.confidence.good{background:#eaf3de;color:#2a5c2a;border:1px solid #c8e0c8}
+.confidence.limited{background:#fff8e6;color:#8a6a00;border:1px solid #f5d78a}
+.confidence.experimental{background:#fbeaea;color:#9e2d2d;border:1px solid #f5c5c5}
+.rcard-id{font-size:10px;color:#7a9270;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
+.rcard-name{font-size:17px;font-weight:700;color:#1a2a16;margin-bottom:4px}
+.rcard-prod{font-size:13px;font-weight:600;color:#2a5c2a;margin-bottom:4px}
+.rcard-price{display:inline-block;font-size:11px;font-weight:700;background:#eaf3de;color:#2a5c2a;padding:2px 10px;border-radius:100px;margin-bottom:12px}
+/* CARD DETAIL GRID (from Codex) */
+.rcard-detail{display:grid;grid-template-columns:80px 1fr;gap:4px 8px;font-size:11px;color:#4a5e44;line-height:1.5;padding:10px;background:#f6fbf4;border:1px solid #d8ecd0;border-radius:8px;margin-bottom:10px}
+.rcard-detail strong{color:#2a5c2a}
+.rcard-shop{font-size:12px;color:#4a5e44;line-height:1.6;margin-bottom:10px}
+.rcard-shop strong{color:#2a5c2a}
+.rcard-why{font-size:11px;color:#7a9270;font-style:italic;line-height:1.5;padding-top:10px;border-top:1px solid #e8f2e8}
+/* INLINE WARNING / ALT (from Codex) */
+.rcard-warning{font-size:11px;color:#9e2d2d;background:#fbeaea;border:1px solid #f5c5c5;border-radius:8px;padding:8px 10px;margin-bottom:10px;line-height:1.5}
+.rcard-alt{font-size:11px;color:#8a6a00;background:#fff8e6;border:1px solid #f5d78a;border-radius:8px;padding:8px 10px;margin-bottom:10px;line-height:1.5}
+/* OUTDOOR NOTE (from v2) */
+.outdoor-note{margin-top:4px;padding:14px;background:#e8f4ed;border:1px solid #88c2a8;border-radius:10px;margin-bottom:14px}
+.outdoor-title{font-size:10px;font-weight:700;color:#0f6e56;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.outdoor-text{font-size:12px;color:#0f4a3a;line-height:1.6}
+.outdoor-text strong{color:#0a5544}
+/* MESSAGING (from v2) */
+.msg-box{background:#f6fbf4;border:1px solid #d8ecd0;border-radius:12px;padding:14px;margin-top:4px}
+.msg-title{font-size:10px;font-weight:700;color:#7a9270;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.msg-item{font-size:12px;color:#4a5e44;padding:5px 0;border-bottom:1px solid #e8f2e8;line-height:1.5;display:flex;gap:8px}
+.msg-item:last-child{border-bottom:none}
+.msg-item strong{color:#2a5c2a;flex-shrink:0}
+.reset-btn{margin-top:16px;padding:8px 20px;border-radius:100px;border:1.5px solid #d8ecd0;background:white;color:#4a5e44;font-size:13px;cursor:pointer}
+.reset-btn:hover{border-color:#4a8c3a;color:#2a5c2a}
+.waiting{padding:14px;background:#f6fbf4;border:1px dashed #d8ecd0;border-radius:10px;font-size:12px;color:#7a9270;font-style:italic;text-align:center}
+</style>
+</head>
+<body>
+
+<h1>GrowACrop - Quiz Engine v3</h1>
+<div class="subtitle">Internal planning tool. Merged: dual cards + confidence + space variants + outdoor modifiers + match grid.</div>
+
+<div class="q-block">
+  <div class="q-label"><span class="q-num mod">1</span><span class="q-full">Have you grown hydroponically before?</span></div>
+  <div class="opts">
+    <div class="opt" data-q="exp" data-v="never" onclick="pick(this)">Never tried</div>
+    <div class="opt" data-q="exp" data-v="struggled" onclick="pick(this)">Tried but struggled</div>
+    <div class="opt" data-q="exp" data-v="yes" onclick="pick(this)">Yes - comfortable with basics</div>
+  </div>
+</div>
+
+<div class="q-block">
+  <div class="q-label"><span class="q-num hard">2</span><span class="q-full">What do you want to grow?</span></div>
+  <div class="opts">
+    <div class="opt" data-q="crop" data-v="herbs" onclick="pick(this)">Fresh herbs</div>
+    <div class="opt" data-q="crop" data-v="greens" onclick="pick(this)">Leafy greens & salads</div>
+    <div class="opt" data-q="crop" data-v="fruiting" onclick="pick(this)">Fruiting veg & berries</div>
+    <div class="opt" data-q="crop" data-v="micro" onclick="pick(this)">Microgreens</div>
+    <div class="opt" data-q="crop" data-v="plants" onclick="pick(this)">Houseplants</div>
+  </div>
+</div>
+
+<div class="q-block">
+  <div class="q-label"><span class="q-num mod">3</span><span class="q-full">Indoor or outdoor?</span></div>
+  <div class="opts">
+    <div class="opt" data-q="env" data-v="indoor" onclick="pick(this)">Indoors</div>
+    <div class="opt" data-q="env" data-v="outdoor" onclick="pick(this)">Outdoors</div>
+    <div class="opt" data-q="env" data-v="both" onclick="pick(this)">Both / not sure</div>
+  </div>
+</div>
+
+<div class="q-block">
+  <div class="q-label"><span class="q-num hard">4</span><span class="q-full">How much space do you have?</span></div>
+  <div class="opts">
+    <div class="opt" data-q="space" data-v="tiny" onclick="pick(this)">Tiny - windowsill or small corner</div>
+    <div class="opt" data-q="space" data-v="small" onclick="pick(this)">Small - enough for a few pots</div>
+    <div class="opt" data-q="space" data-v="medium" onclick="pick(this)">Medium - a full bench or table</div>
+    <div class="opt" data-q="space" data-v="large" onclick="pick(this)">Large - spare room or garage</div>
+  </div>
+</div>
+
+<div class="q-block">
+  <div class="q-label"><span class="q-num hard">5</span><span class="q-full">What's your budget?</span></div>
+  <div class="opts">
+    <div class="opt" data-q="budget" data-v="low" onclick="pick(this)">Under $100</div>
+    <div class="opt" data-q="budget" data-v="mid" onclick="pick(this)">$100 - $250</div>
+    <div class="opt" data-q="budget" data-v="high" onclick="pick(this)">$250 - $600</div>
+    <div class="opt" data-q="budget" data-v="pro" onclick="pick(this)">$600+</div>
+  </div>
+</div>
+
+<div class="q-block">
+  <div class="q-label"><span class="q-num hard">6</span><span class="q-full">How much setup difficulty are you comfortable with?</span></div>
+  <div class="opts">
+    <div class="opt" data-q="diff" data-v="easy" onclick="pick(this)">Plug & play - unbox and grow</div>
+    <div class="opt" data-q="diff" data-v="medium" onclick="pick(this)">Some assembly - happy to follow instructions</div>
+    <div class="opt" data-q="diff" data-v="project" onclick="pick(this)">I like a project - build from scratch</div>
+  </div>
+</div>
+
+<div class="q-block">
+  <div class="q-label"><span class="q-num mod">7</span><span class="q-full">How much time can you give it per week?</span></div>
+  <div class="opts">
+    <div class="opt" data-q="time" data-v="low" onclick="pick(this)">5 minutes or less</div>
+    <div class="opt" data-q="time" data-v="mid" onclick="pick(this)">15 - 30 minutes</div>
+    <div class="opt" data-q="time" data-v="high" onclick="pick(this)">An hour or more</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="waiting" id="waiting">Answer Q2 (what to grow) to see your first recommendation</div>
+
+<div class="result" id="result">
+  <!-- Match meta grid -->
+  <div class="match-meta" id="match-meta"></div>
+
+  <!-- Dual cards -->
+  <div class="result-cards">
+    <div class="rcard primary" id="rcard-p">
+      <div class="rbadge" id="rp-badge">Best match</div>
+      <div class="rcard-id" id="rp-id"></div>
+      <div class="rcard-name" id="rp-name"></div>
+      <div class="rcard-prod" id="rp-prod"></div>
+      <span class="rcard-price" id="rp-price"></span>
+      <div id="rp-warning"></div>
+      <div id="rp-alt"></div>
+      <div class="rcard-detail" id="rp-detail"></div>
+      <div class="rcard-shop" id="rp-shop"></div>
+      <div class="rcard-why" id="rp-why"></div>
+    </div>
+    <div class="rcard secondary" id="rcard-s" style="display:none">
+      <div class="rbadge" id="rs-badge">Also consider</div>
+      <div class="rcard-id" id="rs-id"></div>
+      <div class="rcard-name" id="rs-name"></div>
+      <div class="rcard-prod" id="rs-prod"></div>
+      <span class="rcard-price" id="rs-price"></span>
+      <div id="rs-warning"></div>
+      <div id="rs-alt"></div>
+      <div class="rcard-detail" id="rs-detail"></div>
+      <div class="rcard-shop" id="rs-shop"></div>
+      <div class="rcard-why" id="rs-why"></div>
+    </div>
+  </div>
+
+  <!-- Outdoor modifier (from v2) -->
+  <div class="outdoor-note" id="outdoor-note" style="display:none">
+    <div class="outdoor-title">Outdoor modifier applied</div>
+    <div class="outdoor-text" id="outdoor-text"></div>
+  </div>
+
+  <!-- Messaging notes -->
+  <div class="msg-box">
+    <div class="msg-title">Messaging notes</div>
+    <div id="msg-items"></div>
+  </div>
+
+  <button class="reset-btn" onclick="reset()"> Reset</button>
+</div>
+
+<script>
+const A = {};
+
+// ============================================================
+// RECOMMENDATION MATRIX
+// Fields: crop|diff|budget|confidence|name|prod|price|
+//         spaceNeeded|maintenance|harvest|shoppingList|
+//         retailers|upgrade|why|warning|strongerAlternative
+// ============================================================
+const FIELDS = ['crop','diff','budget','confidence','name','prod','price','spaceNeeded','maintenance','harvest','shoppingList','retailers','upgrade','why','warning','strongerAlternative'];
+
+const MATRIX = `
+herbs|easy|low|Good|Simple Herb Starter|Kratky Herb Kit|$40-$90|Windowsill or small bench|Very low|4-6 weeks|Dark jar or tub; net cups; rockwool; PowerFeed Pro Hydroponic (Bunnings); herb seeds|Bunnings; Amazon; eBay|LetPot Mini|Simple, cheap, quiet and beginner-friendly. A jar on a windowsill and you are growing food today.||Move to mid budget for a smart garden with built-in lighting.
+herbs|easy|mid|Ideal|Smart Herb Garden|LetPot 12-Pod (Bunnings)|$150-$200|Countertop|Very low|4-6 weeks|LetPot system; sponge pods; hydroponic nutrients; herb seeds|Bunnings; LetPot direct|Lavish Patch|Best low-effort herb path. LED and pump built in, app sends water reminders, looks premium on a bench.||
+herbs|easy|high|Ideal|Automated Herb Garden|Plant Factory Lavish Patch|$229|Countertop or small bench|Very low|4-6 weeks|Lavish Patch; sponge inserts; Plant Factory nutrients; seeds|plantfactory.com.au|LumiArk|32 plant sites, app-controlled, Australian-designed. Beautiful enough to live on the bench permanently.||
+herbs|easy|pro|Ideal|Home Herb Farm|Plant Factory LumiArk|$1,100|Bench, shelf or dedicated corner|Low|4-6 weeks|LumiArk system; sponge inserts; nutrient line from Plant Factory|plantfactory.com.au|Multi-tier herb wall|128 plant sites across 4 levels. More fresh herbs than a household can consume, all year round.||
+herbs|medium|low|Good|Kratky Tote Herb Setup|Dark Tote + Bunnings Supplies|$60-$90|Small bench or shelf|Low|4-6 weeks|Dark storage tote (Kmart); 4-6 net cups (eBay); holesaw (Bunnings); rockwool; PowerFeed Pro Hydroponic; pH test kit; seeds|Bunnings; Kmart; eBay|DWC tote|Grow 4-6 herbs from one dark tote for under $80. Almost impossible to kill plants this way.||
+herbs|medium|mid|Ideal|Compact Herb DWC|6-Site DWC Kit|$130-$220|Small bench|Medium|4-6 weeks|6-site DWC kit; air pump; air stones; net cups; 30W LED panel; A+B nutrients (Canna or Green Planet); EC/pH pen; seeds|Hydro shop; Amazon|12-site DWC|Great balance of effort, learning and yield. Gives full control over nutrients and grow cycles.||
+herbs|medium|high|Ideal|Herb Rack System|Multi-Tray LED Shelf|$300-$500|Shelf or medium corner|Medium|4-6 weeks|Wire shelving; LED grow bars; DWC or wick trays; nutrients; timer; seeds|Hydro shop; Bunnings|NFT channels|More herbs in the same footprint with a real system feel and serious lighting.||
+herbs|medium|pro|Good|Kitchen Herb Station|Cabinet/Rack Hydro System|$650+|Dedicated corner|Medium|4-6 weeks|Cabinet or rack; LEDs; pump; reservoir; premium nutrient line; EC/pH meter; seeds|Specialty hydro; brand store|Automated NFT|Strong, attractive and productive, but more than most herb growers will need at this stage.||
+herbs|project|low|Ideal|DIY Kratky Build|Custom Kratky Jars or Tote|$30-$80|Windowsill or small bench|Very low|4-6 weeks|Dark jars or tote; net cups; rockwool; PowerFeed Pro Hydroponic; pH test kit; seeds|Bunnings; Kmart; eBay|DIY DWC tote|Best cheap hands-on entry into hydroponics. A weekend project that produces food for months.||
+herbs|project|mid|Ideal|DIY Herb DWC|6-Site DWC Build|$120-$220|Small bench|Medium|4-6 weeks|Storage tote; air pump; air stones; net cups; 30W LED; A+B nutrients; EC/pH pen; seeds|Hydro shop; Amazon|Larger DWC|A real project with a forgiving crop. Full control from day one.||
+herbs|project|high|Ideal|DIY NFT Build|12-Site NFT Build|$300-$500|Medium bench or rack|Medium|4-6 weeks|NFT channels; pump; reservoir; 50W LED; premium nutrients; EC/pH meter; seeds|Hydro shop; Bunnings|Multi-channel NFT|Strong for repeated harvests and satisfying to build. NFT is the professional standard for herbs.||
+herbs|project|pro|Good|Custom Herb Farm|Multi-Channel NFT System|$700+|Dedicated rack or room edge|Medium|4-6 weeks|Rack; NFT channels; 100W+ LED; sensors; premium nutrient line; EC/pH meter; seeds|Specialty hydro|Automated dosing|Excellent, scalable and customisable - but overbuilt for casual herb use unless growing commercially.||
+greens|easy|low|Good|Lettuce Starter|Kratky Lettuce Tub|$50-$100|Small bench or bright outdoor spot|Very low|3-5 weeks|Dark tote; net cups; rockwool; PowerFeed Pro Hydroponic; pH test kit; lettuce seeds|Bunnings; Kmart; eBay|Smart salad garden|Leafy greens tolerate simple hydro better than most crops. A cheap and forgiving start.||
+greens|easy|mid|Ideal|Smart Salad Garden|LetPot 12-Pod (Bunnings)|$150-$200|Countertop|Very low|3-5 weeks|LetPot system; greens pods; nutrients; salad seeds|Bunnings; LetPot direct|Lavish Patch|Easy, reliable salad setup with integrated lighting and low-maintenance reminders.||
+greens|easy|high|Ideal|Automated Salad Station|Plant Factory Lavish Patch|$229|Bench or table|Very low|3-5 weeks|Lavish Patch; sponge inserts; nutrients; salad seed mix|plantfactory.com.au|LumiArk|32 plant sites of salad greens, app-controlled, self-managing. Better household yield without extra work.||
+greens|easy|pro|Ideal|Indoor Salad Farm|Plant Factory LumiArk|$1,100|Dedicated corner|Low|3-5 weeks|LumiArk; sponge inserts; nutrient line; salad seed mix|plantfactory.com.au|Automated cabinet|More fresh salad than most households can consume, year-round, app-controlled.||
+greens|medium|low|Good|LED Salad Tray|Kratky Tote + Basic LED|$80-$110|Small bench or shelf|Low|3-5 weeks|Dark tote; net cups; rockwool; 20W LED bar; PowerFeed Pro Hydroponic; pH test kit; greens seeds|Bunnings; Amazon|DWC tote|Adding light makes the low-budget path much more reliable year-round.||
+greens|medium|mid|Ideal|Deep Water Salad|6-8 Site DWC Kit|$130-$220|Small bench|Medium|3-5 weeks|DWC kit; air pump; net cups; 30-40W LED; A+B nutrients; EC/pH pen; salad seeds|Hydro shop; Amazon|12-site DWC|Classic leafy-green setup. A strong beginner build that gives real weekly harvests.||
+greens|medium|high|Ideal|Salad Rack|Multi-Tray DWC Rack|$300-$500|Medium shelf or rack|Medium|3-5 weeks|Wire rack; LED bars; DWC trays; air pump; nutrients; EC/pH pen; seeds|Hydro shop|NFT rack|Good weekly harvest capacity in an organised footprint. Enough to replace supermarket salad.||
+greens|medium|pro|Good|Home Salad Station|Vertical or Rack Hydro|$700+|Dedicated rack or corner|Medium|3-5 weeks|Rack; LEDs; reservoir; pump; premium nutrients; EC/pH meter; seeds|Specialty hydro|Nutrient automation|Productive, but space and appetite should justify the investment before going this large.||
+greens|project|low|Ideal|DIY Kratky Greens|Storage Tote Kratky|$40-$90|Small bench or outdoor shade|Very low|3-5 weeks|Dark tote; holesaw; net cups; rockwool; PowerFeed Pro Hydroponic; pH test kit; lettuce seeds|Bunnings; Kmart|Add air pump next|Cheap, productive and very forgiving. The most satisfying sub-$100 weekend project.||
+greens|project|mid|Ideal|DIY DWC Lettuce|8-Site DWC Build|$120-$230|Small bench|Medium|3-5 weeks|Storage tote; air pump; air stones; net cups; 30W LED; A+B nutrients; EC/pH pen; salad seeds|Hydro shop; Amazon|Raft bed|Best DIY value for edible output. Enough lettuce to stop buying from the supermarket.||
+greens|project|high|Ideal|DIY NFT Greens|16-Site NFT Build|$350-$600|Medium rack|Medium|3-5 weeks|NFT channels; pump; reservoir; 60W LED; premium A+B nutrients; EC/pH meter; seeds|Hydro shop|Multi-rack NFT|Excellent architecture for leafy production. NFT gives faster growth and cleaner roots than DWC.||
+greens|project|pro|Good|Custom Salad Farm|Multi-Tier NFT or Raft System|$800+|Dedicated rack or room|High|3-5 weeks|Racks; LEDs; plumbing; sensors; premium nutrients; EC/pH meter; seeds|Specialty hydro|Dosing controller|Strong but complex, best for committed growers wanting serious weekly yield.||
+fruiting|easy|low|Experimental|Compact Fruiting Trial|Kratky Bucket - Dwarf Variety Only|$70-$100|Outdoor full sun or very bright spot|Medium|8-14 weeks|5L bucket; net cup lid; nutrients; compact dwarf seed; plant support stake|Bunnings; Amazon|DWC bucket with grow light|Only suitable for dwarf varieties outdoors. Low budget fruiting crops fail indoors without proper light.|Low budget fruiting crops usually fail indoors because light and root volume are both limiting. Start with herbs, greens or microgreens - or raise budget.|Start with herbs or greens for reliable first success. Raise budget to high for a real fruiting setup.
+fruiting|easy|mid|Limited|Smart Dwarf Tomato Grow|Large Smart Garden - Compact Varieties|$180-$250|Countertop with height clearance|Medium|8-12 weeks|Large smart garden; trellis; bloom nutrients; dwarf tomato or chilli seed|LetPot; Amazon|DWC bucket|Can work for dwarf tomatoes or chillies with compact varieties. Not full-size crop production.|Use compact varieties only. Expect a learning grow, not supermarket replacement.|Some Assembly + mid DWC bucket gives better fruiting success rates.
+fruiting|easy|high|Good|Indoor Fruiting Kit|DWC Bucket Kit + Strong LED|$350-$550|Small bench or dedicated corner with height clearance|Medium|8-14 weeks|10L DWC bucket; 36W full-spectrum LED; air pump; Grow + Bloom nutrients; pH kit; plant stake|Hydro shop; Amazon|Grow tent kit|Better root space and proper light make fruiting realistic. Cherry tomatoes, chillies, strawberries.||Premium grow tent kit gives more control as a plug-and-play option.
+fruiting|easy|pro|Ideal|Indoor Fruiting Station|Grow Tent Kit - Full Setup|$700+|Dedicated tent area|Medium|8-14 weeks|Tent; 100W+ LED; fan; DWC or autopots; Grow + Bloom nutrients; EC/pH meter; plant supports|Specialty hydro|Climate control|Best plug-and-play success path for tomatoes, chillies and strawberries. Controlled environment.||
+fruiting|medium|low|Limited|Balcony Fruiting Pot|Coco Self-Watering Pot - Outdoor Only|$70-$100|Outdoor balcony or full-sun patio|Medium|8-14 weeks|Self-watering pot; coco/perlite mix; nutrients; plant support|Bunnings; nursery|Autopot system|Better outdoors than indoors. Simple but entirely sun-dependent.|Weak indoors without proper light. Best for outdoor full-sun positions only.|Move to Some Assembly + mid DWC bucket for indoor fruiting.
+fruiting|medium|mid|Good|Single Bucket Fruiter|DWC Bucket Build|$150-$250|Small bench, balcony or tent corner|Medium|8-14 weeks|10L bucket; air pump; air stones; 30W LED; Grow + Bloom nutrients; EC/pH pen; plant stake; seeds|Hydro shop; Amazon|2-bucket DWC|Good starter if the user accepts monitoring and regular maintenance. Real fruiting results.||
+fruiting|medium|high|Good|Fruiting Tent Lite|2x2 Grow Tent Hydro Kit|$400-$600|Small tent footprint|Medium|8-14 weeks|2x2 tent; 100W LED; fan; DWC or coco; Grow + Bloom nutrients; EC/pH meter; plant supports|Specialty hydro|Larger tent|Reliable for compact tomatoes, chillies and strawberries. Controlled environment, serious results.||
+fruiting|medium|pro|Ideal|Productive Fruiting Tent|2x4 or 3x3 Tent System|$800+|Dedicated tent area|High|8-14 weeks|Tent; 200W LED; fan; autopots or DWC; complete nutrient line; EC/pH meter; environmental monitor|Specialty hydro|Dosing and monitoring|Strongest serious home option. Multiple fruiting plants at full production.||
+fruiting|project|low|Limited|DIY Outdoor Hydro|Bucket or Dutch Bucket - Sun-Assisted|$80-$100|Outdoor full sun|High|8-14 weeks|Bucket; growing media; nutrients; support stake; optional pump|Bunnings; hydro shop|Multi-bucket system|Viable with full sun and patience. Not a reliable indoor path at this budget.|Needs full sun and frequent checking. Not a low-effort setup.|Move to project + high Dutch bucket build for serious fruiting.
+fruiting|project|mid|Good|DIY DWC Fruiter|2-Bucket DWC Build|$180-$250|Small bench, balcony or tent corner|High|8-14 weeks|2x 10L buckets; pump; air stones; trellis; 30W LED; Grow + Bloom nutrients; EC/pH pen; seeds|Hydro shop; Amazon|Small tent|Good hands-on learning setup for compact fruiting crops.||
+fruiting|project|high|Ideal|DIY Dutch Buckets|4-Bucket Recirculating System|$400-$600|Medium outdoor area or tent|High|8-14 weeks|4x buckets; reservoir; pump; drip lines; growing media; plant supports; nutrients; EC/pH meter|Hydro shop; Bunnings|8-bucket system|Excellent architecture for tomatoes, cucumbers and peppers. Satisfying to build and scale.||
+fruiting|project|pro|Ideal|Custom Fruiting Room|Tent + Dutch Bucket or DWC|$900+|Dedicated tent or room|High|8-14 weeks|Tent; 200W+ LED; ventilation; sensors; buckets; complete nutrient line; EC/pH controller|Specialty hydro|Automated dosing|Best for serious fruiting success. Commercial-adjacent, multiple varieties at full production.||
+micro|easy|low|Ideal|Countertop Micro Tray|Basic Microgreen Tray Kit|$30-$80|Countertop or windowsill|Very low|7-14 days|3x growing trays; coco coir brick; microgreen seed mix; spray bottle|Bunnings; Amazon; nursery|LED grow kit|The fastest harvest in hydroponics. Seed to plate in under 2 weeks, no LED needed.||
+micro|easy|mid|Ideal|Lit Microgreens Kit|Multi-Tray Setup + LED Panel|$120-$200|Countertop or small shelf|Low|7-14 days|4-6 trays; 20W LED panel; coco coir; variety seed pack; spray bottle|Amazon; specialty grow|Rack system|More consistent year-round production. Stagger plantings every 5 days for continuous harvest.||
+micro|easy|high|Good|Batch Microgreens Station|Multi-Tray Starter with Rack|$280-$500|Shelf or bench|Low-Medium|7-14 days|Wire rack; LED bars per shelf; 6-8 trays; coco coir bulk; variety seeds|Hydro shop; Amazon|Commercial rack|Good volume output. Stagger trays for a continuous weekly supply of multiple varieties.||
+micro|easy|pro|Limited|Home Microgreens Farm|Premium Rack System|$650+|Dedicated rack|Medium|7-14 days|Premium rack; LEDs; 10-12 trays; fans; bulk seed packs|Specialty grow|Multi-rack setup|Overkill for casual use. Only justified if producing restaurant-quantity weekly batches.|Premium microgreens gear rarely needed for home use.|Use high batch rack for the same output at a third of the cost.
+micro|medium|low|Ideal|DIY Tray Microgreens|Trays + Coco Coir - Window-Grown|$40-$80|Windowsill or small bench|Very low|7-14 days|3-4 growing trays; coco coir brick; microgreen seeds; spray bottle; blackout cover|Bunnings; Kmart|Add LED next|Simplest possible microgreen setup. Blackout phase then windowsill. Very forgiving.||
+micro|medium|mid|Ideal|LED Microgreens Shelf|Basic Shelf + LED Bar|$120-$180|Small shelf or bench|Low|7-14 days|Shelf; 20W LED bar; 4-6 trays; coco coir; variety seeds; timer|Amazon; Bunnings|Multi-shelf rack|Consistent results with real grow lighting. Stagger trays for continuous weekly harvest.||
+micro|medium|high|Ideal|Multi-Shelf Microgreens|Wire Shelving + LED Strips|$250-$400|Medium shelf or dedicated corner|Medium|7-14 days|4-tier wire shelving; LED strips per shelf; 8-10 trays; coco coir bulk; bulk seed packs; timer|Hydro shop; Bunnings|Commercial-grade rack|Restaurant-supply level output from a dedicated shelving unit. Continuous multi-variety batches.||
+micro|medium|pro|Good|Commercial Microgreen Setup|Full Rack System + Environmental Control|$600+|Dedicated rack or room|Medium|7-14 days|Premium racking; LED strips; 12+ trays; fans; humidity monitor; bulk seeds|Specialty grow; Amazon|Multi-rack system|Serious output, but should be justified by actual weekly consumption or sales intent.||
+micro|project|low|Ideal|DIY Kratky Microgreens|Homemade Tray System|$30-$60|Any surface|Very low|7-14 days|Repurposed trays or containers; coco coir; microgreen seed mix; spray bottle|Bunnings; supermarket|LED bar next|Zero-waste approach - repurpose food containers, grow microgreens for almost nothing.||
+micro|project|mid|Ideal|DIY Rack + LED Build|Custom Microgreen Shelf Build|$100-$200|Small shelf or bench|Low|7-14 days|Timber or wire shelf build; LED bar; 4-6 trays; coco coir; variety seeds; timer|Bunnings; Amazon|Add shelf level|A satisfying weekend build that produces serious weekly harvest from a custom footprint.||
+micro|project|high|Ideal|Custom Multi-Shelf Build|DIY Multi-Level Microgreen Rack|$250-$450|Medium dedicated area|Medium|7-14 days|Timber or rack build; 3-4 LED strips; 8-10 trays; fans; bulk coco coir; bulk seeds; timer|Bunnings; hydro shop|Climate control|Built exactly to your space. Higher yield and more variety than any off-the-shelf kit.||
+micro|project|pro|Good|High-Volume Micro Build|Full Custom Rack with Climate Control|$550+|Dedicated room or large area|Medium|7-14 days|Custom rack; multiple LED strips; 12+ trays; inline fan; humidity control; bulk seeds|Specialty grow; Bunnings|Automated watering|Only justified for high-volume household use or micro-commercial production intent.||
+plants|easy|low|Good|Glass Vessel Collection|Hydroponic Glass Vessels|$40-$80|Windowsill, shelf or bench|Very low|Ongoing|Glass jars or vases (Kmart/Ikea); houseplant water nutrient; pothos or tradescantia cuttings|Kmart; Ikea; nursery|Gathera shelf|Beautiful, minimal and surprisingly simple. Display plants in glass as part of your home decor.||
+plants|easy|mid|Ideal|Smart Plant Display|LetPot + Vessel Mix|$120-$200|Countertop or windowsill shelf|Very low|Ongoing|LetPot system or curated glass vessels; houseplant nutrient; variety of cuttings|Bunnings; Kmart; Ikea|Gathera shelf|App-controlled for some plants, glass vessels for others. Flexible and low maintenance.||
+plants|easy|high|Ideal|Gathera Sun Shelf|Gathera Sun Shelf 3|$300-$500|Small to medium shelf space|Very low|Ongoing|Gathera Sun Shelf 3; plant pots or inserts; houseplant hydroponic nutrient; curated cuttings|gathera.com|Multi-shelf setup|Bamboo shelf with built-in full-spectrum LED, timer and 10 intensity levels. Lives in a living room.||
+plants|easy|pro|Ideal|Premium Plant Room|Multi-Unit Gathera Setup|$700-$1,000|Dedicated wall or room section|Low|Ongoing|2-3x Gathera Sun Shelf 3; additional LED panels; houseplant nutrients; plant pots|gathera.com|Full plant wall build|A full curated plant wall or dedicated plant room with professional grow lighting, year-round.||
+plants|medium|low|Good|DIY Water Propagation|Multi-Vessel Propagation Setup|$40-$80|Any shelf, bench or windowsill|Low|Ongoing|Mixed glass vessels (Kmart); houseplant water nutrient; perlite; cuttings from existing plants|Kmart; Ikea; supermarket|Add grow light next|A curated collection of plants growing in water - free if you have existing plants to propagate.||
+plants|medium|mid|Good|Curated Vessel Display|Mixed Glass and Ceramic Display|$120-$220|Shelf, bench or window ledge|Low|Ongoing|Mixed glass/ceramic vessels; premium glass jars; houseplant nutrients; perlite or clay balls; cuttings|Kmart; Ikea; Target|Gathera shelf|Personalised hydroponic plant collection - each plant in its own vessel, displayed as a group.||
+plants|medium|high|Ideal|Gathera Shelf + Vessel Mix|Gathera + Custom Vessel Arrangement|$350-$550|Medium shelf or room corner|Low|Ongoing|Gathera Sun Shelf 3; curated glass and ceramic vessels; houseplant nutrients; plant pots; cuttings|gathera.com; Kmart|Multi-shelf Gathera|Best of both worlds - structured shelf with proper LED for key plants, vessels for the rest.||
+plants|medium|pro|Good|Full Plant Room Setup|Multi-Shelf + Vessel Collection|$650+|Dedicated room section|Low-Medium|Ongoing|2x Gathera shelves; mixed vessels; LED panels; houseplant nutrients; premium pots|gathera.com; specialty|Automated humidity|A serious lifestyle plant room. Premium aesthetic, year-round growth across a large collection.||
+plants|project|low|Ideal|DIY Vessel Build|Repurposed Container Collection|$20-$60|Any surface|Very low|Ongoing|Repurposed bottles, jars, vases; houseplant nutrient; perlite; plant cuttings|Kmart; supermarket; free|Glass upgrade|Zero-waste propagation - grow a collection of water plants from kitchen containers.||
+plants|project|mid|Ideal|DIY Hydro Vessel System|Custom Vessel and Shelf Build|$100-$200|Any shelf or bench|Low|Ongoing|Timber shelf build; mixed glass/ceramic vessels; LED grow strip; houseplant nutrients; clay balls; cuttings|Bunnings; Kmart|Gathera or LED rack|A custom shelf sized to your wall with proper grow lighting and curated vessels.||
+plants|project|high|Ideal|Custom Plant Wall|DIY Wall-Mounted Plant System|$300-$500|Wall space or room corner|Medium|Ongoing|Wall-mounted frame or shelving build; LED grow bars; mixed vessels and pots; nutrients; cuttings|Bunnings; specialty|Climate and humidity|Build a plant wall exactly to your space. More personalised and cheaper than a Gathera at this scale.||
+plants|project|pro|Good|Full Custom Plant Room|Built-In Plant Room or Wall|$600+|Dedicated room or large wall|Medium|Ongoing|Custom built shelving; multiple LED strips; clay ball fill; humidity control; nutrients; large plant collection|Bunnings; specialty|Automated nutrients|A bespoke installation - every centimetre designed for your space and plant collection.||
+`.trim();
+
+// Parse matrix into lookup object
+const RECOMMENDATIONS = {};
+MATRIX.split('\n').forEach(row => {
+  if (!row.trim()) return;
+  const vals = row.split('|');
+  const obj = {};
+  FIELDS.forEach((f, i) => obj[f] = (vals[i] || '').trim());
+  obj.id = `${obj.crop.toUpperCase()}-${obj.diff.toUpperCase()}-${obj.budget.toUpperCase()}`;
+  const key = `${obj.crop}:${obj.diff}:${obj.budget}`;
+  RECOMMENDATIONS[key] = obj;
+});
+
+// ============================================================
+// SPACE VARIANTS
+// When medium or large space selected, upgrade the recommendation
+// ============================================================
+const SPACE_VARIANTS = {
+  herbs: {
+    low: { name:'Multi-Tote Kratky Herb Setup', prod:'Multiple Kratky Totes Staggered', spaceNeeded:'Full bench or shelf', shoppingList:'2-3 dark totes; net cups bulk; rockwool; PowerFeed Pro Hydroponic; pH test kit; variety herb seeds', upgrade:'Add DWC tote with LED', why:'Larger space means staggered totes - continuous harvest from multiple herb varieties simultaneously.' },
+    mid:  { name:'Herb DWC + LED Shelf', prod:'6-Site DWC + LED Bar on Rack', spaceNeeded:'Full bench or shelf', shoppingList:'6-site DWC kit; LED bar; rack or shelf; nutrients; EC/pH pen; variety seeds', upgrade:'12-site DWC or NFT', why:'A bench or shelf lets you run a proper DWC under real lighting with room to expand.' },
+    high: { name:'NFT Herb Channel System', prod:'12-Site NFT + LED', spaceNeeded:'Full bench or dedicated shelf', shoppingList:'12-site NFT channels; 50W LED; pump; reservoir; premium nutrients; EC/pH meter; seeds', upgrade:'Multi-channel NFT', why:'With a full bench, NFT channels give you faster growth and more plant sites than a countertop kit.' },
+    pro:  { name:'Multi-Channel NFT Farm', prod:'Custom Multi-Channel NFT', spaceNeeded:'Dedicated rack or room section', shoppingList:'Multi-channel NFT; 100W+ LED; premium nutrients; EC/pH controller; sensors; seeds', upgrade:'Automated dosing', why:'A large space justifies a full-scale NFT setup - professional yield from a home room.' }
+  },
+  greens: {
+    low:  { name:'Multi-Tote Kratky Greens', prod:'Staggered Kratky Totes', spaceNeeded:'Full bench or outdoor area', shoppingList:'2-3 dark totes; net cups; rockwool; PowerFeed Pro Hydroponic; pH test kit; lettuce and salad seeds', upgrade:'Add LED bar', why:'Staggered totes across a bench give continuous salad harvest - something always ready to pick.' },
+    mid:  { name:'Deep Water Salad - Bench Scale', prod:'12-Site DWC Kit', spaceNeeded:'Full bench', shoppingList:'12-site DWC kit; 40W LED; air pump; nutrients; EC/pH pen; salad seed mix', upgrade:'Raft bed or NFT', why:'A full bench supports a 12-site DWC - enough greens to meaningfully replace supermarket salad.' },
+    high: { name:'NFT Salad Rack', prod:'16-Site NFT + LED Rack', spaceNeeded:'Medium rack or full bench', shoppingList:'NFT channels; pump; reservoir; 60W LED; premium nutrients; EC/pH meter; seeds', upgrade:'Multi-rack NFT', why:'NFT across a rack gives the fastest leafy green growth rates at this scale.' },
+    pro:  { name:'Custom Salad Farm', prod:'Multi-Tier NFT or Raft', spaceNeeded:'Dedicated rack or room', shoppingList:'Racks; LEDs; plumbing; sensors; premium nutrients; EC/pH meter; seed variety pack', upgrade:'Dosing controller', why:'A large space is best used as a dedicated multi-tier salad farm - serious weekly output.' }
+  },
+  fruiting: {
+    low:  { name:'Outdoor Fruiting Trial', prod:'Sun-Assisted Dutch Bucket', spaceNeeded:'Outdoor full sun or large bright area', shoppingList:'Bucket; growing media; nutrients; compact dwarf seed; support stake; optional pump', upgrade:'DWC bucket with grow light', why:'With outdoor space and sun, fruiting crops have a better chance than any low-budget indoor setup.' },
+    mid:  { name:'Single Bucket Fruiter - Bench Scale', prod:'DWC Bucket or Autopot', spaceNeeded:'Bench, balcony or tent corner', shoppingList:'10L bucket or autopot; air pump; 30W LED; Grow + Bloom nutrients; trellis; EC/pH pen', upgrade:'2-bucket DWC or small tent', why:'A bench or room corner is best used for full root volume and light clearance on one serious fruiting plant.' },
+    high: { name:'Fruiting Tent Setup', prod:'2x2 Grow Tent Hydro Kit', spaceNeeded:'Small tent footprint - fits in a spare corner', shoppingList:'2x2 tent; 100W LED; fan; DWC or coco; bloom nutrients; EC/pH meter; plant supports', upgrade:'Larger tent', why:'A tent is a much stronger use of spare-room space for fruiting than a compact bucket on its own.' },
+    pro:  { name:'Productive Fruiting Room', prod:'Tent + Dutch Bucket or DWC System', spaceNeeded:'Dedicated tent or room', shoppingList:'Tent; 200W LED; ventilation; Dutch buckets or DWC; complete nutrient line; sensors', upgrade:'Automated dosing', why:'Fruiting crops are demanding - a large space is best used for controlled environment growing at scale.' }
+  },
+  micro: {
+    low:  { name:'Multi-Tray Microgreens Setup', prod:'4-6 Trays on a Bench', spaceNeeded:'Full bench or table', shoppingList:'4-6 growing trays; coco coir bulk; variety seed pack; spray bottle; blackout cover', upgrade:'Add LED bar', why:'Stagger 4-6 trays across a bench - continuous weekly harvest of multiple microgreen varieties.' },
+    mid:  { name:'LED Microgreens Bench', prod:'Multi-Tray + LED Bar', spaceNeeded:'Full bench or shelf', shoppingList:'6 trays; 30W LED bar; coco coir bulk; variety seeds; timer', upgrade:'Full rack system', why:'A bench gives room to stagger plantings properly with consistent LED coverage above.' },
+    high: { name:'Multi-Shelf Microgreen Rack', prod:'Wire Shelving + LED Strips', spaceNeeded:'Dedicated shelf area', shoppingList:'4-tier wire shelving; LED strips per shelf; 8-10 trays; fans; coco coir; bulk seeds; timer', upgrade:'Add shelf level', why:'A dedicated rack gives serious continuous output - restaurant supply level from a single unit.' },
+    pro:  { name:'Full Microgreen Room', prod:'Multi-Rack + Climate Control', spaceNeeded:'Dedicated room or large area', shoppingList:'Multiple racks; LED strips; 12+ trays; inline fan; humidity control; bulk seed packs', upgrade:'Automated watering', why:'A large space justifies a full-production microgreens room - high volume, multiple varieties always cycling.' }
+  },
+  plants: {
+    low:  { name:'Multi-Surface Vessel Display', prod:'Vessels Across Multiple Areas', spaceNeeded:'Multiple windowsills, shelves or benches', shoppingList:'Assorted glass vessels across multiple surfaces; houseplant nutrient; variety of cuttings', upgrade:'Add LED grow strip', why:'Spread vessels across all available surfaces - a whole home filled with growing plants for minimal cost.' },
+    mid:  { name:'Multi-Shelf Vessel Collection', prod:'Full Shelf Hydroponic Plant Display', spaceNeeded:'Multiple shelves or a full wall section', shoppingList:'2-3 shelves; mixed glass/ceramic vessels; LED grow strip; houseplant nutrients; clay balls; variety cuttings', upgrade:'Gathera shelf', why:'A full shelf or wall section gives room for a curated collection with proper grow lighting.' },
+    high: { name:'Gathera Multi-Shelf Setup', prod:'2x Gathera Sun Shelf 3', spaceNeeded:'Full wall section or room corner', shoppingList:'2x Gathera Sun Shelf 3; houseplant nutrients; plant pots; curated cuttings', upgrade:'Full plant wall build', why:'Two Gathera shelves side by side create a stunning, functional growing wall for a serious collection.' },
+    pro:  { name:'Custom Built Plant Room', prod:'Bespoke Plant Room Installation', spaceNeeded:'Dedicated room or large wall', shoppingList:'Custom built shelving; multiple LED strips; clay ball fill; humidity control; nutrients; large plant collection', upgrade:'Automated watering and nutrients', why:'A dedicated plant room, designed around your space, with professional lighting and humidity control.' }
+  }
+};
+
+// ============================================================
+// SPACE FIT LOGIC
+// ============================================================
+function applySpaceFit(rec, answers) {
+  if (!answers.space) return rec;
+  const upgraded = answers.space === 'medium' || answers.space === 'large';
+  const variant = getSpaceVariant(rec, answers);
+
+  if (upgraded && variant) {
+    rec = { ...rec, ...variant, id: `${rec.id}-${answers.space.toUpperCase()}` };
+  }
+
+  if (answers.space === 'tiny' && /dedicated|rack|tent|room|wall|large|medium/i.test(rec.spaceNeeded)) {
+    rec.warning = [rec.warning, 'Selected space may be too small for the best version of this setup. Consider increasing space or choosing a smaller crop.'].filter(Boolean).join(' ');
+  }
+  return rec;
+}
+
+function getSpaceVariant(rec, answers) {
+  if (answers.space !== 'medium' && answers.space !== 'large') return null;
+  const variant = SPACE_VARIANTS[rec.crop]?.[rec.budget];
+  if (!variant) return null;
+
+  if (rec.diff === 'easy') {
+    return getPlugAndPlaySpaceVariant(rec, variant);
+  }
+
+  if (rec.diff === 'project') {
+    return {
+      name: `${rec.name} - Large Space`,
+      prod: rec.prod,
+      spaceNeeded: `${rec.spaceNeeded}; expandable across ${variant.spaceNeeded.toLowerCase()}`,
+      maintenance: rec.maintenance,
+      shoppingList: [rec.shoppingList, 'extra channels/tubs/trays sized to the available space'].filter(Boolean).join('; '),
+      upgrade: variant.upgrade || rec.upgrade,
+      why: `${rec.why} Because you selected a larger space, scale this DIY build across a bench, rack or room instead of changing it into a different setup style.`
+    };
+  }
+
+  if (rec.diff === 'medium') {
+    return {
+      name: `${rec.name} - Bench Scale`,
+      prod: rec.prod,
+      spaceNeeded: `${rec.spaceNeeded}; laid out across ${variant.spaceNeeded.toLowerCase()}`,
+      maintenance: rec.maintenance,
+      shoppingList: [rec.shoppingList, 'shelf or bench layout sized to the available space'].filter(Boolean).join('; '),
+      upgrade: variant.upgrade || rec.upgrade,
+      why: `${rec.why} The larger space means the assembled kit should be laid out as a bench or rack system, not swapped for a plug-and-play or full DIY recommendation.`
+    };
+  }
+
+  return variant;
+}
+
+function getPlugAndPlaySpaceVariant(rec, variant) {
+  const plugAndPlayUpgrades = {
+    herbs: {
+      low: { name:'Multi-Herb Starter Bench', prod:'Expanded Kratky Herb Totes' },
+      mid: { name:'Large-Space Smart Herb Garden', prod:'Plant Factory Lavish Patch' },
+      high: { name:'Automated Herb Bench Garden', prod:'Plant Factory Lavish Patch' },
+      pro: { name:'Home Herb Farm', prod:'Plant Factory LumiArk' }
+    },
+    greens: {
+      low: { name:'Multi-Tote Salad Bench', prod:'Expanded Kratky Lettuce Totes' },
+      mid: { name:'Large-Space Smart Salad Garden', prod:'Plant Factory Lavish Patch' },
+      high: { name:'Automated Salad Bench Garden', prod:'Plant Factory Lavish Patch' },
+      pro: { name:'Indoor Salad Farm', prod:'Plant Factory LumiArk' }
+    },
+    fruiting: {
+      low: { name:'Outdoor Fruiting Trial', prod:'Sun-Assisted Dutch Bucket' },
+      mid: { name:'Smart Dwarf Fruiting Bench', prod:'Large Smart Garden - Compact Varieties' },
+      high: { name:'Fruiting Tent Setup', prod:'2x2 Grow Tent Hydro Kit' },
+      pro: { name:'Productive Fruiting Room', prod:'Tent + Dutch Bucket or DWC System' }
+    },
+    micro: {
+      low: { name:'Multi-Tray Microgreens Setup', prod:'4-6 Trays on a Bench' },
+      mid: { name:'Lit Microgreens Bench', prod:'Multi-Tray + LED Bar' },
+      high: { name:'Batch Microgreens Station', prod:'Wire Shelving + LED Strips' },
+      pro: { name:'Full Microgreen Room', prod:'Multi-Rack + Climate Control' }
+    },
+    plants: {
+      low: { name:'Multi-Surface Plant Starter', prod:'Vessels Across Multiple Areas' },
+      mid: { name:'Large-Space Smart Plant Display', prod:'LetPot + Vessel Mix' },
+      high: { name:'Gathera Multi-Shelf Setup', prod:'2x Gathera Sun Shelf 3' },
+      pro: { name:'Custom Built Plant Room', prod:'Bespoke Plant Room Installation' }
+    }
+  };
+  const upgrade = plugAndPlayUpgrades[rec.crop]?.[rec.budget] || {};
+  return {
+    ...variant,
+    ...upgrade,
+    maintenance: rec.maintenance,
+    why: `${variant.why} This keeps the recommendation in the Plug & Play lane while using the larger available space.`
+  };
+}
+// ============================================================
+// GUARDRAILS
+// ============================================================
+function applyGuardrails(rec, answers) {
+  const notes = [];
+  if (rec.crop === 'fruiting') {
+    if (answers.space === 'tiny') notes.push('Tiny spaces are a poor fit for fruiting crops - choose dwarf varieties only, or switch to herbs or greens.');
+    if (answers.env === 'indoor' && (rec.budget === 'low' || rec.budget === 'mid')) notes.push('Indoor fruiting crops need stronger light than most starter kits provide. Budget high or above for reliable fruiting indoors.');
+    if (answers.time === 'low') notes.push('Fruiting crops need weekly checking, pruning, support and nutrient attention. 5 min/week is not realistic.');
+    if (answers.exp === 'never' && (rec.confidence === 'Limited' || rec.confidence === 'Experimental')) notes.push('First-time growers have much higher success rates with herbs, leafy greens or microgreens.');
+  }
+  if (answers.time === 'low' && /high|medium-high/i.test(rec.maintenance)) {
+    notes.push('Maintenance level is higher than your selected time commitment. Consider a simpler system or passive Kratky setup.');
+  }
+  if (answers.exp === 'never' && rec.diff === 'project') {
+    notes.push('Project-level builds are challenging for first-time growers. Consider Some Assembly first to build confidence.');
+  }
+  if (answers.env === 'outdoor' && rec.crop === 'micro') {
+    notes.push('Microgreens are sensitive to wind, weather and pests outdoors. Indoor-only recommended for consistent results.');
+  }
+  if (notes.length) {
+    rec.warning = [rec.warning, ...notes].filter(Boolean).join(' ');
+  }
+  return rec;
+}
+
+// ============================================================
+// SECONDARY CARD LOGIC
+// ============================================================
+function findSecondary(primary, answers) {
+  // If experimental or limited, suggest a safer alternative
+  if (primary.confidence === 'Experimental' || primary.confidence === 'Limited') {
+    const safeKey = `greens:easy:${answers.budget || 'mid'}`;
+    const safe = RECOMMENDATIONS[safeKey];
+    if (safe) return { ...safe, name: 'Safer First Harvest - ' + safe.name, id: 'ALT-SAFE' };
+  }
+  // Otherwise suggest the tier below (easy version of same crop/budget)
+  if (answers.diff !== 'easy') {
+    const easierKey = `${answers.crop}:easy:${answers.budget || 'mid'}`;
+    const easier = RECOMMENDATIONS[easierKey];
+    if (easier && easier.id !== primary.id) return easier;
+  }
+  // Or the budget tier below
+  const budgetDown = { pro:'high', high:'mid', mid:'low' };
+  if (budgetDown[answers.budget]) {
+    const cheaperKey = `${answers.crop}:${answers.diff || 'easy'}:${budgetDown[answers.budget]}`;
+    const cheaper = RECOMMENDATIONS[cheaperKey];
+    if (cheaper && cheaper.id !== primary.id) return cheaper;
+  }
+  return null;
+}
+
+// ============================================================
+// MAIN MATCH FUNCTION
+// ============================================================
+function findProfile(answers) {
+  if (!answers.crop) return null;
+  const diff = answers.diff || 'easy';
+  const budget = answers.budget || 'mid';
+  let primary = RECOMMENDATIONS[`${answers.crop}:${diff}:${budget}`];
+  if (!primary) return null;
+  primary = { ...primary };
+  primary = applySpaceFit(primary, answers);
+  primary = applyGuardrails(primary, answers);
+  const secondary = findSecondary(primary, answers);
+  return { primary, secondary };
+}
+
+// ============================================================
+// UI HELPERS
+// ============================================================
+function cropLabel(v) { return {herbs:'Herbs',greens:'Leafy greens',fruiting:'Fruiting veg',micro:'Microgreens',plants:'Houseplants'}[v]||'-'; }
+function spaceLabel(v) { return {tiny:'Tiny',small:'Small',medium:'Medium',large:'Large'}[v]||'-'; }
+function budgetLabel(v) { return {low:'Under $100',mid:'$100-250',high:'$250-600',pro:'$600+'}[v]||'-'; }
+function diffLabel(v) { return {easy:'Plug & play',medium:'Some assembly',project:'Project build'}[v]||'-'; }
+function envLabel(v) { return {indoor:'Indoor',outdoor:'Outdoor',both:'Indoor/Outdoor'}[v]||'-'; }
+
+function renderMatchMeta(answers) {
+  const cells = [
+    { label:'Crop', val: answers.crop ? cropLabel(answers.crop) : 'pending', pending: !answers.crop },
+    { label:'Space', val: answers.space ? spaceLabel(answers.space) : 'pending', pending: !answers.space },
+    { label:'Budget', val: answers.budget ? budgetLabel(answers.budget) : 'pending', pending: !answers.budget },
+    { label:'Difficulty', val: answers.diff ? diffLabel(answers.diff) : 'pending', pending: !answers.diff },
+    { label:'Environment', val: answers.env ? envLabel(answers.env) : 'pending', pending: !answers.env }
+  ];
+  return cells.map(c => `
+    <div class="mm-cell">
+      <div class="mm-label">${c.label}</div>
+      <div class="mm-val ${c.pending ? 'pending' : 'match'}">${c.val}</div>
+    </div>`).join('');
+}
+
+function renderDetail(rec) {
+  return `
+    <strong>Space</strong><span>${rec.spaceNeeded || 'Any'}</span>
+    <strong>Care</strong><span>${rec.maintenance || 'Medium'}</span>
+    <strong>Harvest</strong><span>${rec.harvest || 'Varies'}</span>
+    <strong>Buy from</strong><span>${rec.retailers || 'Hydro shop'}</span>
+    <strong>Upgrade to</strong><span>${rec.upgrade || 'Expand capacity'}</span>`;
+}
+
+function setCard(prefix, rec) {
+  const confClass = (rec.confidence || 'good').toLowerCase();
+  document.getElementById(`${prefix}-badge`).innerHTML =
+    `${prefix === 'rp' ? 'Best match' : 'Also consider'} <span class="confidence ${confClass}">${rec.confidence || 'Good'}</span>`;
+  document.getElementById(`${prefix}-id`).textContent = rec.id;
+  document.getElementById(`${prefix}-name`).textContent = rec.name;
+  document.getElementById(`${prefix}-prod`).textContent = rec.prod || '';
+  document.getElementById(`${prefix}-price`).textContent = rec.price || '';
+  document.getElementById(`${prefix}-detail`).innerHTML = renderDetail(rec);
+  document.getElementById(`${prefix}-shop`).innerHTML = rec.shoppingList ? `<strong>Shopping list:</strong> ${rec.shoppingList}` : '';
+  document.getElementById(`${prefix}-why`).textContent = rec.why || '';
+  const warnEl = document.getElementById(`${prefix}-warning`);
+  warnEl.innerHTML = rec.warning ? `<div class="rcard-warning"><strong>Note:</strong> ${rec.warning}</div>` : '';
+  const altEl = document.getElementById(`${prefix}-alt`);
+  altEl.innerHTML = rec.strongerAlternative ? `<div class="rcard-alt"><strong>Stronger alternative:</strong> ${rec.strongerAlternative}</div>` : '';
+}
+
+function renderOutdoorNote(answers, primary) {
+  const outdoorEl = document.getElementById('outdoor-note');
+  if (answers.env !== 'outdoor') { outdoorEl.style.display = 'none'; return; }
+  const adjustments = [];
+  if (/LED|light|smart garden|LetPot|Lavish|LumiArk|Gathera/i.test(primary.prod)) {
+    adjustments.push('Remove LED grow light from shopping list - natural sunlight replaces it outdoors.');
+  }
+  adjustments.push('Position in a spot with morning sun and afternoon shade in Australian summers (especially QLD and WA).');
+  adjustments.push('Check water levels more frequently in hot weather - evaporation increases significantly above 30deg C.');
+  if (answers.crop === 'fruiting') adjustments.push('Outdoor fruiting crops need protection from heavy rain, possums and birds.');
+  if (answers.crop === 'micro') adjustments.push('Microgreens are not recommended outdoors - move indoors for consistent results.');
+  document.getElementById('outdoor-text').innerHTML = '<strong>Adjustments for outdoor growing:</strong><br>- ' + adjustments.join('<br>- ');
+  outdoorEl.style.display = 'block';
+}
+
+function renderMessagingNotes(answers) {
+  const mods = [];
+  if (answers.exp === 'never') mods.push({ q:'Complete beginner', t:'Max hand-holding. Lead with quick wins. "You\'ll have your first harvest in 30 days."' });
+  if (answers.exp === 'struggled') mods.push({ q:'Tried & struggled', t:'Address frustration directly. "Here\'s exactly why it didn\'t work and how this fixes it." Most motivated customer type.' });
+  if (answers.exp === 'yes') mods.push({ q:'Experienced grower', t:'Skip the basics. Focus on yield optimisation, nutrient management and system expansion.' });
+  if (answers.env === 'outdoor') mods.push({ q:'Outdoor grower', t:'Remove grow lights from recommendation. Note AU heat/UV - especially QLD and WA summers. Mention pest protection.' });
+  if (answers.time === 'low') mods.push({ q:'5 min/week', t:'"Top up water once a week, harvest when ready." Kratky or app-controlled systems only. Sell the simplicity.' });
+  if (answers.time === 'high') mods.push({ q:'1 hour+/week', t:'Lean into the hobby angle. Nutrient experimentation, plant training, dialling EC levels. Sell the depth.' });
+  const mi = document.getElementById('msg-items');
+  mi.innerHTML = mods.length
+    ? mods.map(m => `<div class="msg-item"><strong>${m.q}:</strong> ${m.t}</div>`).join('')
+    : '<div class="msg-item" style="color:#7a9270;font-style:italic">Answer Q1, Q3 and Q7 to see messaging notes.</div>';
+}
+
+// ============================================================
+// MAIN UPDATE
+// ============================================================
+function update() {
+  const resultEl = document.getElementById('result');
+  const waitingEl = document.getElementById('waiting');
+
+  document.getElementById('match-meta').innerHTML = renderMatchMeta(A);
+
+  if (!A.crop) {
+    resultEl.classList.remove('show');
+    waitingEl.style.display = 'block';
+    return;
+  }
+
+  waitingEl.style.display = 'none';
+  const profile = findProfile(A);
+
+  if (!profile) {
+    resultEl.classList.remove('show');
+    return;
+  }
+
+  resultEl.classList.add('show');
+  setCard('rp', profile.primary);
+
+  if (profile.secondary) {
+    document.getElementById('rcard-s').style.display = 'block';
+    setCard('rs', profile.secondary);
+  } else {
+    document.getElementById('rcard-s').style.display = 'none';
+  }
+
+  renderOutdoorNote(A, profile.primary);
+  renderMessagingNotes(A);
+}
+
+function pick(el) {
+  const q = el.dataset.q, v = el.dataset.v;
+  if (el.classList.contains('selected')) {
+    el.classList.remove('selected');
+    delete A[q];
+  } else {
+    document.querySelectorAll(`.opt[data-q="${q}"]`).forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    A[q] = v;
+  }
+  update();
+}
+
+function reset() {
+  Object.keys(A).forEach(k => delete A[k]);
+  document.querySelectorAll('.opt').forEach(o => o.classList.remove('selected'));
+  document.getElementById('result').classList.remove('show');
+  document.getElementById('waiting').style.display = 'block';
+  document.getElementById('match-meta').innerHTML = renderMatchMeta({});
+  document.getElementById('outdoor-note').style.display = 'none';
+}
+
+// Init
+document.getElementById('match-meta').innerHTML = renderMatchMeta({});
+</script>
+</body>
+</html>
