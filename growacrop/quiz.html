@@ -105,6 +105,8 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 .shop-item-content{flex:1}
 .shop-item.checked .shop-item-content{text-decoration:line-through;opacity:0.5}
 .shop-item a{color:#1e3a22;text-decoration:underline}
+.shop-total{display:flex;justify-content:space-between;gap:16px;margin-top:10px;padding-top:10px;border-top:2px solid #ddd8cc;font-size:13px;font-weight:800;color:#1e3a22}
+.shop-total-note{font-size:10px;color:#888;margin-top:4px;line-height:1.4}
 .primary-why{font-size:12px;color:#888;font-style:italic;line-height:1.6;padding-top:10px;border-top:1px solid #edf2e8}
 
 /* OTHER SIZES */
@@ -610,6 +612,7 @@ const RECS = {
       name: 'All-in-One Tower (Outdoor) or HydroCulture Jumbo Tower (Indoor)',
       tagline: 'Mid-size tower for outdoors or indoors',
       price: '$109 – $380',
+      shopping_total: '$220.40 outdoor / $491.50 indoor',
       grows: 'Herbs, leafy greens, strawberries, Asian greens',
       shop: 'Outdoor: <a href="https://amzn.asia/d/0i87QrGy">All-in-one tower</a> ($108.90) · Indoor: <a href="https://happyhydroponics.com.au/products/hydroculture-jumbo-vertical-tower-with-led-full-spectrum-35l-reservoir">HydroCulture Jumbo Tower + LED</a> ($380) · <a href="https://www.amazon.com.au/Hydroponic-Nutrients-Plant-Grow-Bloom/dp/B0CX4MHXDM/">Nutrients A+B</a> ($34.50) · <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> ($36.95) · <a href="https://www.amazon.com.au/Salinity-Backlight-Waterproof-Accuracy-Hydroponics/dp/B0DLK6N2HN/">EC/pH tester</a> · <a href="https://www.amazon.com.au/BESPORTBLE-Rock-Wool-Starter-Plugs-Hydroponics/dp/B0D1GF5ZPT/">Rockwool plugs</a> · <a href="https://www.amazon.com.au/Marhynchus-Injector-Stainless-Laboratory-Experiment/dp/B0FBT19L8N/">Syringe</a> ($20.06) · <a href="https://www.happyvalleyseeds.com.au/">Seeds — Happy Valley</a> · <a href="https://www.bigw.com.au/product/oznala-digital-timer-switch-socket-electric-programmable-power-240v-au-plug-clock/p/9901205333">Timer</a> ($19.99)',
       why: 'Two options depending on where you\'re growing. The outdoor tower is a great value all-in-one. The indoor HydroCulture tower includes a full-spectrum LED for year-round production.',
@@ -823,6 +826,26 @@ function showResult() {
   console.log('Email to send recommendation to:', A.email);
 }
 
+function getShoppingTotal(rec) {
+  if (rec.shopping_total) return rec.shopping_total;
+
+  const total = rec.shop.split(' · ').reduce(function(sum, item) {
+    if (/optional|indoor only|with light/i.test(item)) return sum;
+    const match = item.match(/\$([\d,]+(?:\.\d+)?)/);
+    if (!match) return sum;
+
+    let price = Number(match[1].replace(/,/g, ''));
+    if (/recommend 3/i.test(item)) price *= 3;
+    return sum + price;
+  }, 0);
+
+  return total.toLocaleString('en-AU', {
+    style: 'currency',
+    currency: 'AUD',
+    minimumFractionDigits: 2
+  });
+}
+
 function renderRecommendation(sys, size) {
   const rec = RECS[sys][size];
   const sysName = SYSTEM_NAMES[sys];
@@ -851,7 +874,9 @@ function renderRecommendation(sys, size) {
       const linkedItem = item.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ');
       return '<li class="shop-item"><input type="checkbox" aria-label="Mark shopping item ' + (index + 1) + ' complete" onchange="this.parentElement.classList.toggle(\'checked\', this.checked)"><div class="shop-item-content">' + linkedItem + '</div></li>';
     }).join('') +
-    '</ul>';
+    '</ul>' +
+    '<div class="shop-total"><span>Estimated total (priced essentials)</span><span>' + getShoppingTotal(rec) + '</span></div>' +
+    '<div class="shop-total-note">Optional and unpriced items are not included.</div>';
   document.getElementById('r-shop').innerHTML = shopHTML;
   document.getElementById('r-why').textContent = rec.why;
 
