@@ -446,7 +446,7 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
   <div class="primary-card">
     <img class="primary-card-img" id="r-img" src="" alt="">
     <div class="primary-card-body">
-      <div class="badge">Best match</div>
+      <div class="badge" id="best-match-badge">Best match</div>
       <div class="primary-name" id="r-name"></div>
       <div class="primary-tagline" id="r-tagline"></div>
       <span class="primary-price" id="r-price"></span>
@@ -829,6 +829,7 @@ function renderRecommendation(sys, size) {
   const rec = RECS[sys][size];
   const sysName = SYSTEM_NAMES[sys];
   const sizeName = getSizeLabel(size);
+  document.getElementById('best-match-badge').style.display = size === A.size ? 'inline-block' : 'none';
 
   // Primary card
   document.getElementById('r-title').textContent = 'Your perfect setup';
