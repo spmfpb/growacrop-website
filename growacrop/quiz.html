@@ -102,8 +102,8 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 .shop-item{padding:6px 0;border-bottom:1px solid #e8e2d3;display:flex;align-items:flex-start;gap:8px}
 .shop-item:last-child{border-bottom:none}
 .shop-item input[type="checkbox"]{margin-top:3px;flex-shrink:0;width:16px;height:16px;accent-color:#1e3a22;cursor:pointer}
-.shop-item label{display:flex;align-items:flex-start;gap:8px;cursor:pointer;flex:1}
-.shop-item.checked span{text-decoration:line-through;opacity:0.5}
+.shop-item-content{flex:1}
+.shop-item.checked .shop-item-content{text-decoration:line-through;opacity:0.5}
 .shop-item a{color:#1e3a22;text-decoration:underline}
 .primary-why{font-size:12px;color:#888;font-style:italic;line-height:1.6;padding-top:10px;border-top:1px solid #edf2e8}
 
@@ -849,8 +849,9 @@ function renderRecommendation(sys, size) {
   }
   const shopItems = rec.shop.split(' · ');
   const shopHTML = '<strong>Shopping list:</strong><ul class="shop-list">' +
-    shopItems.map(function(item) {
-      return '<li class="shop-item"><label><input type="checkbox" onchange="this.parentElement.parentElement.classList.toggle(\'checked\', this.checked)"><span>' + item + '</span></label></li>';
+    shopItems.map(function(item, index) {
+      const linkedItem = item.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ');
+      return '<li class="shop-item"><input type="checkbox" aria-label="Mark shopping item ' + (index + 1) + ' complete" onchange="this.parentElement.classList.toggle(\'checked\', this.checked)"><div class="shop-item-content">' + linkedItem + '</div></li>';
     }).join('') +
     '</ul>';
   document.getElementById('r-shop').innerHTML = shopHTML;
