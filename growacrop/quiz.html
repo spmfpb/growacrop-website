@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GrowACrop — Find Your Setup</title>
+<link rel="stylesheet" href="style.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-height:100vh}
+
+/* HEADER */
+.header{background:#1e3a22;padding:16px 24px}
+.header-logo{color:white;font-size:18px;font-weight:800;letter-spacing:-0.02em}
+.header-tagline{color:rgba(255,255,255,0.6);font-size:12px}
+
+/* PROGRESS */
+.progress-wrap{background:#ede9df;padding:14px 24px 0}
+.progress-steps{display:flex;gap:8px;margin-bottom:12px}
+.step{flex:1;height:3px;background:#ddd8cc;border-radius:100px;transition:background .3s}
+.step.done{background:#1e3a22}
+.step.active{background:#4a7c59}
+.progress-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#888;padding-bottom:12px}
+
+/* SCREENS */
+.screen{display:none;padding:28px 20px;max-width:860px;margin:0 auto}
+.screen.active{display:block}
+.q-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#b5863a;margin-bottom:8px}
+.q-title{font-size:26px;font-weight:800;color:#1e3a22;line-height:1.2;margin-bottom:6px}
+.q-sub{font-size:14px;color:#4a4a4a;margin-bottom:24px;line-height:1.6}
+
+/* SYSTEM CARDS */
+.system-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:22px}
+.system-card{background:white;border:2px solid #ddd8cc;border-radius:12px;overflow:hidden;cursor:pointer;transition:all .2s ease;display:flex;flex-direction:column}
+.system-card:hover{border-color:#1e3a22;transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.09)}
+.system-card.selected{border-color:#1e3a22;box-shadow:0 0 0 3px rgba(30,58,34,.15)}
+.system-img{width:100%;height:160px;object-fit:contain;display:block;background:#f5f5f3;padding:8px}
+.system-info{padding:12px;flex:1;text-align:center}
+.system-name{font-size:13px;font-weight:700;color:#1e3a22;margin-bottom:3px;display:flex;justify-content:center;align-items:center;gap:6px}
+.system-desc{font-size:11px;color:#555;line-height:1.6}
+.crop-line{margin-bottom:2px}
+.crop-best{font-weight:700;color:#1e3a22}
+.crop-also{font-weight:700;color:#4a7c59}
+.crop-not{font-weight:700;color:#b5863a}
+.system-check{width:20px;height:20px;min-width:20px;border-radius:50%;background:#1e3a22;display:none;align-items:center;justify-content:center;margin-left:6px;margin-top:1px}
+.system-card.selected .system-check{display:flex}
+.system-check svg{width:10px;height:10px;stroke:white;fill:none;stroke-width:3}
+
+/* SIZE CARDS */
+.size-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px}
+.size-card{background:white;border:2px solid #ddd8cc;border-radius:12px;padding:18px 14px;cursor:pointer;transition:all .2s ease;position:relative;text-align:center}
+.size-card:hover{border-color:#1e3a22;transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.09)}
+.size-card.selected{border-color:#1e3a22;box-shadow:0 0 0 3px rgba(30,58,34,.15)}
+.size-icon{font-size:28px;margin-bottom:8px}
+.size-label{font-size:11px;color:#888;line-height:1.4;margin-bottom:4px}
+.size-hint{font-size:13px;font-weight:700;color:#1e3a22;margin-bottom:4px}
+.size-check{width:20px;height:20px;border-radius:50%;background:#1e3a22;display:none;align-items:center;justify-content:center;position:absolute;top:10px;right:10px}
+.size-card.selected .size-check{display:flex}
+.size-check svg{width:10px;height:10px;stroke:white;fill:none;stroke-width:3}
+
+/* EMAIL SCREEN */
+.email-wrap{max-width:460px}
+.email-input{width:100%;padding:13px 16px;border:2px solid #ddd8cc;border-radius:100px;font-size:15px;color:#1e3a22;background:white;margin-bottom:10px;outline:none;transition:border .15s}
+.email-input:focus{border-color:#1e3a22}
+.email-note{font-size:13px;color:#edf2e8;margin-bottom:20px;background:#1e3a22;border-radius:8px;padding:10px 14px;display:inline-flex;align-items:center;gap:8px}
+.email-note span{font-weight:700}
+
+/* BTN */
+.next-btn{background:#1e3a22;color:white;padding:13px 30px;border:none;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:background .15s}
+.next-btn:hover{background:#2d6a2d}
+.next-btn:disabled{opacity:.4;cursor:not-allowed}
+.next-btn svg{width:16px;height:16px;stroke:white;fill:none;stroke-width:2.5}
+
+/* RESULT */
+.result-screen{display:none;padding:28px 20px;max-width:860px;margin:0 auto}
+.result-screen.active{display:block}
+.result-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#b5863a;margin-bottom:8px}
+.result-title{font-size:26px;font-weight:800;color:#1e3a22;margin-bottom:4px}
+.result-sub{font-size:14px;color:#4a4a4a;margin-bottom:22px}
+
+/* PRIMARY CARD */
+.primary-card{background:white;border:2px solid #1e3a22;border-radius:14px;overflow:hidden;margin-bottom:28px;box-shadow:0 0 0 4px rgba(30,58,34,.08)}
+.primary-card-img{width:100%;height:240px;object-fit:contain;display:block;background:#edf2e8}
+.primary-card-body{padding:22px}
+.badge{display:inline-block;background:#1e3a22;color:white;font-size:10px;font-weight:800;padding:3px 12px;border-radius:100px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.primary-name{font-size:20px;font-weight:800;color:#1e3a22;margin-bottom:4px}
+.primary-tagline{font-size:13px;color:#4a7c59;font-weight:600;margin-bottom:4px}
+.primary-price{display:inline-block;background:#edf2e8;color:#1e3a22;font-size:12px;font-weight:700;padding:3px 12px;border-radius:100px;margin-bottom:14px}
+.primary-grows{background:#f5f2ea;border-radius:8px;padding:10px 14px;font-size:12px;color:#4a4a4a;margin-bottom:12px;line-height:1.6}
+.primary-grows strong{color:#1e3a22}
+.primary-not-ideal{background:#fdf2f2;border-radius:8px;padding:10px 14px;font-size:12px;color:#4a4a4a;margin-bottom:12px;line-height:1.6;display:none}
+.primary-not-ideal strong{color:#8b0000}
+.primary-shop{background:#f5f2ea;border-radius:8px;padding:10px 14px;font-size:12px;color:#4a4a4a;margin-bottom:12px;line-height:1.7}
+.motivation-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:20px}
+.motivation-card{background:white;border:2px solid #ddd8cc;border-radius:12px;padding:20px 16px;cursor:pointer;transition:all .15s;text-align:center}
+.motivation-card:hover{border-color:#2d6a2d}
+.motivation-card.selected{border-color:#1e3a22;background:#f5f9ec}
+.motivation-icon{font-size:32px;margin-bottom:8px}
+.motivation-label{font-size:13px;font-weight:600;color:#1e3a22}
+.primary-shop strong{color:#1e3a22}
+.shop-list{list-style:none;padding:0;margin:8px 0 0 0}
+.shop-item{padding:6px 0;border-bottom:1px solid #e8e2d3;display:flex;align-items:flex-start;gap:8px}
+.shop-item:last-child{border-bottom:none}
+.shop-item input[type="checkbox"]{margin-top:3px;flex-shrink:0;width:16px;height:16px;accent-color:#1e3a22;cursor:pointer}
+.shop-item label{display:flex;align-items:flex-start;gap:8px;cursor:pointer;flex:1}
+.shop-item.checked span{text-decoration:line-through;opacity:0.5}
+.shop-item a{color:#1e3a22;text-decoration:underline}
+.primary-why{font-size:12px;color:#888;font-style:italic;line-height:1.6;padding-top:10px;border-top:1px solid #edf2e8}
+
+/* OTHER SIZES */
+.others-title{font-size:15px;font-weight:700;color:#1e3a22;margin-bottom:12px}
+.others-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:24px}
+.other-card{background:white;border:2px solid #ddd8cc;border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .12s ease,border-color .12s ease,box-shadow .12s ease}
+.other-card:hover{border-color:#2d6a2d;transform:translateY(-2px);box-shadow:0 4px 14px rgba(30,58,34,.08)}
+.other-card:focus{outline:none;border-color:#1e3a22;box-shadow:0 0 0 3px rgba(30,58,34,.15)}
+.other-cta{font-size:11px;font-weight:700;color:#2d6a2d;text-transform:uppercase;letter-spacing:.06em;margin-top:8px}
+.other-card-img{width:100%;height:130px;object-fit:contain;display:block;background:#edf2e8}
+.other-card-body{padding:14px}
+.other-size-tag{display:inline-block;background:#edf2e8;color:#4a7c59;font-size:10px;font-weight:700;padding:2px 10px;border-radius:100px;text-transform:uppercase;margin-bottom:6px}
+.other-name{font-size:13px;font-weight:700;color:#1e3a22;margin-bottom:2px}
+.other-price{font-size:11px;color:#888;margin-bottom:6px}
+.other-grows{font-size:11px;color:#4a4a4a;line-height:1.5}
+
+/* RESTART */
+.restart-btn{padding:9px 20px;border-radius:100px;border:2px solid #ddd8cc;background:white;color:#4a4a4a;font-size:12px;cursor:pointer;font-weight:600}
+.restart-btn:hover{border-color:#1e3a22;color:#1e3a22}
+
+/* MOBILE */
+@media(max-width:580px){
+  .system-grid{grid-template-columns:1fr 1fr}
+  .size-grid{grid-template-columns:1fr}
+  .system-img{height:110px}
+  .system-info{padding:8px}
+  .system-name{font-size:11px}
+  .crop-line{font-size:10px}
+  .crop-best,.crop-also,.crop-not{font-size:10px}
+  .others-grid{grid-template-columns:1fr}
+  .q-title{font-size:20px}
+  .primary-card-img{height:180px}
+  .screen{padding:20px 12px}
+  .result-screen{padding:20px 12px}
+}
+.quiz-page-main{min-height:calc(100vh - 220px)}
+.nav-quiz-link[aria-current="page"]{background:var(--green-ghost);color:var(--green-deep)}
+@media(max-width:760px){.quiz-page-main{min-height:auto}}
+</style>
+</head>
+<body>
+
+<!-- TICKER BANNER -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span>No garden required</span>
+    <span class="ticker-dot">·</span>
+    <span>Grow food year round</span>
+    <span class="ticker-dot">·</span>
+    <span>First harvest in 30 days</span>
+    <span class="ticker-dot">·</span>
+    <span>Made for Australia</span>
+    <span class="ticker-dot">·</span>
+    <span>No experience needed</span>
+    <span class="ticker-dot">·</span>
+    <span>No garden required</span>
+    <span class="ticker-dot">·</span>
+    <span>Grow food year round</span>
+    <span class="ticker-dot">·</span>
+    <span>First harvest in 30 days</span>
+    <span class="ticker-dot">·</span>
+    <span>Made for Australia</span>
+    <span class="ticker-dot">·</span>
+    <span>No experience needed</span>
+    <span class="ticker-dot">·</span>
+    <span>No garden required</span>
+    <span class="ticker-dot">·</span>
+    <span>Grow food year round</span>
+    <span class="ticker-dot">·</span>
+    <span>First harvest in 30 days</span>
+    <span class="ticker-dot">·</span>
+    <span>Made for Australia</span>
+    <span class="ticker-dot">·</span>
+    <span>No experience needed</span>
+    <span class="ticker-dot">·</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-mark">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2C9 2 6 4 6 8c0 2.5 1.5 4.5 3.5 5.5C8 15 7 17 7 19h10c0-2-1-4-2.5-5.5C16.5 12.5 18 10.5 18 8c0-4-3-6-6-6zm0 2c2 0 4 1.5 4 4 0 2-1.5 3.5-3 4.5V9h-2v3.5C9.5 11.5 8 10 8 8c0-2.5 2-4 4-4z"/>
+      </svg>
+    </div>
+    <span class="nav-logo-text">GrowACrop</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/blog.html">Guides</a></li>
+    <li><a href="/blog.html#getting-started">Getting Started</a></li>
+    <li><a href="/blog.html#grow-guides">Grow Guides</a></li>
+    <li><a href="/quiz.html" class="nav-quiz-link" aria-current="page">Take the Quiz</a></li>
+    <li><a href="/#signup" class="nav-cta-link">Get Free Guide</a></li>
+  </ul>
+  <button class="nav-hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<main class="quiz-page-main">
+<div class="progress-wrap">
+  <div class="progress-steps">
+    <div class="step active" id="step1"></div>
+    <div class="step" id="step2"></div>
+    <div class="step" id="step3"></div>
+    <div class="step" id="step4"></div>
+  </div>
+  <div class="progress-label" id="progress-label">Step 1 of 4 — Choose your style</div>
+</div>
+
+<!-- Q1: VISUAL SYSTEM PICKER -->
+<div class="screen active" id="screen-1">
+  <div class="q-eyebrow">Step 1 of 4</div>
+  <h1 class="q-title">Which setup appeals to you?</h1>
+  <p class="q-sub">Pick the style that excites you. We'll find the right version for your space.</p>
+  <div class="system-grid">
+    <div class="system-card" data-system="microgreens" onclick="pickSystem(this)">
+      <img class="system-img" src="images/quiz/quiz-product-01.png" alt="Microgreen Station">
+      <div class="system-info">
+        <div class="system-name">Microgreen Station <span class="system-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+        <div class="system-desc">
+          <div class="crop-line"><span class="crop-also">Grows:</span> Microgreens</div>
+        </div>
+      </div>
+    </div>
+    <div class="system-card" data-system="mini_garden" onclick="pickSystem(this)">
+      <img class="system-img" src="images/quiz/quiz-product-02.png" alt="Bench Mini Garden">
+      <div class="system-info">
+        <div class="system-name">Bench Mini Garden <span class="system-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+        <div class="system-desc">
+          <div class="crop-line"><span class="crop-also">Grows:</span> Herbs, leafy greens</div>
+        </div>
+      </div>
+    </div>
+    <div class="system-card" data-system="dwc_bucket" onclick="pickSystem(this)">
+      <img class="system-img" src="images/quiz/quiz-product-03.png" alt="Bucket &amp; Tote Garden">
+      <div class="system-info">
+        <div class="system-name">Bucket &amp; Tote Garden <span class="system-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+        <div class="system-desc">
+          <div class="crop-line"><span class="crop-also">Grows:</span> Herbs, leafy greens, small fruiting crops</div>
+        </div>
+      </div>
+    </div>
+    <div class="system-card" data-system="tower" onclick="pickSystem(this)">
+      <img class="system-img" src="images/quiz/quiz-product-04.png" alt="Tower Garden">
+      <div class="system-info">
+        <div class="system-name">Tower Garden <span class="system-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+        <div class="system-desc">
+          <div class="crop-line"><span class="crop-also">Grows:</span> Herbs, leafy greens, fruiting crops</div>
+        </div>
+      </div>
+    </div>
+    <div class="system-card" data-system="salad_table" onclick="pickSystem(this)">
+      <img class="system-img" src="images/quiz/quiz-product-05.png" alt="Salad Table">
+      <div class="system-info">
+        <div class="system-name">Salad Table <span class="system-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+        <div class="system-desc">
+          <div class="crop-line"><span class="crop-also">Grows:</span> Leafy greens, herbs, small fruiting crops</div>
+        </div>
+      </div>
+    </div>
+    <div class="system-card" data-system="grow_shelf" onclick="pickSystem(this)">
+      <img class="system-img" src="images/quiz/quiz-product-06.png" alt="Grow Shelf">
+      <div class="system-info">
+        <div class="system-name">Grow Shelf <span class="system-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+        <div class="system-desc">
+          <div class="crop-line"><span class="crop-also">Grows:</span> Herbs, leafy greens, small fruiting crops, in serious volume</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="next-btn" id="next-1" disabled onclick="goTo(2)">
+    Next <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </button>
+</div>
+
+<!-- Q2: SPACE SIZE -->
+<div class="screen" id="screen-2">
+  <!-- SIZE version (all systems except bench mini garden) -->
+  <div id="q2-size">
+    <div class="q-eyebrow">Step 2 of 4</div>
+    <h1 class="q-title">What space are you working with?</h1>
+    <p class="q-sub">We'll match your recommendation to what actually fits.</p>
+    <div class="size-grid">
+      <div class="size-card" data-size="small" onclick="pickSize(this)">
+        <div class="size-icon">🪴</div>
+        <div class="size-hint">A small contained setup</div>
+        <div class="size-label">Windowsill or bench</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+      <div class="size-card" data-size="medium" onclick="pickSize(this)">
+        <div class="size-icon">🌿</div>
+        <div class="size-hint">A medium standalone system</div>
+        <div class="size-label">Table or floor space</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+      <div class="size-card" data-size="large" onclick="pickSize(this)">
+        <div class="size-icon">🌳</div>
+        <div class="size-hint">A big setup with room to grow</div>
+        <div class="size-label">Patio, balcony or garage</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BUDGET version (bench mini garden only) -->
+  <div id="q2-budget" style="display:none">
+    <div class="q-eyebrow">Step 2 of 4</div>
+    <h1 class="q-title">What's your budget?</h1>
+    <p class="q-sub">We'll find the right bench garden for what you want to spend.</p>
+    <div class="size-grid">
+      <div class="size-card" data-size="small" onclick="pickSize(this)">
+        <div class="size-icon">💚</div>
+        <div class="size-hint">Budget-friendly</div>
+        <div class="size-label">Under $200</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+      <div class="size-card" data-size="medium" onclick="pickSize(this)">
+        <div class="size-icon">⭐</div>
+        <div class="size-hint">Mid-range</div>
+        <div class="size-label">$200 – $400</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+      <div class="size-card" data-size="large" onclick="pickSize(this)">
+        <div class="size-icon">🏆</div>
+        <div class="size-hint">Premium</div>
+        <div class="size-label">$400+</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- GROW SHELF version (2 options only) -->
+  <div id="q2-grow-shelf" style="display:none">
+    <div class="q-eyebrow">Step 2 of 4</div>
+    <h1 class="q-title">How much do you want to grow?</h1>
+    <p class="q-sub">We'll match your shelf setup to your growing ambitions.</p>
+    <div class="size-grid" style="grid-template-columns:repeat(2,1fr);max-width:500px">
+      <div class="size-card" data-size="small" onclick="pickSize(this)">
+        <div class="size-icon">🌱</div>
+        <div class="size-hint">A modest home setup</div>
+        <div class="size-label">Small crop</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+      <div class="size-card" data-size="large" onclick="pickSize(this)">
+        <div class="size-icon">🌿</div>
+        <div class="size-hint">Serious year-round output</div>
+        <div class="size-label">Big crop</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SALAD TABLE version (3 custom options) -->
+  <div id="q2-salad-table" style="display:none">
+    <div class="q-eyebrow">Step 2 of 4</div>
+    <h1 class="q-title">Which style suits you best?</h1>
+    <p class="q-sub">We'll match your recommendation to the right salad table setup.</p>
+    <div class="size-grid">
+      <div class="size-card" data-size="small" onclick="pickSize(this)">
+        <div class="size-icon">🥗</div>
+        <div class="size-hint">Compact table setup</div>
+        <div class="size-label">Small</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+      <div class="size-card" data-size="large" onclick="pickSize(this)">
+        <div class="size-icon">🌿</div>
+        <div class="size-hint">Full-size table system</div>
+        <div class="size-label">Large</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+      <div class="size-card" data-size="vertical" onclick="pickSize(this)">
+        <div class="size-icon">🪟</div>
+        <div class="size-hint">Wall-mounted or upright</div>
+        <div class="size-label">Vertical</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+    </div>
+  </div>
+
+  <button class="next-btn" id="next-2" disabled onclick="goTo(3)">
+    Next <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </button>
+</div>
+
+<!-- Q3: MOTIVATION (data collection) -->
+<div class="screen" id="screen-3">
+  <div class="q-eyebrow">Step 3 of 4</div>
+  <h1 class="q-title">Why do you want to grow at home?</h1>
+  <p class="q-sub">Pick the one that resonates most.</p>
+  <div class="motivation-grid">
+    <div class="motivation-card" data-motivation="save_money" onclick="pickMotivation(this)">
+      <div class="motivation-icon">💰</div>
+      <div class="motivation-label">Save money on food</div>
+    </div>
+    <div class="motivation-card" data-motivation="fresher_food" onclick="pickMotivation(this)">
+      <div class="motivation-icon">🥬</div>
+      <div class="motivation-label">Fresher, healthier food</div>
+    </div>
+    <div class="motivation-card" data-motivation="sustainability" onclick="pickMotivation(this)">
+      <div class="motivation-icon">🌱</div>
+      <div class="motivation-label">Sustainability &amp; less waste</div>
+    </div>
+    <div class="motivation-card" data-motivation="hobby" onclick="pickMotivation(this)">
+      <div class="motivation-icon">🌿</div>
+      <div class="motivation-label">A relaxing hobby</div>
+    </div>
+    <div class="motivation-card" data-motivation="always_wanted" onclick="pickMotivation(this)">
+      <div class="motivation-icon">✨</div>
+      <div class="motivation-label">I've always wanted to</div>
+    </div>
+  </div>
+  <button class="next-btn" id="next-3" disabled onclick="goTo(4)">
+    Next <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </button>
+</div>
+
+<!-- Q4: EMAIL -->
+<div class="screen" id="screen-4">
+  <div class="q-eyebrow">Step 4 of 4</div>
+  <h1 class="q-title">Where should we send your recommendation?</h1>
+  <p class="q-sub">We'll email you a full shopping list and setup guide.</p>
+  <div class="email-wrap">
+    <input class="email-input" type="email" id="email-input" placeholder="you@example.com" oninput="checkEmail()">
+    <p class="email-note">✓ <span>We won't sign you up to a newsletter.</span></p>
+    <button class="next-btn" id="next-4" disabled onclick="showResult()">
+      See my recommendation <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div class="result-screen" id="result-screen">
+  <div class="result-eyebrow">Your recommendation</div>
+  <h2 class="result-title" id="r-title"></h2>
+  <p class="result-sub" id="r-sub"></p>
+
+  <div class="primary-card">
+    <img class="primary-card-img" id="r-img" src="" alt="">
+    <div class="primary-card-body">
+      <div class="badge">Best match</div>
+      <div class="primary-name" id="r-name"></div>
+      <div class="primary-tagline" id="r-tagline"></div>
+      <span class="primary-price" id="r-price"></span>
+      <div class="primary-grows" id="r-grows"></div>
+      <div class="primary-not-ideal" id="r-not-ideal"></div>
+      <div class="primary-shop" id="r-shop"></div>
+      <div class="primary-why" id="r-why"></div>
+    </div>
+  </div>
+
+  <div class="others-title" id="r-others-title"></div>
+  <div class="others-grid" id="r-others"></div>
+
+  <button class="restart-btn" onclick="restart()">↺ Start again</button>
+</div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-logo">GrowACrop</div>
+      <p>Simple hydroponics guides for everyday Australians.</p>
+      <p class="footer-location">Sydney, Australia 🇦🇺</p>
+    </div>
+    <div class="footer-links-group">
+      <div class="footer-col">
+        <div class="footer-col-label">Learn</div>
+        <ul class="footer-links">
+          <li><a href="/blog.html">All Guides</a></li>
+          <li><a href="/blog.html#getting-started">Getting Started</a></li>
+          <li><a href="/blog.html#grow-guides">Grow Guides</a></li>
+          <li><a href="/blog.html#troubleshooting">Troubleshooting</a></li>
+          <li><a href="/blog.html#buying-guides">Buying Guides</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-label">Get Started</div>
+        <ul class="footer-links">
+          <li><a href="/quiz.html">Take the Quiz</a></li>
+          <li><a href="/#signup">Free Starter Guide</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-label">Follow</div>
+        <ul class="footer-links">
+          <li><a href="https://instagram.com/growacrop" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://tiktok.com/@growacrop" target="_blank" rel="noopener">TikTok</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 GrowACrop. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+const RECS = {
+  'microgreens': {
+    'small': {
+      img: 'images/quiz/quiz-product-07.png',
+      name: 'LaNiTex Smart Microgreen Kit',
+      tagline: 'Seeds to plate in 7–14 days',
+      price: '$129',
+      grows: 'Microgreens',
+      not_ideal: 'Anything, but microgreens',
+      shop: '<a href="https://amzn.asia/d/0fNl0Xl9">LaNiTex Smart Microgreen Kit</a> ($129) · <a href="https://seedmart.com.au/product-category/sprouting-seeds-australia/">Seeds — Seedmart</a> · <a href="https://www.amazon.com.au/Hills-500ml-Trigger-Sprayer-Bottles/dp/B0811D2H93/">Spray bottle</a> ($4.80) · <a href="https://www.urbanhavenliving.com.au/products/urban-greens-ergonomic-garden-snips?variant=47029188853982">Trimmers</a> ($29.95)',
+      why: 'The fastest harvest in hydroponics — seed to plate in under 2 weeks. Everything included, just add seeds and water.',
+    },
+    'medium': {
+      img: 'images/quiz/quiz-product-08.png',
+      name: 'MicroPod Continuous Grow Kit + LED',
+      tagline: 'Year-round harvests with LED lighting',
+      price: '$129 + $55',
+      grows: 'Microgreens',
+      not_ideal: 'Anything, but microgreens',
+      shop: '<a href="https://micropod.com.au/products/continuous-grow-kit">MicroPod Continuous Grow Kit</a> ($129) · <a href="https://gathera.com/products/full-spectrum-led-grow-light">LED grow light</a> ($54.99) · <a href="https://www.drgreenthumbs.com.au/products/coco-coir-block-4-5kg">Coco coir block</a> ($35) · <a href="https://seedmart.com.au/product-category/sprouting-seeds-australia/">Seeds — Seedmart</a> · <a href="https://www.amazon.com.au/Hills-500ml-Trigger-Sprayer-Bottles/dp/B0811D2H93/">Spray bottle</a> ($4.80) · <a href="https://www.urbanhavenliving.com.au/products/urban-greens-ergonomic-garden-snips?variant=47029188853982">Trimmers</a> ($29.95)',
+      why: 'The MicroPod lets you stagger planting for a continuous supply. Add the LED and you can grow year-round regardless of season.',
+    },
+    'large': {
+      img: 'images/quiz/quiz-product-09.png',
+      name: 'Multi-Shelf Microgreen Rack',
+      tagline: 'Restaurant-level output from your home',
+      price: '$350 – $450',
+      grows: 'Microgreens',
+      not_ideal: 'Anything, but microgreens',
+      shop: '<a href="https://www.amazon.com.au/AmazonBasics-SL-SUAM-7-4-Shelf-Shelving-Unit-Black/dp/B01LYBQXRH/">4-shelf wire unit</a> ($87.65) · <a href="http://www.amazon.com.au/Spectrum-Growing-Lighting-Dimmable-Suitable/dp/B0D4198CDY/">LED grow lights 4-pack</a> ($51.49) · <a href="https://www.amazon.com.au/SHEING-Sprouter-Nursery-Germination-Wheatgrass/dp/B07MXZG8DV/">Growing trays</a> ($25.30) · <a href="https://www.drgreenthumbs.com.au/products/coco-coir-block-4-5kg">Coco coir</a> ($35) · <a href="https://seedmart.com.au/product-category/sprouting-seeds-australia/">Seeds — Seedmart</a> · <a href="https://www.amazon.com.au/Hills-Chemical-Garden-Pressure-Sprayer/dp/B07XC3Z3ZV/">Spray bottle</a> ($15.75) · <a href="https://www.urbanhavenliving.com.au/products/urban-greens-ergonomic-garden-snips?variant=47029188853982">Trimmers</a> ($29.95) · <a href="https://www.bunnings.com.au/click-white-0-9m-4-outlet-powerboard_p0255490">Powerboard</a> ($3.45)',
+      why: 'Stagger 8–12 trays across 4 shelves for a continuous weekly harvest. Multiple varieties always cycling — enough to completely replace your bought microgreens.',
+    },
+  },
+  'mini_garden': {
+    'small': {
+      img: 'images/quiz/quiz-product-10.png',
+      name: 'Maxkon 12-Pod Hydroponic Garden',
+      tagline: 'Compact benchtop garden, easy to run',
+      price: '$74',
+      grows: 'Herbs, leafy greens, small flowers',
+      shop: '<a href="https://www.harveynorman.com.au/maxkon-12-pods-hydroponics-growing-system-indoor-herb-garden-kit.html">Maxkon 12-Pod system</a> ($74) · <a href="https://www.drgreenthumbs.com.au/products/easy-plug?variant=43390432870597">Easy plug seeds</a> ($12 for 6) · <a href="https://growkings.com.au/products/bloom-euro-a-b?variant=42095612330037">Nutrients — Bloom Euro A+B</a> ($35.49) · <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down kit</a> ($36.95 optional) · <a href="https://www.ebay.com.au/itm/196876073047">pH test kit</a> ($19.99) · <a href="https://growkings.com.au/products/hydro-bitz-measuring-syringe-20ml?variant=43252743962677">Syringe</a> ($6.20) · <a href="https://www.happyvalleyseeds.com.au/collections/pot-container-vegetable-seeds">Dwarf seeds — Happy Valley</a>',
+      why: 'A no-fuss benchtop garden that fits on your kitchen counter. Twelve pods, built-in light, and everything you need to start growing herbs and greens today.',
+    },
+    'medium': {
+      img: 'images/quiz/quiz-product-11.png',
+      name: 'Vevine LED Hydroponics System',
+      tagline: 'Mid-range system, solid output',
+      price: '$137',
+      grows: 'Herbs, leafy greens, microgreens',
+      shop: '<a href="https://www.templeandwebster.com.au/Vevine-LED-Hydroponics-Growing-System-LEVE3873.html">Vevine LED system</a> ($137) · <a href="https://growkings.com.au/products/bloom-euro-a-b?variant=42095612330037">Nutrients — Bloom Euro A+B</a> ($35.49) · <a href="https://www.amazon.com.au/Alternative-Sponges-Hydroponics-Hydroponic-Indoor/dp/B0CXNQCJRS/">Sponge growing medium</a> ($19.95) · <a href="https://www.ebay.com.au/itm/196876073047">pH test kit</a> ($19.99 optional) · <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> (optional) · <a href="https://growkings.com.au/products/hydro-bitz-measuring-syringe-20ml?variant=43252743962677">Syringe</a> ($6.20) · <a href="https://www.urbanhavenliving.com.au/products/urban-greens-ergonomic-garden-snips?variant=47029188853982">Trimmers</a> ($29.95) · Seeds — Amazon AU',
+      why: 'A step up from the entry-level garden with more pod sites and better LED coverage. Great for households that want a consistent weekly harvest.',
+    },
+    'large': {
+      img: 'images/quiz/quiz-product-12.png',
+      name: 'Eponic Mini Farm',
+      tagline: 'All-in-one grow kit, serious output',
+      price: '$279',
+      grows: 'Herbs, leafy greens, microgreens',
+      shop: '<a href="https://www.hydroexperts.com.au/Eponic-Mini-Farm-Go-Healthy-Go-Green-All-in-One-Grow-Kit">Eponic Mini Farm</a> ($279) · <a href="https://growkings.com.au/products/bloom-euro-a-b?variant=42095612330037">Nutrients — Bloom Euro A+B</a> ($35.49) · <a href="https://www.amazon.com.au/BESPORTBLE-Rock-Wool-Starter-Plugs-Hydroponics/dp/B0D1GF5ZPT/">Rockwool growing medium</a> ($26.99) · <a href="https://www.ebay.com.au/itm/196876073047">pH test kit</a> ($19.99 optional) · <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> ($36.95) · <a href="https://growkings.com.au/products/hydro-bitz-measuring-syringe-20ml?variant=43252743962677">Syringe</a> ($6.20) · <a href="https://www.urbanhavenliving.com.au/products/urban-greens-ergonomic-garden-snips?variant=47029188853982">Trimmers</a> ($29.95) · Seeds — Amazon AU',
+      why: 'A fully featured grow kit built for maximum output on a bench. Multiple levels of plant sites with professional LED — more produce than most households can eat.',
+    },
+  },
+  'dwc_bucket': {
+    'small': {
+      img: 'images/quiz/quiz-product-13.png',
+      name: 'GrowKings Single DWC Pot System',
+      tagline: 'One bucket, full nutrient control',
+      price: '$115 – $150',
+      grows: 'Herbs, chillies, cherry tomatoes, leafy greens',
+      shop: '<a href="https://growkings.com.au/products/deep-water-culture-single-pot-system-with-air-pump-39l?variant=45043672285237">Single DWC system 39L</a> ($114.95) · <a href="https://www.amazon.com.au/Hydroponic-Nutrients-Plant-Grow-Bloom/dp/B0CX4MHXDM/">Nutrients A+B</a> ($34.50) · <a href="https://franshydroponics.com.au/products/professors-hydro-clay-balls-10l-bag?variant=44760106696904">Clay pebbles</a> ($22) · <a href="https://bruceshark.com/en-au/products/3-in-1-digital-ph-tds-temp-waterproof-water-quality-meter-tester-test-pen-tool?variant=42881541275802">pH/TDS/Temp tester</a> ($36.55) · <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> ($36.95) · <a href="https://growkings.com.au/products/hydro-bitz-measuring-syringe-20ml?variant=43252743962677">Syringe</a> ($6.20) · <a href="https://www.urbanhavenliving.com.au/products/urban-greens-ergonomic-garden-snips?variant=47029188853982">Trimmers</a> ($29.95) · <a href="https://www.theseedcollection.com.au/vegetable">Seeds — The Seed Collection</a> · <a href="https://vivosun.com/vivosun-lumalight-led-grow-light-100w-p165790210430400513-v165790210430400512">LED grow light</a> ($149.95 — indoor only) · <a href="https://www.bigw.com.au/product/oznala-digital-timer-switch-socket-electric-programmable-power-240v-au-plug-clock/p/9901205333">Timer</a> ($19.95 — with light)',
+      why: 'A complete DWC bucket with air pump for beginners who want to grow serious plants. One bucket, one plant — herbs, chillies or cherry tomatoes.',
+    },
+    'medium': {
+      img: 'images/quiz/quiz-product-14.png',
+      name: 'Spider Farmer 2-Bucket DWC System',
+      tagline: 'Two plants, professional results',
+      price: '$150 – $250',
+      grows: 'Herbs, leafy greens, chillies, cherry tomatoes',
+      shop: '<a href="https://spiderfarmer.com.au/products/spider-farmer-dwc-hydroponics-grow-system-with-top-drip-kit-7-gallon-deep-water-culture-2-buckets/">Spider Farmer 2-bucket DWC</a> ($149.99) · <a href="https://www.amazon.com.au/Hydroponic-Nutrients-Plant-Grow-Bloom/dp/B0CX4MHXDM/">Nutrients A+B</a> ($34.50) · <a href="https://franshydroponics.com.au/products/professors-hydro-clay-balls-10l-bag?variant=44760106696904">Clay pebbles</a> ($22) · <a href="https://bruceshark.com/en-au/products/3-in-1-digital-ph-tds-temp-waterproof-water-quality-meter-tester-test-pen-tool?variant=42881541275802">pH/TDS/Temp tester</a> ($36.55) · <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> ($36.95) · <a href="https://www.amazon.com.au/Marhynchus-Injector-Stainless-Laboratory-Experiment/dp/B0FBT19L8N/">Syringe</a> ($20.06) · <a href="https://www.urbanhavenliving.com.au/products/urban-greens-ergonomic-garden-snips?variant=47029188853982">Trimmers</a> ($29.95) · <a href="https://www.theseedcollection.com.au/vegetable">Seeds — The Seed Collection</a> · <a href="https://vivosun.com/vivosun-lumalight-led-grow-light-100w-p165790210430400513-v165790210430400512">LED grow light</a> ($149.99 — indoor only) · <a href="https://www.bigw.com.au/product/oznala-digital-timer-switch-socket-electric-programmable-power-240v-au-plug-clock/p/9901205333">Timer</a> ($19.95 — with light)',
+      why: 'Two connected buckets with a top drip system — the most popular DWC setup for home growers. Grow two different plants and harvest more regularly.',
+    },
+    'large': {
+      img: 'images/quiz/quiz-product-15.png',
+      name: 'VEVOR RDWC 4-Bucket System',
+      tagline: 'Recirculating deep water culture, serious volume',
+      price: '$249 – $330',
+      grows: 'Herbs, greens, chillies, cucumber, cherry tomatoes',
+      shop: '<a href="https://www.vevor.com.au/dwc-hydroponic-system-c_10208/vevor-rdwc-hydroponics-system-recirculating-deep-water-culture-4-buckets-20l-p_010917500216">VEVOR RDWC 4-bucket system</a> ($249) · <a href="https://amzn.asia/d/0fbodbo7">Nutrients premium A+B</a> ($144.56) · <a href="https://franshydroponics.com.au/products/professors-hydro-clay-balls-10l-bag?variant=44760106696904">Clay pebbles</a> ($22) · <a href="https://www.amazon.com.au/Salinity-Backlight-Waterproof-Accuracy-Hydroponics/dp/B0DLK6N2HN/">EC/pH/Salinity tester</a> ($47.35) · <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> ($36.95) · <a href="https://www.woolworths.com.au/shop/productdetails/1127763065">Rockwool cubes — Woolworths</a> ($49.47) · <a href="https://www.amazon.com.au/Marhynchus-Injector-Stainless-Laboratory-Experiment/dp/B0FBT19L8N/">Syringe</a> ($20.06) · <a href="https://www.theseedcollection.com.au/vegetable">Seeds — The Seed Collection</a> · <a href="https://spiderfarmer.com.au/products/se3000-full-spectrum-led-grow-light/">LED grow light SE3000</a> ($419.99 — indoor only) · <a href="https://www.bigw.com.au/product/oznala-digital-timer-switch-socket-electric-programmable-power-240v-au-plug-clock/p/9901205333">Timer</a> ($19.99)',
+      why: 'Four recirculating buckets sharing one reservoir — the setup serious home growers use. Multiple plants, maximum output, and shared nutrients mean less work per plant.',
+    },
+  },
+  'tower': {
+    'small': {
+      img: 'images/quiz/quiz-product-16.png',
+      name: 'Hydroland 5-Tier Modular Tower',
+      tagline: 'Pump, timer and power supply included',
+      price: '$128',
+      grows: 'Herbs, leafy greens, strawberries',
+      shop: '<a href="https://hydroland.com.au/products/modular-hydroponic-tower-5-tier-includes-pump-timer-and-power-supply">Hydroland 5-tier tower</a> ($128) · <a href="https://www.amazon.com.au/Hydroponic-Nutrients-Plant-Grow-Bloom/dp/B0CX4MHXDM/">Nutrients A+B</a> ($34.50) · <a href="https://bruceshark.com/en-au/products/3-in-1-digital-ph-tds-temp-waterproof-water-quality-meter-tester-test-pen-tool?variant=42881541275802">pH/TDS tester</a> ($36.55) · <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> ($36.95) · <a href="https://www.woolworths.com.au/shop/productdetails/1127763065">Rockwool cubes — Woolworths</a> ($49.47) · <a href="https://growkings.com.au/products/hydro-bitz-measuring-syringe-20ml?variant=43252743962677">Syringe</a> ($6.20) · <a href="https://www.urbanhavenliving.com.au/products/urban-greens-ergonomic-garden-snips?variant=47029188853982">Trimmers</a> ($29.95) · <a href="https://www.theseedcollection.com.au/vegetable">Seeds — The Seed Collection</a> · <a href="https://www.bigw.com.au/product/oznala-digital-timer-switch-socket-electric-programmable-power-240v-au-plug-clock/p/9901205333">Timer</a> ($19.99)',
+      why: 'A compact tower that comes with everything — pump, timer and power supply. Perfect for a balcony or patio. Grow herbs and greens vertically with minimal footprint.',
+    },
+    'medium': {
+      img: 'images/quiz/quiz-product-17.png',
+      name: 'All-in-One Tower (Outdoor) or HydroCulture Jumbo Tower (Indoor)',
+      tagline: 'Mid-size tower for outdoors or indoors',
+      price: '$109 – $380',
+      grows: 'Herbs, leafy greens, strawberries, Asian greens',
+      shop: 'Outdoor: <a href="https://amzn.asia/d/0i87QrGy">All-in-one tower</a> ($108.90) · Indoor: <a href="https://happyhydroponics.com.au/products/hydroculture-jumbo-vertical-tower-with-led-full-spectrum-35l-reservoir">HydroCulture Jumbo Tower + LED</a> ($380) · <a href="https://www.amazon.com.au/Hydroponic-Nutrients-Plant-Grow-Bloom/dp/B0CX4MHXDM/">Nutrients A+B</a> ($34.50) · <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> ($36.95) · <a href="https://www.amazon.com.au/Salinity-Backlight-Waterproof-Accuracy-Hydroponics/dp/B0DLK6N2HN/">EC/pH tester</a> · <a href="https://www.amazon.com.au/BESPORTBLE-Rock-Wool-Starter-Plugs-Hydroponics/dp/B0D1GF5ZPT/">Rockwool plugs</a> · <a href="https://www.amazon.com.au/Marhynchus-Injector-Stainless-Laboratory-Experiment/dp/B0FBT19L8N/">Syringe</a> ($20.06) · <a href="https://www.happyvalleyseeds.com.au/">Seeds — Happy Valley</a> · <a href="https://www.bigw.com.au/product/oznala-digital-timer-switch-socket-electric-programmable-power-240v-au-plug-clock/p/9901205333">Timer</a> ($19.99)',
+      why: 'Two options depending on where you\'re growing. The outdoor tower is a great value all-in-one. The indoor HydroCulture tower includes a full-spectrum LED for year-round production.',
+    },
+    'large': {
+      img: 'images/quiz/quiz-product-18.png',
+      name: 'Pineapple Tower — 10-Layer Vertical Tower',
+      tagline: '10 layers, serious capacity',
+      price: '$315',
+      grows: 'Herbs, leafy greens, strawberries, Asian greens, cherry tomatoes',
+      shop: '<a href="https://www.aliexpress.com/item/1005002007515192.html">Pineapple Tower 10-layer</a> ($315.19) · <a href="https://amzn.asia/d/0fbodbo7">Premium nutrients A+B</a> ($138.50) · <a href="https://www.amazon.com.au/Salinity-Backlight-Waterproof-Accuracy-Hydroponics/dp/B0DLK6N2HN/">EC/pH/Salinity tester</a> ($47.35) · <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> ($36.95) · <a href="https://www.amazon.com.au/Marhynchus-Injector-Stainless-Laboratory-Experiment/dp/B0FBT19L8N/">Syringe</a> ($20.06) · <a href="https://au.shein.com/goods-p-283575235.html">Rockwool plugs</a> ($4.16) · <a href="https://www.urbanhavenliving.com.au/products/urban-greens-ergonomic-garden-snips?variant=47029188853982">Trimmers</a> ($29.95) · <a href="https://www.happyvalleyseeds.com.au/">Seeds — Happy Valley</a> · Grow lights ($198)',
+      why: 'Ten layers of vertical growing space for serious growers. Maximum output in a small footprint — ideal for a patio, balcony or large outdoor space.',
+    },
+  },
+  'salad_table': {
+    'small': {
+      img: 'images/quiz/quiz-product-19.png',
+      name: 'Angled Pipe NFT System',
+      tagline: 'Simple passive flow, compact footprint',
+      price: '$89',
+      grows: 'Lettuce, leafy greens, herbs',
+      shop: '<a href="https://amzn.asia/d/01bN6RMx">Angled pipe NFT system</a> ($88.88) · <a href="https://www.amazon.com.au/Hydroponic-Nutrients-Plant-Grow-Bloom/dp/B0CX4MHXDM/">Nutrients A+B</a> ($34.50) · <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> ($36.95) · <a href="https://bruceshark.com/en-au/products/3-in-1-digital-ph-tds-temp-waterproof-water-quality-meter-tester-test-pen-tool?variant=42881541275802">pH/TDS tester</a> ($36.55) · <a href="https://farmtek.com.au/products/hydroponic-sponge-cubes-cross-cut-25x25x25mm-100-pcs">Sponge cubes</a> ($9.90) · <a href="https://www.officeworks.com.au/shop/officeworks/p/j-burrows-40l-heavy-duty-storage-container-black-jbh0040">Reservoir tote</a> ($13) · <a href="https://growkings.com.au/products/hydro-bitz-measuring-syringe-20ml?variant=43252743962677">Syringe</a> ($6.20) · <a href="https://www.hydroexperts.com.au/Precision-Pruner-For-Hydroponic-Indoor-Plantations-Curved-Blade">Trimmer</a> ($9.95) · <a href="https://www.happyvalleyseeds.com.au/">Seeds — Happy Valley</a>',
+      why: 'A compact NFT salad system with everything built in. Simple passive flow keeps roots fed — harvest fresh salad greens in under 4 weeks.',
+    },
+    'vertical': {
+      img: 'images/quiz/quiz-product-20.png',
+      name: 'Hydroland 35-Hole Wall-Mounted System',
+      tagline: 'Wall-mounted, 35 plant sites, no bench space needed',
+      price: '$495',
+      grows: 'Lettuce, herbs, leafy greens, Asian greens',
+      shop: '<a href="https://hydroland.com.au/products/35-hole-wall-mounted-hydroponic-system">Hydroland 35-hole wall system</a> ($495) · <a href="https://www.amazon.com.au/Hydroponic-Nutrients-Plant-Grow-Bloom/dp/B0CX4MHXDM/">Nutrients A+B</a> ($34.50) · <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> ($36.95) · <a href="https://bruceshark.com/en-au/products/3-in-1-digital-ph-tds-temp-waterproof-water-quality-meter-tester-test-pen-tool?variant=42881541275802">pH/TDS tester</a> ($36.55) · <a href="https://www.amazon.com.au/BESPORTBLE-Rock-Wool-Starter-Plugs-Hydroponics/dp/B0D1GF5ZPT/">Rockwool plugs</a> ($26.99) · <a href="https://www.amazon.com.au/Marhynchus-Injector-Stainless-Laboratory-Experiment/dp/B0FBT19L8N/">Syringe</a> ($20.06) · <a href="https://www.urbanhavenliving.com.au/products/urban-greens-ergonomic-garden-snips?variant=47029188853982">Trimmers</a> ($29.95) · <a href="https://www.happyvalleyseeds.com.au/">Seeds — Happy Valley</a>',
+      why: 'A wall-mounted system with 35 plant sites that takes up zero bench or floor space. Perfect for a garden wall, fence or feature wall — herbs and greens growing vertically.',
+    },
+    'large': {
+      img: 'images/quiz/quiz-product-21.png',
+      name: 'TheSaladTable 60-Plant NFT System',
+      tagline: 'The Australian-made NFT table, 60 sites',
+      price: '$58 – $600',
+      grows: 'Leafy greens, herbs, lettuce, cherry tomatoes — in volume',
+      shop: '<a href="https://thesaladtable.com.au/products/premium-indoor-outdoor-60-plant-salad-table?variant=42548066123945">TheSaladTable 60-plant system</a> ($58+) · <a href="https://www.amazon.com.au/Hydroponic-Nutrients-Plant-Grow-Bloom/dp/B0CX4MHXDM/">Nutrients A+B</a> ($34.50) · <a href="https://www.amazon.com.au/Salinity-Backlight-Waterproof-Accuracy-Hydroponics/dp/B0DLK6N2HN/">EC/pH tester</a> ($47.35) · <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> ($36.95) · <a href="https://www.amazon.com.au/BESPORTBLE-Rock-Wool-Starter-Plugs-Hydroponics/dp/B0D1GF5ZPT/">Rockwool plugs</a> ($26.99) · <a href="https://franshydroponics.com.au/products/professors-hydro-clay-balls-10l-bag?variant=44760106696904">Clay pebbles</a> ($22) · <a href="https://www.amazon.com.au/Marhynchus-Injector-Stainless-Laboratory-Experiment/dp/B0FBT19L8N/">Syringe</a> ($20.06) · <a href="https://www.urbanhavenliving.com.au/products/urban-greens-ergonomic-garden-snips?variant=47029188853982">Trimmers</a> ($29.95) · <a href="https://spiderfarmer.com.au/products/se3000-full-spectrum-led-grow-light/">LED grow light SE3000</a> ($419.99 optional) · <a href="https://www.happyvalleyseeds.com.au/">Seeds — Happy Valley</a>',
+      why: 'An Australian-made NFT table with 60 plant sites. Nutrient film runs continuously — faster growth, cleaner roots, restaurant-quality salad output every week.',
+    },
+  },
+  'grow_shelf': {
+    'small': {
+      img: 'images/quiz/quiz-product-22.png',
+      name: 'Gathera Sun Shelf + Heirloom Basin (×3)',
+      tagline: 'Shelf, LED and passive Kratky basins in one kit',
+      price: '$199 shelf + $240 basins',
+      grows: 'Herbs, leafy greens, microgreens',
+      shop: '<a href="https://gathera.com/collections/grow-indoor-plants/products/sun-shelf-3">Gathera Sun Shelf 3</a> ($199) · <a href="https://gathera.com/products/heirloom-basin">Gathera Heirloom Basin ×3</a> ($79.99 each, recommend 3) · <a href="https://www.amazon.com.au/Hydroponic-Nutrients-Plant-Grow-Bloom/dp/B0CX4MHXDM/">Nutrients A+B</a> ($34.50) · <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> ($36.95) · <a href="https://www.amazon.com.au/Salinity-Backlight-Waterproof-Accuracy-Hydroponics/dp/B0DLK6N2HN/">EC/pH tester</a> ($47.35) · <a href="https://www.amazon.com.au/Marhynchus-Injector-Stainless-Laboratory-Experiment/dp/B0FBT19L8N/">Syringe</a> ($20.06) · <a href="https://www.amazon.com.au/BESPORTBLE-Rock-Wool-Starter-Plugs-Hydroponics/dp/B0D1GF5ZPT/">Rockwool plugs</a> ($26.99) · <a href="https://www.urbanhavenliving.com.au/products/urban-greens-ergonomic-garden-snips?variant=47029188853982">Trimmers</a> ($29.95) · <a href="https://www.happyvalleyseeds.com.au/">Seeds — Happy Valley</a>',
+      why: 'The Gathera Sun Shelf comes with a built-in LED bar — just add the Heirloom Basins underneath for a clean, passive Kratky setup. No pump, no timer, minimal fuss.',
+    },
+    'large': {
+      img: 'images/quiz/quiz-product-23.png',
+      name: 'Farmtek HydroTower 120-Plant System',
+      tagline: '120 plant sites, vertical indoor farm',
+      price: '$1,299',
+      grows: 'Herbs, leafy greens, microgreens — in serious volume',
+      shop: '<a href="https://farmtek.com.au/products/hydrotower-indoor-hydroponic-growing-tower-system-kit-vertical-farming-tower-garden-120-plants">Farmtek HydroTower 120-plant system</a> ($1,299) · <a href="https://www.amazon.com.au/Hydroponic-Nutrients-Plant-Grow-Bloom/dp/B0CX4MHXDM/">Nutrients A+B</a> ($34.50) · <a href="https://www.amazon.com.au/Salinity-Backlight-Waterproof-Accuracy-Hydroponics/dp/B0DLK6N2HN/">EC/pH tester</a> · <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> ($36.95) · <a href="https://farmtek.com.au/products/moss-peat-sponge-plug-the-best-hydroponics-grow-medium-for-ss120-hydrotower-pack-of-30">Farmtek sponge plugs</a> ($18.90) · <a href="https://www.amazon.com.au/Marhynchus-Injector-Stainless-Laboratory-Experiment/dp/B0FBT19L8N/">Syringe</a> ($20.06) · <a href="https://www.bigw.com.au/product/oznala-digital-timer-switch-socket-electric-programmable-power-240v-au-plug-clock/p/9901205333">Timer</a> ($19.99) · <a href="https://www.urbanhavenliving.com.au/products/urban-greens-ergonomic-garden-snips?variant=47029188853982">Trimmers</a> ($29.95) · <a href="https://www.happyvalleyseeds.com.au/">Seeds — Happy Valley</a>',
+      why: 'A serious vertical indoor farm with 120 plant sites across multiple levels. Built-in lighting and circulation — grow enough for a whole household year-round.',
+    },
+  },
+};
+
+const SYSTEM_NAMES = {
+  mini_garden: 'Bench Mini Garden',
+  salad_table: 'Salad Table',
+  dwc_bucket: 'Bucket & Tote Garden',
+  tower: 'Tower Garden',
+  microgreens: 'Microgreen Station',
+  grow_shelf: 'Grow Shelf',
+};
+
+
+const SIZE_LABELS = {
+  small: 'Windowsill or bench',
+  medium: 'Table or floor space',
+  large: 'Patio, balcony or garage',
+};
+
+const BUDGET_LABELS = {
+  small: 'Budget-friendly',
+  medium: 'Mid-range',
+  large: 'Premium',
+};
+
+const SHELF_LABELS = {
+  small: 'Small crop',
+  large: 'Big crop',
+};
+
+const SALAD_TABLE_LABELS = {
+  small: 'Small',
+  large: 'Large',
+  vertical: 'Vertical',
+};
+
+function getSizeLabel(size) {
+  if (A.system === 'mini_garden') return BUDGET_LABELS[size];
+  if (A.system === 'grow_shelf') return SHELF_LABELS[size];
+  if (A.system === 'salad_table') return SALAD_TABLE_LABELS[size];
+  return SIZE_LABELS[size];
+}
+
+const A = { system: null, size: null, motivation: null, email: '' };
+
+// Grab system images from the DOM for result card
+const SYS_IMAGES = {};
+document.querySelectorAll('.system-card').forEach(c => {
+  const img = c.querySelector('img');
+  if (img) SYS_IMAGES[c.dataset.system] = img.src;
+});
+
+function pickSystem(el) {
+  document.querySelectorAll('.system-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  A.system = el.dataset.system;
+  document.getElementById('next-1').disabled = false;
+}
+
+function setQ2Mode(system) {
+  const isBench = system === 'mini_garden';
+  const isShelf = system === 'grow_shelf';
+  const isSalad = system === 'salad_table';
+  document.getElementById('q2-size').style.display = (isBench || isShelf || isSalad) ? 'none' : 'block';
+  document.getElementById('q2-budget').style.display = isBench ? 'block' : 'none';
+  document.getElementById('q2-grow-shelf').style.display = isShelf ? 'block' : 'none';
+  document.getElementById('q2-salad-table').style.display = isSalad ? 'block' : 'none';
+  document.querySelectorAll('.size-card').forEach(c => c.classList.remove('selected'));
+  A.size = null;
+  document.getElementById('next-2').disabled = true;
+}
+
+function pickSize(el) {
+  document.querySelectorAll('.size-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  A.size = el.dataset.size;
+  document.getElementById('next-2').disabled = false;
+}
+
+function checkEmail() {
+  const val = document.getElementById('email-input').value;
+  const valid = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(val);
+  document.getElementById('next-4').disabled = !valid;
+  A.email = val;
+}
+
+function goTo(step) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + step).classList.add('active');
+  if (step === 2) setQ2Mode(A.system);
+  updateProgress(step);
+  window.scrollTo(0, 0);
+}
+
+function updateProgress(step) {
+  const labels = {
+    1: 'Step 1 of 4 — Choose your style',
+    2: 'Step 2 of 4 — Your space',
+    3: 'Step 3 of 4 — Why grow',
+    4: 'Step 4 of 4 — Get your recommendation',
+  };
+  for (let i = 1; i <= 4; i++) {
+    const el = document.getElementById('step' + i);
+    el.className = 'step';
+    if (i < step) el.classList.add('done');
+    else if (i === step) el.classList.add('active');
+  }
+  document.getElementById('progress-label').textContent = labels[step] || '';
+}
+
+function pickMotivation(el) {
+  document.querySelectorAll('.motivation-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  A.motivation = el.dataset.motivation;
+  document.getElementById('next-3').disabled = false;
+}
+
+function submitToKit(email, system, sizeName, motivation) {
+  const formData = new FormData();
+  formData.append('email_address', email);
+  if (motivation) formData.append('fields[motivation]', motivation);
+  if (system) formData.append('fields[system]', system);
+  fetch('https://app.kit.com/forms/9647335/subscriptions', {
+    method: 'POST',
+    body: formData,
+    headers: { 'Accept': 'application/json' }
+  }).catch(function(err) {
+    console.error('Kit signup failed silently:', err);
+  });
+}
+
+function showResult() {
+  const sys = A.system;
+  const size = A.size;
+  submitToKit(A.email, sys, getSizeLabel(size), A.motivation);
+
+  renderRecommendation(sys, size);
+
+  // Show result screen
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('result-screen').classList.add('active');
+  ['step1','step2','step3','step4'].forEach(id => {
+    document.getElementById(id).className = 'step done';
+  });
+  document.getElementById('progress-label').textContent = 'Complete';
+  window.scrollTo(0, 0);
+
+  // Send email (placeholder — replace with Klaviyo endpoint)
+  console.log('Email to send recommendation to:', A.email);
+}
+
+function renderRecommendation(sys, size) {
+  const rec = RECS[sys][size];
+  const sysName = SYSTEM_NAMES[sys];
+  const sizeName = getSizeLabel(size);
+
+  // Primary card
+  document.getElementById('r-title').textContent = 'Your perfect setup';
+  document.getElementById('r-sub').textContent = 'Based on your choices — ' + sysName + ', ' + sizeName + '.';
+  document.getElementById('r-img').src = rec.img || SYS_IMAGES[sys];
+  document.getElementById('r-img').alt = rec.name;
+  document.getElementById('r-name').textContent = rec.name;
+  document.getElementById('r-tagline').textContent = rec.tagline;
+  document.getElementById('r-price').textContent = rec.price;
+  document.getElementById('r-grows').innerHTML = '<strong>Grows:</strong> ' + rec.grows;
+  var notIdealEl = document.getElementById('r-not-ideal');
+  if (rec.not_ideal) {
+    notIdealEl.innerHTML = '<strong>Not ideal for:</strong> ' + rec.not_ideal;
+    notIdealEl.style.display = 'block';
+  } else {
+    notIdealEl.style.display = 'none';
+  }
+  const shopItems = rec.shop.split(' · ');
+  const shopHTML = '<strong>Shopping list:</strong><ul class="shop-list">' +
+    shopItems.map(function(item) {
+      return '<li class="shop-item"><label><input type="checkbox" onchange="this.parentElement.parentElement.classList.toggle(\'checked\', this.checked)"><span>' + item + '</span></label></li>';
+    }).join('') +
+    '</ul>';
+  document.getElementById('r-shop').innerHTML = shopHTML;
+  document.getElementById('r-why').textContent = rec.why;
+
+  // Other sizes — check all keys of the system (handles vertical, small, medium, large)
+  const otherSizes = Object.keys(RECS[sys]).filter(s => s !== size);
+  document.getElementById('r-others-title').textContent = 'Other ' + sysName + ' options';
+
+  const othersGrid = document.getElementById('r-others');
+  othersGrid.innerHTML = '';
+  otherSizes.forEach(s => {
+    const r = RECS[sys][s];
+    const card = document.createElement('div');
+    card.className = 'other-card';
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.onclick = function() { switchToOption(sys, s); };
+    card.onkeydown = function(e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); switchToOption(sys, s); }
+    };
+    card.innerHTML =
+      '<img class="other-card-img" src="' + (r.img || SYS_IMAGES[sys]) + '" alt="' + r.name + '">' +
+      '<div class="other-card-body">' +
+        '<div class="other-size-tag">' + getSizeLabel(s) + '</div>' +
+        '<div class="other-name">' + r.name + '</div>' +
+        '<div class="other-price">' + r.price + '</div>' +
+        '<div class="other-grows">' + r.grows + '</div>' +
+        '<div class="other-cta">View this option →</div>' +
+      '</div>';
+    othersGrid.appendChild(card);
+  });
+}
+
+function switchToOption(sys, newSize) {
+  renderRecommendation(sys, newSize);
+  // Scroll to the top of the result so the new primary is immediately visible
+  const resultTop = document.getElementById('result-screen');
+  if (resultTop) resultTop.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function restart() {
+  A.system = null; A.size = null; A.motivation = null; A.email = '';
+  document.querySelectorAll('.system-card').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('.size-card').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('.motivation-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('email-input').value = '';
+  document.getElementById('next-1').disabled = true;
+  document.getElementById('next-2').disabled = true;
+  document.getElementById('next-3').disabled = true;
+  document.getElementById('next-4').disabled = true;
+  document.getElementById('result-screen').classList.remove('active');
+  document.getElementById('screen-1').classList.add('active');
+  updateProgress(1);
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>
