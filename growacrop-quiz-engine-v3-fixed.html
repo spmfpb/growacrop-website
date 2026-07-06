@@ -54,6 +54,14 @@ h1{font-size:22px;font-weight:700;color:#2a5c2a;margin-bottom:4px}
 .rcard-detail strong{color:#2a5c2a}
 .rcard-shop{font-size:12px;color:#4a5e44;line-height:1.6;margin-bottom:10px}
 .rcard-shop strong{color:#2a5c2a}
+.component-list{display:grid;gap:6px;margin-top:7px}
+.component-row{display:grid;grid-template-columns:108px 1fr;gap:8px;border-top:1px solid #e8f2e8;padding-top:6px}
+.component-row:first-child{border-top:0;padding-top:0}
+.component-cat{font-weight:800;color:#2a5c2a}
+.component-product a{color:#2a5c2a;font-weight:800;text-decoration:underline;text-underline-offset:2px}
+.component-meta{display:block;color:#7a9270;font-size:11px;margin-top:2px}
+.component-missing{color:#9e2d2d;font-weight:800}
+.component-summary{margin-top:8px;padding-top:8px;border-top:1px solid #e8f2e8;font-size:11px;color:#607258}
 .rcard-why{font-size:11px;color:#7a9270;font-style:italic;line-height:1.5;padding-top:10px;border-top:1px solid #e8f2e8}
 /* INLINE WARNING / ALT (from Codex) */
 .rcard-warning{font-size:11px;color:#9e2d2d;background:#fbeaea;border:1px solid #f5c5c5;border-radius:8px;padding:8px 10px;margin-bottom:10px;line-height:1.5}
@@ -211,8 +219,8 @@ const FIELDS = ['crop','diff','budget','confidence','name','prod','price','space
 const MATRIX = `
 herbs|easy|low|Good|Simple Herb Starter|Kratky Herb Kit|$40-$90|Windowsill or small bench|Very low|4-6 weeks|Dark jar or tub; net cups; rockwool; PowerFeed Pro Hydroponic (Bunnings); herb seeds|Bunnings; Amazon; eBay|LetPot Mini|Simple, cheap, quiet and beginner-friendly. A jar on a windowsill and you are growing food today.||Move to mid budget for a smart garden with built-in lighting.
 herbs|easy|mid|Ideal|Smart Herb Garden|LetPot 12-Pod (Bunnings)|$150-$200|Countertop|Very low|4-6 weeks|LetPot system; sponge pods; hydroponic nutrients; herb seeds|Bunnings; LetPot direct|Lavish Patch|Best low-effort herb path. LED and pump built in, app sends water reminders, looks premium on a bench.||
-herbs|easy|high|Ideal|Automated Herb Garden|Plant Factory Lavish Patch|$229|Countertop or small bench|Very low|4-6 weeks|Lavish Patch; sponge inserts; Plant Factory nutrients; seeds|plantfactory.com.au|LumiArk|32 plant sites, app-controlled, Australian-designed. Beautiful enough to live on the bench permanently.||
-herbs|easy|pro|Ideal|Home Herb Farm|Plant Factory LumiArk|$1,100|Bench, shelf or dedicated corner|Low|4-6 weeks|LumiArk system; sponge inserts; nutrient line from Plant Factory|plantfactory.com.au|Multi-tier herb wall|128 plant sites across 4 levels. More fresh herbs than a household can consume, all year round.||
+herbs|easy|high|Ideal|Dual Smart Herb Garden|Multi-Unit Smart Garden Setup|$300-$450|Countertop or small bench|Very low|4-6 weeks|2x smart garden systems; sponge pods; hydroponic nutrients; herb seeds|Amazon AU; Bunnings; Happy Valley Seeds|Multi-unit smart garden shelf|A buy-now high-yield herb setup with two smart gardens instead of an enquiry-only premium system.||Plant Factory can stay as a premium enquiry option, but not the primary buy-now recommendation.
+herbs|easy|pro|Ideal|Smart Herb Grow Station|Multi-Unit Smart Garden Station|$600+|Bench, shelf or dedicated corner|Low|4-6 weeks|3-4x smart garden systems; sponge pods; hydroponic nutrients; herb seeds; sturdy shelf or bench|Amazon AU; Bunnings; Happy Valley Seeds|Custom vertical farm enquiry option|A premium buy-now herb station that scales with multiple countertop systems rather than sending customers to an enquiry form.||For a custom built-in look, Plant Factory remains an enquiry-only alternative.
 herbs|medium|low|Good|Kratky Tote Herb Setup|Dark Tote + Bunnings Supplies|$60-$90|Small bench or shelf|Low|4-6 weeks|Dark storage tote (Kmart); 4-6 net cups (eBay); holesaw (Bunnings); rockwool; PowerFeed Pro Hydroponic; pH test kit; seeds|Bunnings; Kmart; eBay|DWC tote|Grow 4-6 herbs from one dark tote for under $80. Almost impossible to kill plants this way.||
 herbs|medium|mid|Ideal|Compact Herb DWC|6-Site DWC Kit|$130-$220|Small bench|Medium|4-6 weeks|6-site DWC kit; air pump; air stones; net cups; 30W LED panel; A+B nutrients (Canna or Green Planet); EC/pH pen; seeds|Hydro shop; Amazon|12-site DWC|Great balance of effort, learning and yield. Gives full control over nutrients and grow cycles.||
 herbs|medium|high|Ideal|Herb Rack System|Multi-Tray LED Shelf|$300-$500|Shelf or medium corner|Medium|4-6 weeks|Wire shelving; LED grow bars; DWC or wick trays; nutrients; timer; seeds|Hydro shop; Bunnings|NFT channels|More herbs in the same footprint with a real system feel and serious lighting.||
@@ -223,8 +231,8 @@ herbs|project|high|Ideal|DIY NFT Build|12-Site NFT Build|$300-$500|Medium bench 
 herbs|project|pro|Good|Custom Herb Farm|Multi-Channel NFT System|$700+|Dedicated rack or room edge|Medium|4-6 weeks|Rack; NFT channels; 100W+ LED; sensors; premium nutrient line; EC/pH meter; seeds|Specialty hydro|Automated dosing|Excellent, scalable and customisable - but overbuilt for casual herb use unless growing commercially.||
 greens|easy|low|Good|Lettuce Starter|Kratky Lettuce Tub|$50-$100|Small bench or bright outdoor spot|Very low|3-5 weeks|Dark tote; net cups; rockwool; PowerFeed Pro Hydroponic; pH test kit; lettuce seeds|Bunnings; Kmart; eBay|Smart salad garden|Leafy greens tolerate simple hydro better than most crops. A cheap and forgiving start.||
 greens|easy|mid|Ideal|Smart Salad Garden|LetPot 12-Pod (Bunnings)|$150-$200|Countertop|Very low|3-5 weeks|LetPot system; greens pods; nutrients; salad seeds|Bunnings; LetPot direct|Lavish Patch|Easy, reliable salad setup with integrated lighting and low-maintenance reminders.||
-greens|easy|high|Ideal|Automated Salad Station|Plant Factory Lavish Patch|$229|Bench or table|Very low|3-5 weeks|Lavish Patch; sponge inserts; nutrients; salad seed mix|plantfactory.com.au|LumiArk|32 plant sites of salad greens, app-controlled, self-managing. Better household yield without extra work.||
-greens|easy|pro|Ideal|Indoor Salad Farm|Plant Factory LumiArk|$1,100|Dedicated corner|Low|3-5 weeks|LumiArk; sponge inserts; nutrient line; salad seed mix|plantfactory.com.au|Automated cabinet|More fresh salad than most households can consume, year-round, app-controlled.||
+greens|easy|high|Ideal|Dual Smart Salad Garden|Multi-Unit Smart Garden Setup|$300-$450|Bench or table|Very low|3-5 weeks|2x smart garden systems; sponge pods; hydroponic nutrients; salad seed mix|Amazon AU; Bunnings; seed supplier|Multi-unit salad shelf|Two buy-now smart gardens give better salad output than a single small countertop unit while avoiding an enquiry-only purchase path.||Plant Factory can stay as a premium enquiry option, but not the primary buy-now recommendation.
+greens|easy|pro|Ideal|Smart Salad Grow Station|Multi-Unit Smart Garden Station|$600+|Dedicated corner|Low|3-5 weeks|3-4x smart garden systems; sponge pods; hydroponic nutrients; salad seed mix; sturdy shelf or bench|Amazon AU; Bunnings; seed supplier|Custom vertical salad farm enquiry option|A buy-now premium salad station with multiple smart gardens and enough plant sites for meaningful weekly harvests.||For a custom built-in look, Plant Factory remains an enquiry-only alternative.
 greens|medium|low|Good|LED Salad Tray|Kratky Tote + Basic LED|$80-$110|Small bench or shelf|Low|3-5 weeks|Dark tote; net cups; rockwool; 20W LED bar; PowerFeed Pro Hydroponic; pH test kit; greens seeds|Bunnings; Amazon|DWC tote|Adding light makes the low-budget path much more reliable year-round.||
 greens|medium|mid|Ideal|Deep Water Salad|6-8 Site DWC Kit|$130-$220|Small bench|Medium|3-5 weeks|DWC kit; air pump; net cups; 30-40W LED; A+B nutrients; EC/pH pen; salad seeds|Hydro shop; Amazon|12-site DWC|Classic leafy-green setup. A strong beginner build that gives real weekly harvests.||
 greens|medium|high|Ideal|Salad Rack|Multi-Tray DWC Rack|$300-$500|Medium shelf or rack|Medium|3-5 weeks|Wire rack; LED bars; DWC trays; air pump; nutrients; EC/pH pen; seeds|Hydro shop|NFT rack|Good weekly harvest capacity in an organised footprint. Enough to replace supermarket salad.||
@@ -282,6 +290,381 @@ MATRIX.split('\n').forEach(row => {
   const key = `${obj.crop}:${obj.diff}:${obj.budget}`;
   RECOMMENDATIONS[key] = obj;
 });
+
+// ============================================================
+// MVP PRODUCT COMPONENT DATABASE
+// Recommendation profiles describe the system/build. Product
+// links live here and are selected by component category.
+// ============================================================
+const COMPONENT_CATEGORIES = [
+  'Complete System',
+  'Reservoir / Tote / Bucket',
+  'Net Cups',
+  'Growing Media',
+  'Air Pump',
+  'Air Stone',
+  'Tubing',
+  'Nutrients',
+  'pH Test Kit',
+  'pH Up / Down',
+  'EC Meter',
+  'Grow Light',
+  'Seeds',
+  'Trays',
+  'Shelving / Rack',
+  'Timer',
+  'Fan / Ventilation',
+  'Plant Supports / Trellis'
+];
+
+const PRODUCT_COMPONENTS = [
+  {
+    id:'letpot_lph_se',
+    productName:'LetPot LPH-SE Hydroponics Growing System',
+    componentCategory:'Complete System',
+    bestFor:'Buy-now smart herb and salad gardens',
+    budgetTier:'Value',
+    retailer:'Amazon AU',
+    productUrl:'https://www.amazon.com.au/LPH-SE-Hydroponics-Growing-Controlled-Automatic/dp/B0BL3GG6J3',
+    approxPrice:null,
+    approxPriceLabel:'Check current price',
+    notes:'User-approved LetPot listing. Confirm pod count, included accessories and consumables.',
+    suitableCrops:['herbs','greens'],
+    suitableSystems:['smart-garden'],
+    mvpApproved:true
+  },
+  {
+    id:'tecohouse_black_jars',
+    productName:'Tecohouse Black Jars',
+    componentCategory:'Reservoir / Tote / Bucket',
+    bestFor:'Small Kratky herb starter jars',
+    budgetTier:'Budget',
+    retailer:'Amazon AU',
+    productUrl:'https://www.amazon.com.au/Tecohouse-Candle-Labels-Lotion-Container/dp/B0GG9Y7FHF',
+    approxPrice:null,
+    approxPriceLabel:'Check current price',
+    notes:'User-approved opaque jar option. Confirm size and lid compatibility with net cups.',
+    suitableCrops:['herbs'],
+    suitableSystems:['kratky'],
+    mvpApproved:true
+  },
+  {
+    id:'ezy_32l_navy_tub',
+    productName:'Ezy Storage 32L Navy Classic Storage Tub',
+    componentCategory:'Reservoir / Tote / Bucket',
+    bestFor:'Budget Kratky totes for herbs and leafy greens',
+    budgetTier:'Budget',
+    retailer:'Bunnings',
+    productUrl:'https://www.bunnings.com.au/ezy-storage-32l-navy-classic-storage-tub_p0431548',
+    approxPrice:9.90,
+    approxPriceLabel:'$9.90',
+    notes:'Budget fallback only. Confirm lid fit and opacity before customer use.',
+    suitableCrops:['herbs','greens'],
+    suitableSystems:['kratky'],
+    mvpApproved:true
+  },
+  {
+    id:'hydro_tank_39l_solid',
+    productName:'Hydro Tank & Solid Lid - 39L',
+    componentCategory:'Reservoir / Tote / Bucket',
+    bestFor:'Quality hydro reservoir for Kratky, DWC and NFT builds',
+    budgetTier:'Value',
+    retailer:'Hydro Experts',
+    productUrl:'https://www.hydroexperts.com.au/Hydro-Tank-Solid-Lid-39L',
+    approxPrice:54.95,
+    approxPriceLabel:'$54.95',
+    notes:'Purpose-made hydro reservoir. Better product/image fit than a household storage tub.',
+    suitableCrops:['herbs','greens','fruiting'],
+    suitableSystems:['kratky','dwc','nft','dutch-bucket'],
+    mvpApproved:true
+  },
+  {
+    id:'handy_5l_pail',
+    productName:'Handy 5L Pail Bucket with Lid',
+    componentCategory:'Reservoir / Tote / Bucket',
+    bestFor:'Very small experimental bucket grows',
+    budgetTier:'Budget',
+    retailer:'Bunnings',
+    productUrl:'https://www.bunnings.com.au/handy-5l-pail-bucket-with-lid_p4475883',
+    approxPrice:5.45,
+    approxPriceLabel:'$5.45',
+    notes:'Budget experiment only. Too small for reliable fruiting production.',
+    suitableCrops:['fruiting'],
+    suitableSystems:['kratky','dwc'],
+    mvpApproved:true
+  },
+  {
+    id:'handy_20l_pail',
+    productName:'Handy 20L Pail Bucket with Lid',
+    componentCategory:'Reservoir / Tote / Bucket',
+    bestFor:'Budget DWC bucket and fruiting trial builds',
+    budgetTier:'Budget',
+    retailer:'Bunnings',
+    productUrl:'https://www.bunnings.com.au/handy-20l-pail-bucket-with-lid_p4475875',
+    approxPrice:14.98,
+    approxPriceLabel:'$14.98 each',
+    notes:'Commodity bucket. Confirm lid drilling requirements and root volume.',
+    suitableCrops:['fruiting','herbs','greens'],
+    suitableSystems:['dwc','dutch-bucket'],
+    mvpApproved:true
+  },
+  {
+    id:'holman_large_self_watering',
+    productName:'Holman 500 x 500 x 420mm Charcoal Large Square Self-Watering Pot',
+    componentCategory:'Reservoir / Tote / Bucket',
+    bestFor:'Outdoor or balcony self-watering fruiting alternative',
+    budgetTier:'Value',
+    retailer:'Bunnings',
+    productUrl:'https://www.bunnings.com.au/holman-500-x-500-x-420mm-charcoal-large-square-self-watering-pot_p0659662',
+    approxPrice:47.99,
+    approxPriceLabel:'$47.99',
+    notes:'Good low-cost outdoor path, but not a complete hydro system.',
+    suitableCrops:['fruiting','plants'],
+    suitableSystems:['self-watering'],
+    mvpApproved:true
+  },
+  {
+    id:'mesh_net_pot_2in',
+    productName:'40 x Mesh Net Pot - 2 Inch',
+    componentCategory:'Net Cups',
+    bestFor:'Kratky, DWC and NFT plant sites',
+    budgetTier:'Value',
+    retailer:'Hydro Experts',
+    productUrl:'https://www.hydroexperts.com.au/40-x-Mesh-Net-Pot-Size-2-Inch',
+    approxPrice:19.95,
+    approxPriceLabel:'$19.95',
+    notes:'Proper hydro net pots. Pack is larger than needed but reusable.',
+    suitableCrops:['herbs','greens','fruiting'],
+    suitableSystems:['kratky','dwc','nft'],
+    mvpApproved:true
+  },
+  {
+    id:'bunnings_rockwool_40mm',
+    productName:'Hydroponic Rockwool 40 x 40 x 40 Grow Cubes - 18 pack',
+    componentCategory:'Growing Media',
+    bestFor:'Seed starting for herbs and leafy greens',
+    budgetTier:'Value',
+    retailer:'Bunnings',
+    productUrl:'https://www.bunnings.com.au/hydroponic-rockwool-40-x-40-x-40-grow-cubes-18-pack_p0646467',
+    approxPrice:18.50,
+    approxPriceLabel:'$18.50',
+    notes:'Good seed-starting cube size. Check fit with selected net cups.',
+    suitableCrops:['herbs','greens'],
+    suitableSystems:['kratky','dwc','nft'],
+    mvpApproved:true
+  },
+  {
+    id:'ling_luo_sponges',
+    productName:'Ling Luo Replacement Grow Sponges / Sponge Pods',
+    componentCategory:'Growing Media',
+    bestFor:'Smart garden sponge pod replacements',
+    budgetTier:'Value',
+    retailer:'Amazon AU',
+    productUrl:'https://www.amazon.com.au/Ling-Luo-Replacement-Compatible-AeroGarden-Moldy-Free/dp/B0F4QW2N7R',
+    approxPrice:null,
+    approxPriceLabel:'Check current price',
+    notes:'User-approved sponge pod listing. Confirm compatibility with chosen smart garden.',
+    suitableCrops:['herbs','greens'],
+    suitableSystems:['smart-garden'],
+    mvpApproved:true
+  },
+  {
+    id:'aqua_one_precision_2500',
+    productName:'Aqua One Precision 2500 Adjustable Air Pump',
+    componentCategory:'Air Pump',
+    bestFor:'Small single-reservoir DWC builds',
+    budgetTier:'Budget',
+    retailer:'Hydro Experts',
+    productUrl:'https://www.hydroexperts.com.au/Aqua-One-Precision-2500-Adjustable-Aquarium-Air-Pump-1-x-160L/H-with-Single-Outlet',
+    approxPrice:14.95,
+    approxPriceLabel:'$14.95',
+    notes:'Suitable for a small DWC reservoir. Multi-site systems may need a larger pump.',
+    suitableCrops:['herbs','greens','fruiting'],
+    suitableSystems:['dwc'],
+    mvpApproved:true
+  },
+  {
+    id:'powerfeed_hydroponic_500ml',
+    productName:'PowerFeed 500ml Pro Series All-In-One Hydroponic Fertiliser',
+    componentCategory:'Nutrients',
+    bestFor:'Budget herb and leafy green hydroponic nutrients',
+    budgetTier:'Budget',
+    retailer:'Bunnings',
+    productUrl:'https://www.bunnings.com.au/powerfeed-500ml-pro-series-all-in-one-hydroponic-fertiliser_p0135250',
+    approxPrice:26.16,
+    approxPriceLabel:'$26.16',
+    notes:'Good budget nutrient for herbs/greens. Fruiting crops still need grow/bloom validation.',
+    suitableCrops:['herbs','greens'],
+    suitableSystems:['kratky','dwc','nft','smart-garden'],
+    mvpApproved:true
+  },
+  {
+    id:'happy_valley_herb_seeds',
+    productName:'Happy Valley Seeds Herb Seeds Collection',
+    componentCategory:'Seeds',
+    bestFor:'Herb seed selection, with basil as the easiest first crop',
+    budgetTier:'Value',
+    retailer:'Happy Valley Seeds',
+    productUrl:'https://www.happyvalleyseeds.com.au/collections/herb-seeds',
+    approxPrice:null,
+    approxPriceLabel:'Varies',
+    notes:'User-approved herb seed source. Choose basil first for easiest success.',
+    suitableCrops:['herbs'],
+    suitableSystems:['kratky','dwc','nft','smart-garden'],
+    mvpApproved:true
+  }
+];
+
+const RECOMMENDATION_COMPONENT_REQUIREMENTS = {
+  // Generated from recommendation shopping-list language at runtime.
+  // Each profile stays product-free; this layer only stores component categories.
+};
+
+const BUDGET_TIER_RANK = { Budget:0, Value:1, Premium:2 };
+
+function escapeHtml(v) {
+  return String(v ?? '').replace(/[&<>"']/g, ch => ({
+    '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'
+  }[ch]));
+}
+
+function tierForBudget(budget) {
+  return budget === 'low' ? 'Budget' : budget === 'pro' ? 'Premium' : 'Value';
+}
+
+function inferSystemTags(rec) {
+  const text = `${rec.name} ${rec.prod} ${rec.shoppingList}`.toLowerCase();
+  const tags = [];
+  if (/smart garden|letpot|sponge pod|sponge insert/.test(text)) tags.push('smart-garden');
+  if (/kratky|jar|tote/.test(text)) tags.push('kratky');
+  if (/dwc|deep water|air pump|air stone/.test(text)) tags.push('dwc');
+  if (/nft|channel/.test(text)) tags.push('nft');
+  if (/dutch bucket|drip/.test(text)) tags.push('dutch-bucket');
+  if (/self-watering|autopot/.test(text)) tags.push('self-watering');
+  if (/microgreen|tray/.test(text)) tags.push('microgreens');
+  if (/vessel|houseplant|gathera|plant wall|plant room/.test(text)) tags.push('houseplants');
+  if (!tags.length) tags.push('general');
+  return tags;
+}
+
+function componentCategoryForItem(item) {
+  const s = item.toLowerCase();
+  if (/letpot|smart garden|smart.*system|hydroponic units|complete system|lavish|lumiark|gathera/.test(s)) return 'Complete System';
+  if (/jar|tote|tub|bucket|reservoir|autopot|self-watering pot|pail/.test(s)) return 'Reservoir / Tote / Bucket';
+  if (/net cup|net pot/.test(s)) return 'Net Cups';
+  if (/rockwool|sponge|coco|perlite|clay|leca|growing media|media/.test(s)) return 'Growing Media';
+  if (/air pump/.test(s)) return 'Air Pump';
+  if (/air stone/.test(s)) return 'Air Stone';
+  if (/tubing|drip line|plumbing/.test(s)) return 'Tubing';
+  if (/nutrient|powerfeed|bloom|grow \+ bloom/.test(s)) return 'Nutrients';
+  if (/ph test|ph kit/.test(s)) return 'pH Test Kit';
+  if (/ph up|ph down/.test(s)) return 'pH Up / Down';
+  if (/ec\/ph|ec meter|ec pen|controller|sensor|monitoring/.test(s)) return 'EC Meter';
+  if (/led|light|grow bar|grow strip/.test(s)) return 'Grow Light';
+  if (/seed|cutting|starter plant|plant collection/.test(s)) return 'Seeds';
+  if (/tray/.test(s)) return 'Trays';
+  if (/shelf|rack|shelving|cabinet|wall-mounted|frame/.test(s)) return 'Shelving / Rack';
+  if (/timer/.test(s)) return 'Timer';
+  if (/fan|ventilation|inline|humidity|humidifier/.test(s)) return 'Fan / Ventilation';
+  if (/stake|support|trellis|plant clip|plant tie/.test(s)) return 'Plant Supports / Trellis';
+  return null;
+}
+
+function getComponentRequirements(rec) {
+  const key = `${rec.crop}:${rec.diff}:${rec.budget}`;
+  if (RECOMMENDATION_COMPONENT_REQUIREMENTS[key]) return RECOMMENDATION_COMPONENT_REQUIREMENTS[key];
+
+  const categories = [];
+  const add = category => {
+    if (category && !categories.includes(category)) categories.push(category);
+  };
+
+  (rec.shoppingList || '').split(';').map(i => i.trim()).filter(Boolean)
+    .forEach(item => {
+      add(componentCategoryForItem(item));
+      if (/ec\/ph|ph pen|ph meter/i.test(item)) add('pH Test Kit');
+    });
+
+  const systemTags = inferSystemTags(rec);
+  if (systemTags.includes('smart-garden')) add('Complete System');
+  if (categories.includes('Air Pump')) add('Tubing');
+
+  return categories.map(category => ({
+    category,
+    tier: tierForBudget(rec.budget),
+    optional:false
+  }));
+}
+
+function selectProductForComponent(req, rec) {
+  const systemTags = inferSystemTags(rec);
+  const targetTier = req.tier || tierForBudget(rec.budget);
+  const crop = rec.crop;
+  const candidates = PRODUCT_COMPONENTS
+    .filter(p => p.mvpApproved)
+    .filter(p => p.componentCategory === req.category)
+    .filter(p => p.suitableCrops.includes(crop) || p.suitableCrops.includes('all'))
+    .map(p => {
+      const systemMatch = p.suitableSystems.includes('general') || p.suitableSystems.some(s => systemTags.includes(s));
+      const tierDistance = Math.abs((BUDGET_TIER_RANK[p.budgetTier] ?? 1) - (BUDGET_TIER_RANK[targetTier] ?? 1));
+      return { product:p, score:(systemMatch ? 20 : 0) - tierDistance };
+    })
+    .filter(c => c.score >= -1)
+    .sort((a, b) => b.score - a.score || (a.product.approxPrice ?? 9999) - (b.product.approxPrice ?? 9999));
+
+  return candidates[0]?.product || null;
+}
+
+function selectProductsForRecommendation(rec) {
+  const requirements = getComponentRequirements(rec);
+  const rows = requirements.map(req => ({
+    requirement:req,
+    product:selectProductForComponent(req, rec)
+  }));
+  const selected = rows.filter(r => r.product);
+  const missing = rows.filter(r => !r.product).map(r => r.requirement.category);
+  const knownCost = selected.reduce((sum, r) => sum + (Number(r.product.approxPrice) || 0), 0);
+  const unknownPrices = selected.filter(r => !Number(r.product.approxPrice)).length;
+  const retailers = [...new Set(selected.map(r => r.product.retailer))];
+
+  return { rows, selected, missing, knownCost, unknownPrices, retailers };
+}
+
+function renderSelectedProducts(rec) {
+  const result = selectProductsForRecommendation(rec);
+  const rows = result.rows.map(({ requirement, product }) => {
+    if (!product) {
+      return `
+        <div class="component-row">
+          <div class="component-cat">${escapeHtml(requirement.category)}</div>
+          <div class="component-product component-missing">Needs Review<span class="component-meta">No MVP-approved product yet.</span></div>
+        </div>`;
+    }
+    return `
+      <div class="component-row">
+        <div class="component-cat">${escapeHtml(requirement.category)}</div>
+        <div class="component-product">
+          <a href="${escapeHtml(product.productUrl)}" target="_blank" rel="noopener">${escapeHtml(product.productName)}</a>
+          <span class="component-meta">${escapeHtml(product.retailer)} - ${escapeHtml(product.approxPriceLabel)}. ${escapeHtml(product.notes)}</span>
+        </div>
+      </div>`;
+  }).join('');
+
+  const total = result.knownCost
+    ? `$${result.knownCost.toFixed(2)}${result.unknownPrices ? ' + price-pending items' : ''}`
+    : (result.unknownPrices ? 'Price pending' : 'Needs Review');
+  const retailers = result.retailers.length ? result.retailers.join(', ') : 'Needs Review';
+  const missing = result.missing.length ? result.missing.join(', ') : 'None';
+
+  return `
+    <strong>Shopping list:</strong>
+    <div class="component-list">${rows}</div>
+    <div class="component-summary">
+      <strong>Estimated total:</strong> ${escapeHtml(total)}<br>
+      <strong>Retailers used:</strong> ${escapeHtml(retailers)}<br>
+      <strong>Missing products / needs review:</strong> ${escapeHtml(missing)}
+    </div>`;
+}
 
 // ============================================================
 // SPACE VARIANTS
@@ -525,7 +908,7 @@ function setCard(prefix, rec) {
   document.getElementById(`${prefix}-prod`).textContent = rec.prod || '';
   document.getElementById(`${prefix}-price`).textContent = rec.price || '';
   document.getElementById(`${prefix}-detail`).innerHTML = renderDetail(rec);
-  document.getElementById(`${prefix}-shop`).innerHTML = rec.shoppingList ? `<strong>Shopping list:</strong> ${rec.shoppingList}` : '';
+  document.getElementById(`${prefix}-shop`).innerHTML = renderSelectedProducts(rec);
   document.getElementById(`${prefix}-why`).textContent = rec.why || '';
   const warnEl = document.getElementById(`${prefix}-warning`);
   warnEl.innerHTML = rec.warning ? `<div class="rcard-warning"><strong>Note:</strong> ${rec.warning}</div>` : '';
@@ -537,7 +920,7 @@ function renderOutdoorNote(answers, primary) {
   const outdoorEl = document.getElementById('outdoor-note');
   if (answers.env !== 'outdoor') { outdoorEl.style.display = 'none'; return; }
   const adjustments = [];
-  if (/LED|light|smart garden|LetPot|Lavish|LumiArk|Gathera/i.test(primary.prod)) {
+  if (/LED|light|smart garden|smart.*station|LetPot|Gathera/i.test(`${primary.prod} ${primary.name}`)) {
     adjustments.push('Remove LED grow light from shopping list - natural sunlight replaces it outdoors.');
   }
   adjustments.push('Position in a spot with morning sun and afternoon shade in Australian summers (especially QLD and WA).');
