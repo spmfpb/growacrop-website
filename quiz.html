@@ -36,8 +36,6 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 .system-card.selected{border-color:#1e3a22;box-shadow:0 0 0 3px rgba(30,58,34,.15)}
 .system-img{width:100%;height:160px;object-fit:contain;display:block;background:#f5f5f3;padding:8px}
 .system-info{padding:12px;flex:1;text-align:center}
-.system-card.no-image{justify-content:center;min-height:150px}
-.system-card.no-image .system-info{padding:28px 14px}
 .system-name{font-size:13px;font-weight:700;color:#1e3a22;margin-bottom:3px;display:flex;justify-content:center;align-items:center;gap:6px}
 .system-desc{font-size:11px;color:#555;line-height:1.6}
 .crop-line{margin-bottom:2px}
@@ -231,7 +229,8 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
         </div>
       </div>
     </div>
-    <div class="system-card no-image" data-system="grow_shelf" onclick="pickSystem(this)">
+    <div class="system-card" data-system="grow_shelf" onclick="pickSystem(this)">
+      <img class="system-img" src="images/quiz/quiz-product-06.png" alt="Grow Shelf">
       <div class="system-info">
         <div class="system-name">Grow Shelf <span class="system-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span></div>
         <div class="system-desc">
@@ -254,7 +253,95 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
     <p class="q-sub">We'll match your recommendation to what actually fits.</p>
     <div class="size-grid">
       <div class="size-card" data-size="small" onclick="pickSize(this)">
-        <div class="size-icon">Wall</div><div class="size-hint">Wall-mounted or upright</div>
+        <div class="size-icon">S</div>
+        <div class="size-hint">A small contained setup</div>
+        <div class="size-label">Windowsill or bench</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+      <div class="size-card" data-size="medium" onclick="pickSize(this)">
+        <div class="size-icon">M</div>
+        <div class="size-hint">A medium standalone system</div>
+        <div class="size-label">Table or floor space</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+      <div class="size-card" data-size="large" onclick="pickSize(this)">
+        <div class="size-icon">L</div>
+        <div class="size-hint">A big setup with room to grow</div>
+        <div class="size-label">Patio, balcony or garage</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BUDGET version (bench mini garden only) -->
+  <div id="q2-budget" style="display:none">
+    <div class="q-eyebrow">Step 2 of 4</div>
+    <h1 class="q-title">What's your budget?</h1>
+    <p class="q-sub">We'll find the right bench garden for what you want to spend.</p>
+    <div class="size-grid">
+      <div class="size-card" data-size="small" onclick="pickSize(this)">
+        <div class="size-icon">$</div>
+        <div class="size-hint">Budget-friendly</div>
+        <div class="size-label">Under $200</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+      <div class="size-card" data-size="medium" onclick="pickSize(this)">
+        <div class="size-icon">Value</div>
+        <div class="size-hint">Mid-range</div>
+        <div class="size-label">$200 - $400</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+      <div class="size-card" data-size="large" onclick="pickSize(this)">
+        <div class="size-icon">Premium</div>
+        <div class="size-hint">Premium</div>
+        <div class="size-label">$400+</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- GROW SHELF version (2 options only) -->
+  <div id="q2-grow-shelf" style="display:none">
+    <div class="q-eyebrow">Step 2 of 4</div>
+    <h1 class="q-title">How much do you want to grow?</h1>
+    <p class="q-sub">We'll match your shelf setup to your growing ambitions.</p>
+    <div class="size-grid" style="grid-template-columns:repeat(2,1fr);max-width:500px">
+      <div class="size-card" data-size="small" onclick="pickSize(this)">
+        <div class="size-icon">Small</div>
+        <div class="size-hint">A modest home setup</div>
+        <div class="size-label">Small crop</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+      <div class="size-card" data-size="large" onclick="pickSize(this)">
+        <div class="size-icon">Big</div>
+        <div class="size-hint">Serious year-round output</div>
+        <div class="size-label">Big crop</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SALAD TABLE version (3 custom options) -->
+  <div id="q2-salad-table" style="display:none">
+    <div class="q-eyebrow">Step 2 of 4</div>
+    <h1 class="q-title">Which style suits you best?</h1>
+    <p class="q-sub">We'll match your recommendation to the right salad table setup.</p>
+    <div class="size-grid">
+      <div class="size-card" data-size="small" onclick="pickSize(this)">
+        <div class="size-icon">Small</div>
+        <div class="size-hint">Compact table setup</div>
+        <div class="size-label">Small</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+      <div class="size-card" data-size="large" onclick="pickSize(this)">
+        <div class="size-icon">Large</div>
+        <div class="size-hint">Full-size table system</div>
+        <div class="size-label">Large</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+      <div class="size-card" data-size="vertical" onclick="pickSize(this)">
+        <div class="size-icon">Wall</div>
+        <div class="size-hint">Wall-mounted or upright</div>
         <div class="size-label">Vertical</div>
         <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
       </div>
@@ -273,7 +360,24 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
   <p class="q-sub">Pick the one that resonates most.</p>
   <div class="motivation-grid">
     <div class="motivation-card" data-motivation="save_money" onclick="pickMotivation(this)">
-      <div class="motivation-icon">Start</div><div class="motivation-label">I've always wanted to</div>
+      <div class="motivation-icon">$</div>
+      <div class="motivation-label">Save money on food</div>
+    </div>
+    <div class="motivation-card" data-motivation="fresher_food" onclick="pickMotivation(this)">
+      <div class="motivation-icon">Fresh</div>
+      <div class="motivation-label">Fresher, healthier food</div>
+    </div>
+    <div class="motivation-card" data-motivation="sustainability" onclick="pickMotivation(this)">
+      <div class="motivation-icon">Less waste</div>
+      <div class="motivation-label">Sustainability &amp; less waste</div>
+    </div>
+    <div class="motivation-card" data-motivation="hobby" onclick="pickMotivation(this)">
+      <div class="motivation-icon">Hobby</div>
+      <div class="motivation-label">A relaxing hobby</div>
+    </div>
+    <div class="motivation-card" data-motivation="always_wanted" onclick="pickMotivation(this)">
+      <div class="motivation-icon">Start</div>
+      <div class="motivation-label">I've always wanted to</div>
     </div>
   </div>
   <button class="next-btn" id="next-3" disabled onclick="goTo(4)">
@@ -702,15 +806,9 @@ function renderRecommendation(sys, size) {
   document.getElementById('r-title').textContent = 'Your perfect setup';
   document.getElementById('r-sub').textContent = 'Based on your choices - ' + sysName + ', ' + sizeName + '.';
   const primaryImage = document.getElementById('r-img');
-  if (sys === 'grow_shelf') {
-    primaryImage.style.display = 'none';
-    primaryImage.removeAttribute('src');
-    primaryImage.alt = '';
-  } else {
-    primaryImage.style.display = 'block';
-    primaryImage.src = rec.img || SYS_IMAGES[sys];
-    primaryImage.alt = rec.name;
-  }
+  primaryImage.style.display = 'block';
+  primaryImage.src = rec.img || SYS_IMAGES[sys];
+  primaryImage.alt = rec.name;
   document.getElementById('r-name').textContent = rec.name;
   document.getElementById('r-tagline').textContent = rec.tagline;
   document.getElementById('r-price').textContent = rec.price;
@@ -751,7 +849,7 @@ function renderRecommendation(sys, size) {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); switchToOption(sys, s); }
     };
     card.innerHTML =
-      (sys === 'grow_shelf' ? '' : '<img class="other-card-img" src="' + (r.img || SYS_IMAGES[sys]) + '" alt="' + r.name + '">') +
+      '<img class="other-card-img" src="' + (r.img || SYS_IMAGES[sys]) + '" alt="' + r.name + '">' +
       '<div class="other-card-body">' +
         '<div class="other-size-tag">' + getSizeLabel(s) + '</div>' +
         '<div class="other-name">' + r.name + '</div>' +
