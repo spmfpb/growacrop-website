@@ -95,16 +95,14 @@ a { color: inherit; text-decoration: none; }
   gap: 10px;
 }
 .nav-logo-mark {
-  width: 32px;
-  height: 32px;
-  background: var(--green-deep);
-  border-radius: 8px;
+  width: 68px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
-.nav-logo-mark svg { width: 18px; height: 18px; fill: white; }
+.nav-logo-mark img { width: 100%; height: 100%; object-fit: contain; }
 .nav-logo-text {
   font-family: var(--serif);
   font-size: 20px;
