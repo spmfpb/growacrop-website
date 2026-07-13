@@ -143,24 +143,17 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
   .result-screen{padding:20px 12px}
 }
 .quiz-page-main{min-height:calc(100vh - 220px)}
-.nav-quiz-link[aria-current="page"]{background:var(--green-ghost);color:var(--green-deep)}
 @media(max-width:760px){.quiz-page-main{min-height:auto}}
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav class="nav">
+<nav class="nav quiz-nav">
   <a href="/" class="nav-logo">
     <div class="nav-logo-mark"><img src="images/branding/growacrop-logo.png" alt=""></div>
     <span class="nav-logo-text">GrowACrop</span>
   </a>
-  <ul class="nav-links">
-    <li><a href="/quiz.html" class="nav-quiz-link" aria-current="page">Take the quiz</a></li>
-  </ul>
-  <button class="nav-hamburger" aria-label="Open menu">
-    <span></span><span></span><span></span>
-  </button>
 </nav>
 
 <main class="quiz-page-main">
