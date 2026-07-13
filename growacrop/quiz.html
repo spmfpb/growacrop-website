@@ -266,6 +266,30 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
     </div>
   </div>
 
+  <!-- BUCKET & TOTE version (plant count) -->
+  <div id="q2-dwc-bucket" style="display:none">
+    <div class="q-eyebrow">Step 2 of 4</div>
+    <h1 class="q-title">How many plants do you want to grow?</h1>
+    <p class="q-sub">We'll match your recommendation to the right bucket setup.</p>
+    <div class="size-grid">
+      <div class="size-card" data-size="small" onclick="pickSize(this)">
+        <div class="size-icon">One plant</div>
+        <div class="size-label">Single bucket setup</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+      <div class="size-card" data-size="medium" onclick="pickSize(this)">
+        <div class="size-icon">Two plants</div>
+        <div class="size-label">Two bucket setup</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+      <div class="size-card" data-size="large" onclick="pickSize(this)">
+        <div class="size-icon">Four plants</div>
+        <div class="size-label">Four bucket setup</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+    </div>
+  </div>
+
   <!-- BUDGET version (bench mini garden only) -->
   <div id="q2-budget" style="display:none">
     <div class="q-eyebrow">Step 2 of 4</div>
@@ -645,6 +669,12 @@ const SHELF_LABELS = {
   large: 'Big crop',
 };
 
+const DWC_BUCKET_LABELS = {
+  small: 'One plant',
+  medium: 'Two plants',
+  large: 'Four plants',
+};
+
 const SALAD_TABLE_LABELS = {
   small: 'Small',
   large: 'Large',
@@ -654,6 +684,7 @@ const SALAD_TABLE_LABELS = {
 function getSizeLabel(size) {
   if (A.system === 'mini_garden') return BUDGET_LABELS[size];
   if (A.system === 'grow_shelf') return SHELF_LABELS[size];
+  if (A.system === 'dwc_bucket') return DWC_BUCKET_LABELS[size];
   if (A.system === 'salad_table') return SALAD_TABLE_LABELS[size];
   return SIZE_LABELS[size];
 }
@@ -678,7 +709,9 @@ function setQ2Mode(system) {
   const isBench = system === 'mini_garden';
   const isShelf = system === 'grow_shelf';
   const isSalad = system === 'salad_table';
-  document.getElementById('q2-size').style.display = (isBench || isShelf || isSalad) ? 'none' : 'block';
+  const isDwcBucket = system === 'dwc_bucket';
+  document.getElementById('q2-size').style.display = (isBench || isShelf || isSalad || isDwcBucket) ? 'none' : 'block';
+  document.getElementById('q2-dwc-bucket').style.display = isDwcBucket ? 'block' : 'none';
   document.getElementById('q2-budget').style.display = isBench ? 'block' : 'none';
   document.getElementById('q2-grow-shelf').style.display = isShelf ? 'block' : 'none';
   document.getElementById('q2-salad-table').style.display = isSalad ? 'block' : 'none';
