@@ -89,7 +89,6 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 .primary-grows strong{color:#1e3a22}
 .primary-shop{background:#f5f2ea;border-radius:8px;padding:10px 14px;font-size:12px;color:#4a4a4a;margin-bottom:12px;line-height:1.7}
 .primary-shop strong{color:#1e3a22}
-.primary-why{font-size:12px;color:#888;font-style:italic;line-height:1.6;padding-top:10px;border-top:1px solid #edf2e8}
 
 /* OTHER SIZES */
 .others-title{font-size:15px;font-weight:700;color:#1e3a22;margin-bottom:12px}
@@ -304,7 +303,6 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
       <div class="primary-tagline" id="r-tagline"></div>
       <div class="primary-grows" id="r-grows"></div>
       <div class="primary-shop" id="r-shop"></div>
-      <div class="primary-why" id="r-why"></div>
     </div>
   </div>
 
@@ -595,7 +593,6 @@ function showResult() {
   document.getElementById('r-tagline').textContent = rec.tagline;
   document.getElementById('r-grows').innerHTML = '<strong>Grows:</strong> ' + rec.grows;
   document.getElementById('r-shop').innerHTML = '<strong>Shopping list:</strong><br>' + rec.shop;
-  document.getElementById('r-why').textContent = rec.why;
 
   // Other sizes
   const sizes = ['small', 'medium', 'large'];

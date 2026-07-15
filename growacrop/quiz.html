@@ -107,7 +107,6 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 .shop-item a{color:#1e3a22;text-decoration:underline}
 .shop-total{display:flex;justify-content:space-between;gap:16px;margin-top:10px;padding-top:10px;border-top:2px solid #ddd8cc;font-size:13px;font-weight:800;color:#1e3a22}
 .shop-total-note{font-size:10px;color:#888;margin-top:4px;line-height:1.4}
-.primary-why{font-size:12px;color:#888;font-style:italic;line-height:1.6;padding-top:10px;border-top:1px solid #edf2e8}
 
 /* OTHER SIZES */
 .others-title{font-size:15px;font-weight:700;color:#1e3a22;margin-bottom:12px}
@@ -419,7 +418,6 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
       <div class="primary-grows" id="r-grows"></div>
       <div class="primary-not-ideal" id="r-not-ideal"></div>
       <div class="primary-shop" id="r-shop"></div>
-      <div class="primary-why" id="r-why"></div>
     </div>
   </div>
 
@@ -866,7 +864,6 @@ function renderRecommendation(sys, size) {
     '<div class="shop-total"><span>Estimated total (priced essentials)</span><span>' + getShoppingTotal(rec) + '</span></div>' +
     '<div class="shop-total-note">Optional and unpriced items are not included.</div>';
   document.getElementById('r-shop').innerHTML = shopHTML;
-  document.getElementById('r-why').textContent = rec.why;
 
   // Other sizes - check all keys of the system (handles vertical, small, medium, large)
   const otherSizes = Object.keys(RECS[sys]).filter(s => s !== size);
