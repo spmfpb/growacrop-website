@@ -416,7 +416,6 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
       <div class="badge" id="best-match-badge">Best match</div>
       <div class="primary-name" id="r-name"></div>
       <div class="primary-tagline" id="r-tagline"></div>
-      <span class="primary-price" id="r-price"></span>
       <div class="primary-grows" id="r-grows"></div>
       <div class="primary-not-ideal" id="r-not-ideal"></div>
       <div class="primary-shop" id="r-shop"></div>
@@ -849,7 +848,6 @@ function renderRecommendation(sys, size) {
   primaryImage.alt = rec.name;
   document.getElementById('r-name').textContent = rec.name;
   document.getElementById('r-tagline').textContent = rec.tagline;
-  document.getElementById('r-price').textContent = rec.price;
   document.getElementById('r-grows').innerHTML = '<strong>Grows:</strong> ' + rec.grows;
   var notIdealEl = document.getElementById('r-not-ideal');
   if (rec.not_ideal) {

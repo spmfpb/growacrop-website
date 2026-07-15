@@ -302,7 +302,6 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
       <div class="badge">Best match</div>
       <div class="primary-name" id="r-name"></div>
       <div class="primary-tagline" id="r-tagline"></div>
-      <span class="primary-price" id="r-price"></span>
       <div class="primary-grows" id="r-grows"></div>
       <div class="primary-shop" id="r-shop"></div>
       <div class="primary-why" id="r-why"></div>
@@ -594,7 +593,6 @@ function showResult() {
   document.getElementById('r-img').alt = rec.name;
   document.getElementById('r-name').textContent = rec.name;
   document.getElementById('r-tagline').textContent = rec.tagline;
-  document.getElementById('r-price').textContent = rec.price;
   document.getElementById('r-grows').innerHTML = '<strong>Grows:</strong> ' + rec.grows;
   document.getElementById('r-shop').innerHTML = '<strong>Shopping list:</strong><br>' + rec.shop;
   document.getElementById('r-why').textContent = rec.why;
