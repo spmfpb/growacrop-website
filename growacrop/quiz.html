@@ -791,7 +791,7 @@ function showResult() {
 function getShoppingTotal(rec) {
   if (rec.shopping_total) return rec.shopping_total;
 
-  const total = rec.shop.split(' - ').reduce(function(sum, item) {
+  const total = getShopItems(rec.shop).reduce(function(sum, item) {
     if (/optional|indoor only|with light/i.test(item)) return sum;
     const match = item.match(/\$([\d,]+(?:\.\d+)?)/);
     if (!match) return sum;
@@ -806,6 +806,33 @@ function getShoppingTotal(rec) {
     currency: 'AUD',
     minimumFractionDigits: 2
   });
+}
+
+function getShopItems(shop) {
+  const items = [];
+  let start = 0;
+  let inTag = false;
+  let anchorDepth = 0;
+
+  for (let i = 0; i < shop.length; i++) {
+    if (shop.slice(i, i + 2).toLowerCase() === '<a') {
+      anchorDepth++;
+    }
+    if (shop.slice(i, i + 4).toLowerCase() === '</a>') {
+      anchorDepth = Math.max(0, anchorDepth - 1);
+    }
+    if (shop[i] === '<') inTag = true;
+    if (shop[i] === '>') inTag = false;
+
+    if (!inTag && anchorDepth === 0 && shop.slice(i, i + 3) === ' - ') {
+      items.push(shop.slice(start, i).trim());
+      start = i + 3;
+      i += 2;
+    }
+  }
+
+  items.push(shop.slice(start).trim());
+  return items.filter(Boolean);
 }
 
 function renderRecommendation(sys, size) {
@@ -832,7 +859,7 @@ function renderRecommendation(sys, size) {
   } else {
     notIdealEl.style.display = 'none';
   }
-  const shopItems = rec.shop.split(' - ');
+  const shopItems = getShopItems(rec.shop);
   const shopHTML = '<strong>Shopping list:</strong><ul class="shop-list">' +
     shopItems.map(function(item, index) {
       const linkedItem = item.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ');
