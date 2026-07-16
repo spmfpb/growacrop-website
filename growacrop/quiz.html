@@ -869,7 +869,7 @@ function getShoppingTotal(rec) {
   if (rec.shopping_total) return rec.shopping_total;
 
   const total = getShopItems(rec.shop).reduce(function(sum, item) {
-    if (/optional|indoor only|with light/i.test(item)) return sum;
+    if (/optional|indoor only|with light|grow lights?/i.test(item)) return sum;
     const match = item.match(/\$([\d,]+(?:\.\d+)?)/);
     if (!match) return sum;
 
