@@ -399,13 +399,6 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 <div class="result-screen" id="result-screen">
   <h2 class="result-title" id="r-title"></h2>
   <p class="result-sub" id="r-sub"></p>
-  <div class="result-email-card">
-    <div style="flex:1">
-      <input class="email-input" type="email" id="result-email-input" placeholder="you@example.com">
-      <div class="result-email-status" id="result-email-status"></div>
-    </div>
-    <button class="next-btn" id="result-email-btn" onclick="sendResultByEmail()">Send by email</button>
-  </div>
 
   <div class="primary-card">
     <img class="primary-card-img" id="r-img" src="" alt="">
@@ -417,6 +410,13 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
       <div class="primary-not-ideal" id="r-not-ideal"></div>
       <div class="primary-shop" id="r-shop"></div>
     </div>
+  </div>
+  <div class="result-email-card">
+    <div style="flex:1">
+      <input class="email-input" type="email" id="result-email-input" placeholder="you@example.com">
+      <div class="result-email-status" id="result-email-status"></div>
+    </div>
+    <button class="next-btn" id="result-email-btn" onclick="sendResultByEmail()">Send by email</button>
   </div>
 
   <div class="others-title" id="r-others-title"></div>
