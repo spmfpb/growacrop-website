@@ -778,6 +778,7 @@ async function submitToKit(email, system, sizeName, motivation) {
   });
 
   const data = await response.json().catch(function() { return {}; });
+  console.log('Kit response:', { status: response.status, body: data });
   if (!response.ok || data.status === 'failed') {
     const message = data.errors && data.errors.messages ? data.errors.messages.join(', ') : 'Kit signup failed.';
     throw new Error(message);
