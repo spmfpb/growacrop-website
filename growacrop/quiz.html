@@ -868,8 +868,31 @@ async function showResult() {
 function getShoppingTotal(rec) {
   if (rec.shopping_total) return rec.shopping_total;
 
+  return formatCurrency(getShoppingTotalValue(rec, false));
+}
+
+function formatCurrency(total) {
+  return total.toLocaleString('en-AU', {
+    style: 'currency',
+    currency: 'AUD',
+    minimumFractionDigits: 2
+  });
+}
+
+function isLedItem(item) {
+  return /grow lights?|indoor only|with light/i.test(item);
+}
+
+function hasLedOption(rec) {
+  if (rec.shopping_total) return false;
+  return getShopItems(rec.shop).some(isLedItem);
+}
+
+function getShoppingTotalValue(rec, includeLed) {
   const total = getShopItems(rec.shop).reduce(function(sum, item) {
-    if (/optional|indoor only|with light|grow lights?/i.test(item)) return sum;
+    const ledItem = isLedItem(item);
+    if (/optional/i.test(item) && !(includeLed && ledItem)) return sum;
+    if (!includeLed && ledItem) return sum;
     const match = item.match(/\$([\d,]+(?:\.\d+)?)/);
     if (!match) return sum;
 
@@ -878,11 +901,16 @@ function getShoppingTotal(rec) {
     return sum + price;
   }, 0);
 
-  return total.toLocaleString('en-AU', {
-    style: 'currency',
-    currency: 'AUD',
-    minimumFractionDigits: 2
-  });
+  return total;
+}
+
+function getShoppingTotalsHTML(rec) {
+  if (!hasLedOption(rec)) {
+    return '<div class="shop-total"><span>Estimated total (priced essentials)</span><span>' + getShoppingTotal(rec) + '</span></div>';
+  }
+
+  return '<div class="shop-total"><span>Estimated total without LED</span><span>' + formatCurrency(getShoppingTotalValue(rec, false)) + '</span></div>' +
+    '<div class="shop-total"><span>Estimated total with LED</span><span>' + formatCurrency(getShoppingTotalValue(rec, true)) + '</span></div>';
 }
 
 function getShopItems(shop) {
@@ -942,8 +970,8 @@ function renderRecommendation(sys, size) {
       return '<li class="shop-item"><input type="checkbox" aria-label="Mark shopping item ' + (index + 1) + ' complete" onchange="this.parentElement.classList.toggle(\'checked\', this.checked)"><div class="shop-item-content">' + linkedItem + '</div></li>';
     }).join('') +
     '</ul>' +
-    '<div class="shop-total"><span>Estimated total (priced essentials)</span><span>' + getShoppingTotal(rec) + '</span></div>' +
-    '<div class="shop-total-note">Optional and unpriced items are not included.</div>';
+    getShoppingTotalsHTML(rec) +
+    '<div class="shop-total-note">Unpriced items are not included. The LED total includes listed grow-light items.</div>';
   document.getElementById('r-shop').innerHTML = shopHTML;
 
   // Other sizes - check all keys of the system (handles vertical, small, medium, large)
