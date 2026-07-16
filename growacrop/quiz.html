@@ -77,6 +77,10 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 .result-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#b5863a;margin-bottom:8px}
 .result-title{font-size:26px;font-weight:800;color:#1e3a22;margin-bottom:4px}
 .result-sub{font-size:14px;color:#4a4a4a;margin-bottom:22px}
+.result-email-card{background:white;border:2px solid #ddd8cc;border-radius:12px;padding:14px;margin-bottom:22px;display:flex;gap:10px;align-items:flex-start}
+.result-email-card .email-input{margin-bottom:0;flex:1}
+.result-email-status{font-size:12px;color:#4a4a4a;margin-top:8px;display:none}
+.result-email-status.active{display:block}
 
 /* PRIMARY CARD */
 .primary-card{background:white;border:2px solid #1e3a22;border-radius:14px;overflow:hidden;margin-bottom:28px;box-shadow:0 0 0 4px rgba(30,58,34,.08)}
@@ -136,6 +140,8 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
   .crop-line{font-size:10px}
   .crop-best,.crop-also,.crop-not{font-size:10px}
   .others-grid{grid-template-columns:1fr}
+  .result-email-card{flex-direction:column}
+  .result-email-card .next-btn{width:100%;justify-content:center}
   .q-title{font-size:20px}
   .primary-card-img{height:180px}
   .screen{padding:20px 12px}
@@ -393,6 +399,13 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 <div class="result-screen" id="result-screen">
   <h2 class="result-title" id="r-title"></h2>
   <p class="result-sub" id="r-sub"></p>
+  <div class="result-email-card">
+    <div style="flex:1">
+      <input class="email-input" type="email" id="result-email-input" placeholder="you@example.com">
+      <div class="result-email-status" id="result-email-status"></div>
+    </div>
+    <button class="next-btn" id="result-email-btn" onclick="sendResultByEmail()">Send by email</button>
+  </div>
 
   <div class="primary-card">
     <img class="primary-card-img" id="r-img" src="" alt="">
@@ -746,6 +759,12 @@ function resetEmailStepState() {
   setEmailNote('Email is optional. Leave it blank to view your result now.');
 }
 
+function setResultEmailStatus(message) {
+  const status = document.getElementById('result-email-status');
+  status.textContent = message;
+  status.classList.add('active');
+}
+
 async function submitToKit(email, system, sizeName, motivation) {
   const formData = new FormData();
   formData.append('email_address', email);
@@ -765,6 +784,35 @@ async function submitToKit(email, system, sizeName, motivation) {
   }
 
   return data;
+}
+
+async function sendResultByEmail() {
+  const emailInput = document.getElementById('result-email-input');
+  const email = emailInput.value.trim();
+  const validEmail = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
+  const button = document.getElementById('result-email-btn');
+
+  if (!validEmail) {
+    setResultEmailStatus('Please enter a valid email address.');
+    emailInput.focus();
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = 'Sending...';
+  setResultEmailStatus('Sending your recommendation...');
+
+  try {
+    A.email = email;
+    await submitToKit(email, A.system, getSizeLabel(A.size), A.motivation);
+    setResultEmailStatus('Sent. Check your inbox for your recommendation.');
+    button.textContent = 'Sent';
+  } catch (err) {
+    console.error('Kit result email failed:', err);
+    setResultEmailStatus('Sorry, the email did not send. Please try again.');
+    button.disabled = false;
+    button.textContent = 'Send by email';
+  }
 }
 
 async function showResult() {
@@ -799,6 +847,10 @@ async function showResult() {
   }
 
   renderRecommendation(sys, size);
+  document.getElementById('result-email-input').value = A.email || '';
+  document.getElementById('result-email-status').classList.remove('active');
+  document.getElementById('result-email-btn').disabled = false;
+  document.getElementById('result-email-btn').textContent = 'Send by email';
 
   // Show result screen
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -936,6 +988,10 @@ function restart() {
   document.querySelectorAll('.size-card').forEach(c => c.classList.remove('selected'));
   document.querySelectorAll('.motivation-card').forEach(c => c.classList.remove('selected'));
   document.getElementById('email-input').value = '';
+  document.getElementById('result-email-input').value = '';
+  document.getElementById('result-email-status').classList.remove('active');
+  document.getElementById('result-email-btn').disabled = false;
+  document.getElementById('result-email-btn').textContent = 'Send by email';
   resetEmailStepState();
   document.getElementById('next-1').disabled = true;
   document.getElementById('next-2').disabled = true;
