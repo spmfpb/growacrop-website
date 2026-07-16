@@ -168,7 +168,6 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 
 <!-- Q1: VISUAL SYSTEM PICKER -->
 <div class="screen active" id="screen-1">
-  <div class="q-eyebrow">Step 1 of 4</div>
   <h1 class="q-title">Which setup appeals to you?</h1>
   <div class="system-grid">
     <div class="system-card" data-system="microgreens" onclick="pickSystem(this)">
@@ -235,9 +234,7 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 <div class="screen" id="screen-2">
   <!-- SIZE version (all systems except bench mini garden) -->
   <div id="q2-size">
-    <div class="q-eyebrow">Step 2 of 4</div>
     <h1 class="q-title">What space are you working with?</h1>
-    <p class="q-sub">We'll match your recommendation to what actually fits.</p>
     <div class="size-grid">
       <div class="size-card" data-size="small" onclick="pickSize(this)">
         <div class="size-icon">Small</div>
@@ -259,9 +256,7 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 
   <!-- BUCKET & TOTE version (plant count) -->
   <div id="q2-dwc-bucket" style="display:none">
-    <div class="q-eyebrow">Step 2 of 4</div>
     <h1 class="q-title">How many plants do you want to grow?</h1>
-    <p class="q-sub">We'll match your recommendation to the right bucket setup.</p>
     <div class="size-grid">
       <div class="size-card" data-size="small" onclick="pickSize(this)">
         <div class="size-icon">One plant</div>
@@ -283,9 +278,7 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 
   <!-- BUDGET version (bench mini garden only) -->
   <div id="q2-budget" style="display:none">
-    <div class="q-eyebrow">Step 2 of 4</div>
     <h1 class="q-title">What's your budget?</h1>
-    <p class="q-sub">We'll find the right bench garden for what you want to spend.</p>
     <div class="size-grid">
       <div class="size-card" data-size="small" onclick="pickSize(this)">
         <div class="size-hint">Budget-friendly</div>
@@ -307,9 +300,7 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 
   <!-- GROW SHELF version (2 options only) -->
   <div id="q2-grow-shelf" style="display:none">
-    <div class="q-eyebrow">Step 2 of 4</div>
     <h1 class="q-title">How much do you want to grow?</h1>
-    <p class="q-sub">We'll match your shelf setup to your growing ambitions.</p>
     <div class="size-grid" style="grid-template-columns:repeat(2,1fr);max-width:500px">
       <div class="size-card" data-size="small" onclick="pickSize(this)">
         <div class="size-icon">Small</div>
@@ -328,9 +319,7 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 
   <!-- SALAD TABLE version (3 custom options) -->
   <div id="q2-salad-table" style="display:none">
-    <div class="q-eyebrow">Step 2 of 4</div>
     <h1 class="q-title">Which style suits you best?</h1>
-    <p class="q-sub">We'll match your recommendation to the right salad table setup.</p>
     <div class="size-grid">
       <div class="size-card" data-size="small" onclick="pickSize(this)">
         <div class="size-icon">Small</div>
@@ -360,9 +349,7 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 
 <!-- Q3: MOTIVATION (data collection) -->
 <div class="screen" id="screen-3">
-  <div class="q-eyebrow">Step 3 of 4</div>
   <h1 class="q-title">Why do you want to grow at home?</h1>
-  <p class="q-sub">Pick the one that resonates most.</p>
   <div class="motivation-grid">
     <div class="motivation-card" data-motivation="save_money" onclick="pickMotivation(this)">
       <div class="motivation-icon">$</div>
@@ -392,9 +379,7 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 
 <!-- Q4: EMAIL -->
 <div class="screen" id="screen-4">
-  <div class="q-eyebrow">Step 4 of 4</div>
   <h1 class="q-title">Would you like your recommendation by email?</h1>
-  <p class="q-sub">Enter your email for the shopping list and setup guide, or skip to see your result now.</p>
   <div class="email-wrap">
     <input class="email-input" type="email" id="email-input" placeholder="you@example.com" oninput="checkEmail()">
     <p class="email-note"><span>Email is optional. Leave it blank to view your result now.</span></p>

@@ -140,7 +140,6 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 
 <!-- Q1: VISUAL SYSTEM PICKER -->
 <div class="screen active" id="screen-1">
-  <div class="q-eyebrow">Step 1 of 3</div>
   <h1 class="q-title">Which setup appeals to you?</h1>
   <div class="system-grid">
     <div class="system-card" data-system="microgreens" onclick="pickSystem(this)">
@@ -219,9 +218,7 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 <div class="screen" id="screen-2">
   <!-- SIZE version (all systems except bench mini garden) -->
   <div id="q2-size">
-    <div class="q-eyebrow">Step 2 of 3</div>
     <h1 class="q-title">What space are you working with?</h1>
-    <p class="q-sub">We'll match your recommendation to what actually fits.</p>
     <div class="size-grid">
       <div class="size-card" data-size="small" onclick="pickSize(this)">
         <div class="size-icon">🪴</div>
@@ -246,9 +243,7 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 
   <!-- BUDGET version (bench mini garden only) -->
   <div id="q2-budget" style="display:none">
-    <div class="q-eyebrow">Step 2 of 3</div>
     <h1 class="q-title">What's your budget?</h1>
-    <p class="q-sub">We'll find the right bench garden for what you want to spend.</p>
     <div class="size-grid">
       <div class="size-card" data-size="small" onclick="pickSize(this)">
         <div class="size-icon">💚</div>
@@ -278,9 +273,7 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 
 <!-- Q3: EMAIL -->
 <div class="screen" id="screen-3">
-  <div class="q-eyebrow">Step 3 of 3</div>
   <h1 class="q-title">Where should we send your recommendation?</h1>
-  <p class="q-sub">We'll email you a full shopping list and setup guide.</p>
   <div class="email-wrap">
     <input class="email-input" type="email" id="email-input" placeholder="you@example.com" oninput="checkEmail()">
     <p class="email-note">✓ <span>We won't sign you up to a newsletter.</span></p>
