@@ -26,7 +26,7 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 .screen{display:none;padding:28px 20px;max-width:860px;margin:0 auto}
 .screen.active{display:block}
 .q-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#b5863a;margin-bottom:8px}
-.q-title{font-size:26px;font-weight:800;color:#1e3a22;line-height:1.2;margin-bottom:6px}
+.q-title{font-size:26px;font-weight:800;color:#1e3a22;line-height:1.2;margin-bottom:22px;text-align:center}
 .q-sub{font-size:14px;color:#4a4a4a;margin-bottom:24px;line-height:1.6}
 
 /* SYSTEM CARDS */
@@ -34,7 +34,7 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 .system-card{background:white;border:2px solid #ddd8cc;border-radius:12px;overflow:hidden;cursor:pointer;transition:all .2s ease;display:flex;flex-direction:column}
 .system-card:hover{border-color:#1e3a22;transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.09)}
 .system-card.selected{border-color:#1e3a22;box-shadow:0 0 0 3px rgba(30,58,34,.15)}
-.system-img{width:100%;height:160px;object-fit:contain;display:block;background:#f5f5f3;padding:8px}
+.system-img{width:100%;height:160px;object-fit:contain;display:block;background:white;padding:8px}
 .system-info{padding:12px;flex:1;text-align:center}
 .system-name{font-size:13px;font-weight:700;color:#1e3a22;margin-bottom:3px;display:flex;justify-content:center;align-items:center;gap:6px}
 .system-desc{font-size:11px;color:#555;line-height:1.6}
@@ -48,12 +48,12 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 
 /* SIZE CARDS */
 .size-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px}
-.size-card{background:white;border:2px solid #ddd8cc;border-radius:12px;padding:18px 14px;cursor:pointer;transition:all .2s ease;position:relative;text-align:center}
+.size-card{background:white;border:2px solid #ddd8cc;border-radius:12px;padding:24px 14px;cursor:pointer;transition:all .2s ease;position:relative;text-align:center}
 .size-card:hover{border-color:#1e3a22;transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.09)}
 .size-card.selected{border-color:#1e3a22;box-shadow:0 0 0 3px rgba(30,58,34,.15)}
-.size-icon{font-size:28px;margin-bottom:8px}
-.size-label{font-size:11px;color:#888;line-height:1.4;margin-bottom:4px}
-.size-hint{font-size:13px;font-weight:700;color:#1e3a22;margin-bottom:4px}
+.size-icon{font-family:Georgia,'Times New Roman',serif;font-size:26px;font-weight:400;color:#0d260f;line-height:1.15;margin-bottom:7px}
+.size-label{font-size:13px;font-weight:600;color:#6f7566;line-height:1.35;margin-bottom:0}
+.size-hint{font-family:Georgia,'Times New Roman',serif;font-size:24px;font-weight:400;color:#0d260f;line-height:1.15;margin-bottom:7px}
 .size-check{width:20px;height:20px;border-radius:50%;background:#1e3a22;display:none;align-items:center;justify-content:center;position:absolute;top:10px;right:10px}
 .size-card.selected .size-check{display:flex}
 .size-check svg{width:10px;height:10px;stroke:white;fill:none;stroke-width:3}
@@ -77,14 +77,19 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 .result-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#b5863a;margin-bottom:8px}
 .result-title{font-size:26px;font-weight:800;color:#1e3a22;margin-bottom:4px}
 .result-sub{font-size:14px;color:#4a4a4a;margin-bottom:22px}
+.result-email-card{background:white;border:2px solid #ddd8cc;border-radius:12px;padding:14px;margin-bottom:22px;display:flex;gap:10px;align-items:flex-start}
+.result-email-card .email-input{margin-bottom:0;flex:1}
+.result-email-status{font-size:12px;color:#4a4a4a;margin-top:8px;display:none}
+.result-email-status.active{display:block}
 
 /* PRIMARY CARD */
 .primary-card{background:white;border:2px solid #1e3a22;border-radius:14px;overflow:hidden;margin-bottom:28px;box-shadow:0 0 0 4px rgba(30,58,34,.08)}
-.primary-card-img{width:100%;height:240px;object-fit:contain;display:block;background:#edf2e8}
+.primary-card-img{width:100%;height:240px;object-fit:contain;display:block;background:white}
 .primary-card-body{padding:22px}
 .badge{display:inline-block;background:#1e3a22;color:white;font-size:10px;font-weight:800;padding:3px 12px;border-radius:100px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
 .primary-name{font-size:20px;font-weight:800;color:#1e3a22;margin-bottom:4px}
 .primary-tagline{font-size:13px;color:#4a7c59;font-weight:600;margin-bottom:4px}
+.primary-price{display:inline-block;background:#edf2e8;color:#1e3a22;font-size:12px;font-weight:700;padding:3px 12px;border-radius:100px;margin-bottom:14px}
 .primary-grows{background:#f5f2ea;border-radius:8px;padding:10px 14px;font-size:12px;color:#4a4a4a;margin-bottom:12px;line-height:1.6}
 .primary-grows strong{color:#1e3a22}
 .primary-not-ideal{background:#fdf2f2;border-radius:8px;padding:10px 14px;font-size:12px;color:#4a4a4a;margin-bottom:12px;line-height:1.6;display:none}
@@ -106,7 +111,6 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 .shop-item a{color:#1e3a22;text-decoration:underline}
 .shop-total{display:flex;justify-content:space-between;gap:16px;margin-top:10px;padding-top:10px;border-top:2px solid #ddd8cc;font-size:13px;font-weight:800;color:#1e3a22}
 .shop-total-note{font-size:10px;color:#888;margin-top:4px;line-height:1.4}
-.primary-why{font-size:12px;color:#888;font-style:italic;line-height:1.6;padding-top:10px;border-top:1px solid #edf2e8}
 
 /* OTHER SIZES */
 .others-title{font-size:15px;font-weight:700;color:#1e3a22;margin-bottom:12px}
@@ -115,10 +119,11 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 .other-card:hover{border-color:#2d6a2d;transform:translateY(-2px);box-shadow:0 4px 14px rgba(30,58,34,.08)}
 .other-card:focus{outline:none;border-color:#1e3a22;box-shadow:0 0 0 3px rgba(30,58,34,.15)}
 .other-cta{font-size:11px;font-weight:700;color:#2d6a2d;text-transform:uppercase;letter-spacing:.06em;margin-top:8px}
-.other-card-img{width:100%;height:130px;object-fit:contain;display:block;background:#edf2e8}
+.other-card-img{width:100%;height:130px;object-fit:contain;display:block;background:white}
 .other-card-body{padding:14px}
 .other-size-tag{display:inline-block;background:#edf2e8;color:#4a7c59;font-size:10px;font-weight:700;padding:2px 10px;border-radius:100px;text-transform:uppercase;margin-bottom:6px}
 .other-name{font-size:13px;font-weight:700;color:#1e3a22;margin-bottom:2px}
+.other-price{font-size:11px;color:#888;margin-bottom:6px}
 .other-grows{font-size:11px;color:#4a4a4a;line-height:1.5}
 
 /* RESTART */
@@ -135,141 +140,95 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
   .crop-line{font-size:10px}
   .crop-best,.crop-also,.crop-not{font-size:10px}
   .others-grid{grid-template-columns:1fr}
+  .result-email-card{flex-direction:column}
+  .result-email-card .next-btn{width:100%;justify-content:center}
   .q-title{font-size:20px}
   .primary-card-img{height:180px}
   .screen{padding:20px 12px}
   .result-screen{padding:20px 12px}
 }
 .quiz-page-main{min-height:calc(100vh - 220px)}
-.nav-quiz-link[aria-current="page"]{background:var(--green-ghost);color:var(--green-deep)}
 @media(max-width:760px){.quiz-page-main{min-height:auto}}
 </style>
-<script>
-    !function(t,e){var o,n,p,r;e.__SV||(window.posthog && window.posthog.__loaded)||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="Ji Yi init fn mn Hr pn bn cn capture calculateEventProperties Sn register register_once register_for_session unregister unregister_for_session In getFeatureFlag getFeatureFlagPayload getFeatureFlagResult getAllFeatureFlags isFeatureEnabled reloadFeatureFlags updateFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey displaySurvey cancelPendingSurvey canRenderSurvey canRenderSurveyAsync Tn identify setPersonProperties unsetPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset shutdown setIdentity clearIdentity get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException addExceptionStep captureLog startExceptionAutocapture stopExceptionAutocapture loadToolbar get_property getSessionProperty Cn xn createPersonProfile setInternalOrTestUser Mn hn Pn opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing get_explicit_consent_status is_capturing clear_opt_in_out_capturing debug Ur wt getPageViewId captureTraceFeedback captureTraceMetric an".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
-    posthog.init('phc_wdgnbETqxfAdeM6DH8ojGGPrV6swhrZk4KjzQctLQQot', {
-        api_host: 'https://eu.i.posthog.com',
-        defaults: '2026-05-30',
-        person_profiles: 'identified_only', // or 'always' to create profiles for anonymous users as well
-    })
-</script> 
 </head>
 <body>
 
 <!-- NAV -->
-<nav class="nav">
+<nav class="nav quiz-nav">
   <a href="/" class="nav-logo">
     <div class="nav-logo-mark"><img src="images/branding/growacrop-logo.png" alt=""></div>
     <span class="nav-logo-text">GrowACrop</span>
   </a>
-  <ul class="nav-links">
-    <li><a href="/quiz.html" class="nav-quiz-link" aria-current="page">Take the quiz</a></li>
-  </ul>
-  <button class="nav-hamburger" aria-label="Open menu">
-    <span></span><span></span><span></span>
-  </button>
 </nav>
 
 <main class="quiz-page-main">
-
-<style>
-.match-reasons{background:#f5f9ec;border-radius:8px;padding:12px 14px;font-size:12.5px;color:#3a4a36;margin-bottom:12px;line-height:1.7}
-.match-reasons strong{color:#1e3a22}
-.match-reasons ul{margin:6px 0 0 18px;padding:0}
-.match-reasons li{margin-bottom:3px}
-.ruled-title{font-size:15px;font-weight:700;color:#1e3a22;margin:4px 0 10px}
-.ruled-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-bottom:24px}
-.ruled-card{background:#faf8f2;border:1px dashed #cfc9b8;border-radius:10px;padding:12px 14px;font-size:12px;color:#4a4a4a;line-height:1.6}
-.ruled-card strong{color:#8a6d2f;display:block;margin-bottom:2px}
-.option-sub{font-size:11px;color:#888;margin-top:3px;line-height:1.4}
-.q-why{font-size:12px;color:#8a6d2f;margin:-16px 0 22px;line-height:1.5}
-.motivation-card.disabled{opacity:.35;pointer-events:none;cursor:not-allowed}
-body{background:#f7f7f5}
-.progress-wrap{display:none}
-.screen{max-width:780px;padding:56px 24px 80px;text-align:center}
-.q-eyebrow{font-size:13px;font-weight:400;letter-spacing:0;text-transform:none;color:#8b8b83;margin-bottom:14px}
-.q-title{font-size:29px;font-weight:700;color:#12321f;line-height:1.25;margin-bottom:14px;letter-spacing:-.01em}
-.q-sub{font-size:15px;color:#77776f;max-width:580px;margin:0 auto 8px;line-height:1.6}
-.q-why{font-size:12.5px;color:#a5a49b;margin:0 auto 36px;max-width:540px}
-.motivation-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-bottom:36px}
-.motivation-card{display:grid;grid-template-columns:16px 1fr;column-gap:12px;row-gap:3px;align-content:start;background:#fff;border:1px solid #e4e2da;border-radius:8px;padding:16px 20px;min-width:196px;max-width:252px;text-align:left;transition:border-color .15s,box-shadow .15s}
-.motivation-card::before{content:'';grid-column:1;grid-row:1;width:16px;height:16px;border-radius:50%;border:1.5px solid #cbc9c0;margin-top:2px;box-sizing:border-box}
-.motivation-card:hover{border-color:#b3b0a5;background:#fff}
-.motivation-card.selected{border-color:#12321f;background:#fff;box-shadow:0 0 0 1px #12321f}
-.motivation-card.selected::before{border-color:#12321f;background:#12321f;box-shadow:inset 0 0 0 3px #fff}
-.motivation-icon{display:none}
-.motivation-label{grid-column:2;font-size:15px;font-weight:600;color:#12321f}
-.option-sub{grid-column:2;font-size:12.5px;color:#8b8b83;line-height:1.45}
-.btn-row{justify-content:center}
-.next-btn,.back-btn{background:none;border:none;color:#6f6f67;font-size:13px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:10px 16px;border-radius:0}
-.next-btn:hover,.back-btn:hover{background:none;color:#12321f}
-.next-btn svg{stroke:currentColor;width:14px;height:14px}
-.next-btn:disabled{opacity:.3}
-.email-wrap{max-width:440px;margin:0 auto}
-.email-input{border:1px solid #e4e2da;border-radius:8px;text-align:center;padding:14px 16px}
-.email-input:focus{border-color:#12321f}
-.email-note{background:none;color:#8b8b83;font-size:12.5px;padding:0;display:block;margin-bottom:26px}
-.email-note span{font-weight:400}
-.result-screen{max-width:780px;padding:48px 24px 80px}
-.result-eyebrow,.result-title,.result-sub{text-align:center}
-.result-title{font-size:29px;font-weight:700;color:#12321f}
-.result-eyebrow{font-size:13px;font-weight:400;letter-spacing:0;text-transform:none;color:#8b8b83}
-.primary-card{border:1px solid #e4e2da;border-radius:12px;box-shadow:none}
-.other-card,.ruled-card{border-radius:10px}
-.other-card{border:1px solid #e4e2da}
-.restart-btn{border:1px solid #e4e2da;background:#fff}
-@media(max-width:580px){
-.motivation-card{min-width:0;width:100%;max-width:none}
-.q-title,.result-title{font-size:23px}
-.screen,.result-screen{padding:36px 16px 64px}
-}
-.screen{max-width:920px}
-#screen-2 .motivation-grid{max-width:760px;margin-left:auto;margin-right:auto}
-#screen-1 .motivation-grid,#screen-3 .motivation-grid,#screen-4 .motivation-grid,#screen-5 .motivation-grid,#screen-6 .motivation-grid{flex-wrap:nowrap;align-items:stretch}
-#screen-1 .motivation-card,#screen-3 .motivation-card,#screen-4 .motivation-card,#screen-5 .motivation-card,#screen-6 .motivation-card{flex:1 1 0;min-width:0;max-width:none;padding:16px 16px}
-@media(max-width:700px){
-#screen-1 .motivation-grid,#screen-3 .motivation-grid,#screen-4 .motivation-grid,#screen-5 .motivation-grid,#screen-6 .motivation-grid{flex-wrap:wrap}
-#screen-1 .motivation-card,#screen-3 .motivation-card,#screen-4 .motivation-card,#screen-5 .motivation-card,#screen-6 .motivation-card{flex:1 1 100%;width:100%}
-}
-.back-btn{background:none;border:none;color:#4a4a4a;font-size:13px;font-weight:700;cursor:pointer;padding:13px 18px;letter-spacing:.04em;display:inline-flex;align-items:center;gap:6px}
-.back-btn:hover{color:#1e3a22}
-.btn-row{display:flex;align-items:center;gap:8px}
-</style>
-
 <div class="progress-wrap">
   <div class="progress-steps">
     <div class="step active" id="step1"></div>
     <div class="step" id="step2"></div>
     <div class="step" id="step3"></div>
     <div class="step" id="step4"></div>
-    <div class="step" id="step5"></div>
-    <div class="step" id="step6"></div>
-    <div class="step" id="step7"></div>
   </div>
-  <div class="progress-label" id="progress-label">Step 1 of 7 - What you'll grow</div>
+  <div class="progress-label" id="progress-label">Step 1 of 4 - Choose your style</div>
 </div>
 
-<!-- Q1: CROP -->
+<!-- Q1: VISUAL SYSTEM PICKER -->
 <div class="screen active" id="screen-1">
-  <div class="q-eyebrow">1 of 7</div>
-  <h1 class="q-title">What do you want to grow?</h1>
-  <p class="q-sub">Pick as many as you like. Microgreens grow in their own compact system, so that one's exclusive of the rest.</p>
-  <p class="q-why">Why we ask: this decides which system families suit you.</p>
-  <div class="motivation-grid">
-    <div class="motivation-card" data-val="herbs" onclick="toggleCrop(this)">
-      <div class="motivation-label">Fresh herbs</div>
-      <div class="option-sub">Basil, mint, coriander for cooking</div>
+  <h1 class="q-title">Which setup appeals to you?</h1>
+  <div class="system-grid">
+    <div class="system-card" data-system="microgreens" onclick="pickSystem(this)">
+      <img class="system-img" src="images/quiz/quiz-product-01.png" alt="Microgreen Station">
+      <div class="system-info">
+        <div class="system-name">Microgreen Station <span class="system-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+        <div class="system-desc">
+          <div class="crop-line"><span class="crop-also">Grows:</span> Microgreens</div>
+        </div>
+      </div>
     </div>
-    <div class="motivation-card" data-val="salad" onclick="toggleCrop(this)">
-      <div class="motivation-label">Salad greens</div>
-      <div class="option-sub">Lettuce, spinach, rocket</div>
+    <div class="system-card" data-system="mini_garden" onclick="pickSystem(this)">
+      <img class="system-img" src="images/quiz/quiz-product-02.png" alt="Bench Mini Garden">
+      <div class="system-info">
+        <div class="system-name">Bench Mini Garden <span class="system-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+        <div class="system-desc">
+          <div class="crop-line"><span class="crop-also">Grows:</span> Herbs, leafy greens</div>
+        </div>
+      </div>
     </div>
-    <div class="motivation-card" data-val="fruiting" onclick="toggleCrop(this)">
-      <div class="motivation-label">Fruiting veg</div>
-      <div class="option-sub">Tomatoes, chillies, cucumbers</div>
+    <div class="system-card" data-system="dwc_bucket" onclick="pickSystem(this)">
+      <img class="system-img" src="images/quiz/quiz-product-03.png" alt="Bucket &amp; Tote Garden">
+      <div class="system-info">
+        <div class="system-name">Bucket &amp; Tote Garden <span class="system-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+        <div class="system-desc">
+          <div class="crop-line"><span class="crop-also">Grows:</span> Herbs, leafy greens, small fruiting crops</div>
+        </div>
+      </div>
     </div>
-    <div class="motivation-card" data-val="microgreens" onclick="toggleCrop(this)">
-      <div class="motivation-label">Microgreens</div>
-      <div class="option-sub">Fast, nutrient-dense shoots</div>
+    <div class="system-card" data-system="tower" onclick="pickSystem(this)">
+      <img class="system-img" src="images/quiz/quiz-product-04.png" alt="Tower Garden">
+      <div class="system-info">
+        <div class="system-name">Tower Garden <span class="system-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+        <div class="system-desc">
+          <div class="crop-line"><span class="crop-also">Grows:</span> Herbs, leafy greens, fruiting crops</div>
+        </div>
+      </div>
+    </div>
+    <div class="system-card" data-system="salad_table" onclick="pickSystem(this)">
+      <img class="system-img" src="images/quiz/quiz-product-05.png" alt="Salad Table">
+      <div class="system-info">
+        <div class="system-name">Salad Table <span class="system-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+        <div class="system-desc">
+          <div class="crop-line"><span class="crop-also">Grows:</span> Leafy greens, herbs, small fruiting crops</div>
+        </div>
+      </div>
+    </div>
+    <div class="system-card" data-system="grow_shelf" onclick="pickSystem(this)">
+      <img class="system-img" src="images/quiz/quiz-product-06.png" alt="Grow Shelf">
+      <div class="system-info">
+        <div class="system-name">Grow Shelf <span class="system-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span></div>
+        <div class="system-desc">
+          <div class="crop-line"><span class="crop-also">Grows:</span> Herbs, leafy greens, small fruiting crops, in serious volume</div>
+        </div>
+      </div>
     </div>
   </div>
   <button class="next-btn" id="next-1" disabled onclick="goTo(2)">
@@ -277,167 +236,167 @@ body{background:#f7f7f5}
   </button>
 </div>
 
-<!-- Q2: LOCATION -->
+<!-- Q2: SPACE SIZE -->
 <div class="screen" id="screen-2">
-  <div class="q-eyebrow">2 of 7</div>
-  <h1 class="q-title">Where would your setup live?</h1>
-  <p class="q-sub">Outdoor spots want roughly 6+ hours of sun. Indoors is fine too &mdash; we'll add a grow light to your list where needed.</p>
-  <p class="q-why">Why we ask: this decides indoor vs outdoor and whether you need lighting.</p>
-  <div class="motivation-grid">
-    <div class="motivation-card" data-val="bench" onclick="pickAnswer(this,'location')">
-      <div class="motivation-label">Kitchen bench</div>
-      <div class="option-sub">A countertop spot indoors</div>
-    </div>
-    <div class="motivation-card" data-val="indoor_floor" onclick="pickAnswer(this,'location')">
-      <div class="motivation-label">Indoor floor space</div>
-      <div class="option-sub">A corner or spare spot inside</div>
-    </div>
-    <div class="motivation-card" data-val="balcony" onclick="pickAnswer(this,'location')">
-      <div class="motivation-label">Balcony or courtyard</div>
-      <div class="option-sub">Outdoors with some sun</div>
-    </div>
-    <div class="motivation-card" data-val="backyard" onclick="pickAnswer(this,'location')">
-      <div class="motivation-label">Sunny backyard</div>
-      <div class="option-sub">6+ hours of sun</div>
-    </div>
-    <div class="motivation-card" data-val="wall" onclick="pickAnswer(this,'location')">
-      <div class="motivation-label">Garden wall or fence</div>
-      <div class="option-sub">Vertical outdoor space</div>
+  <!-- SIZE version (all systems except bench mini garden) -->
+  <div id="q2-size">
+    <h1 class="q-title">What space are you working with?</h1>
+    <div class="size-grid">
+      <div class="size-card" data-size="small" onclick="pickSize(this)">
+        <div class="size-icon">Small</div>
+        <div class="size-label">Windowsill or bench</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+      <div class="size-card" data-size="medium" onclick="pickSize(this)">
+        <div class="size-icon">Medium</div>
+        <div class="size-label">Small table area</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+      <div class="size-card" data-size="large" onclick="pickSize(this)">
+        <div class="size-icon">Large</div>
+        <div class="size-label">Floor space</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
     </div>
   </div>
-  <div class="btn-row"><button class="back-btn" onclick="goBack()">&larr; Back</button><button class="next-btn" id="next-2" disabled onclick="goTo(3)">
+
+  <!-- BUCKET & TOTE version (plant count) -->
+  <div id="q2-dwc-bucket" style="display:none">
+    <h1 class="q-title">How many plants do you want to grow?</h1>
+    <div class="size-grid">
+      <div class="size-card" data-size="small" onclick="pickSize(this)">
+        <div class="size-icon">One plant</div>
+        <div class="size-label">Single bucket setup</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+      <div class="size-card" data-size="medium" onclick="pickSize(this)">
+        <div class="size-icon">Two plants</div>
+        <div class="size-label">Two bucket setup</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+      <div class="size-card" data-size="large" onclick="pickSize(this)">
+        <div class="size-icon">Four plants</div>
+        <div class="size-label">Four bucket setup</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- BUDGET version (bench mini garden only) -->
+  <div id="q2-budget" style="display:none">
+    <h1 class="q-title">What's your budget?</h1>
+    <div class="size-grid">
+      <div class="size-card" data-size="small" onclick="pickSize(this)">
+        <div class="size-hint">Budget-friendly</div>
+        <div class="size-label">Under $200</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+      <div class="size-card" data-size="medium" onclick="pickSize(this)">
+        <div class="size-hint">Mid-range</div>
+        <div class="size-label">$200 - $400</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+      <div class="size-card" data-size="large" onclick="pickSize(this)">
+        <div class="size-hint">Premium</div>
+        <div class="size-label">$400+</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- GROW SHELF version (2 options only) -->
+  <div id="q2-grow-shelf" style="display:none">
+    <h1 class="q-title">How much do you want to grow?</h1>
+    <div class="size-grid" style="grid-template-columns:repeat(2,1fr);max-width:500px">
+      <div class="size-card" data-size="small" onclick="pickSize(this)">
+        <div class="size-icon">Small</div>
+        <div class="size-hint">A modest home setup</div>
+        <div class="size-label">Small crop</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+      <div class="size-card" data-size="large" onclick="pickSize(this)">
+        <div class="size-icon">Big</div>
+        <div class="size-hint">Serious year-round output</div>
+        <div class="size-label">Big crop</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SALAD TABLE version (3 custom options) -->
+  <div id="q2-salad-table" style="display:none">
+    <h1 class="q-title">Which style suits you best?</h1>
+    <div class="size-grid">
+      <div class="size-card" data-size="small" onclick="pickSize(this)">
+        <div class="size-icon">Small</div>
+        <div class="size-hint">Compact table setup</div>
+        <div class="size-label">Small</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+      <div class="size-card" data-size="large" onclick="pickSize(this)">
+        <div class="size-icon">Large</div>
+        <div class="size-hint">Full-size table system</div>
+        <div class="size-label">Large</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+      <div class="size-card" data-size="vertical" onclick="pickSize(this)">
+        <div class="size-icon">Wall</div>
+        <div class="size-hint">Wall-mounted or upright</div>
+        <div class="size-label">Vertical</div>
+        <span class="size-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>
+      </div>
+    </div>
+  </div>
+
+  <button class="next-btn" id="next-2" disabled onclick="goTo(3)">
     Next <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-  </button></div>
+  </button>
 </div>
 
-<!-- Q3: HARVEST -->
+<!-- Q3: MOTIVATION (data collection) -->
 <div class="screen" id="screen-3">
-  <div class="q-eyebrow">3 of 7</div>
-  <h1 class="q-title">How much do you want to harvest?</h1>
-  <p class="q-sub">Be honest &mdash; bigger isn't better if it becomes a chore.</p>
-  <p class="q-why">Why we ask: this sizes the system to what you'll actually use.</p>
-  <div class="motivation-grid">
-    <div class="motivation-card" data-val="taste" onclick="pickAnswer(this,'harvest')">
-      <div class="motivation-label">A steady taste</div>
-      <div class="option-sub">Herbs and garnishes for cooking</div>
-    </div>
-    <div class="motivation-card" data-val="weekly" onclick="pickAnswer(this,'harvest')">
-      <div class="motivation-label">Weekly harvests</div>
-      <div class="option-sub">Greens for the household most weeks</div>
-    </div>
-    <div class="motivation-card" data-val="serious" onclick="pickAnswer(this,'harvest')">
-      <div class="motivation-label">Serious volume</div>
-      <div class="option-sub">Replace a real chunk of the shopping</div>
-    </div>
-  </div>
-  <div class="btn-row"><button class="back-btn" onclick="goBack()">&larr; Back</button><button class="next-btn" id="next-3" disabled onclick="goTo(4)">
-    Next <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-  </button></div>
-</div>
-
-<!-- Q4: CONFIDENCE -->
-<div class="screen" id="screen-4">
-  <div class="q-eyebrow">4 of 7</div>
-  <h1 class="q-title">How are you with plants?</h1>
-  <p class="q-sub">No judgement &mdash; honest answers get better matches.</p>
-  <p class="q-why">Why we ask: if you're new, we'll pick something forgiving.</p>
-  <div class="motivation-grid">
-    <div class="motivation-card" data-val="none" onclick="pickAnswer(this,'confidence')">
-      <div class="motivation-label">Never grown anything</div>
-      <div class="option-sub">Complete beginner</div>
-    </div>
-    <div class="motivation-card" data-val="killer" onclick="pickAnswer(this,'confidence')">
-      <div class="motivation-label">I kill every plant I touch</div>
-      <div class="option-sub">It's a gift, really</div>
-    </div>
-    <div class="motivation-card" data-val="somewhat" onclick="pickAnswer(this,'confidence')">
-      <div class="motivation-label">Somewhat confident</div>
-      <div class="option-sub">I've kept things alive before</div>
-    </div>
-    <div class="motivation-card" data-val="very" onclick="pickAnswer(this,'confidence')">
-      <div class="motivation-label">Very confident</div>
-      <div class="option-sub">Plants love me</div>
-    </div>
-  </div>
-  <div class="btn-row"><button class="back-btn" onclick="goBack()">&larr; Back</button><button class="next-btn" id="next-4" disabled onclick="goTo(5)">
-    Next <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-  </button></div>
-</div>
-
-<!-- Q5: BUDGET -->
-<div class="screen" id="screen-5">
-  <div class="q-eyebrow">5 of 7</div>
-  <h1 class="q-title">What's your starting budget?</h1>
-  <p class="q-sub">Full setups below span roughly $80 to $500+. We'll keep your list inside your range.</p>
-  <p class="q-why">Why we ask: so the recommendation is one you can actually buy this week.</p>
-  <div class="motivation-grid">
-    <div class="motivation-card" data-val="low" onclick="pickAnswer(this,'budget')">
-      <div class="motivation-label">Under $150</div>
-      <div class="option-sub">Start small, prove it works</div>
-    </div>
-    <div class="motivation-card" data-val="mid" onclick="pickAnswer(this,'budget')">
-      <div class="motivation-label">$150 &ndash; $350</div>
-      <div class="option-sub">Room for a proper setup</div>
-    </div>
-    <div class="motivation-card" data-val="high" onclick="pickAnswer(this,'budget')">
-      <div class="motivation-label">$350+</div>
-      <div class="option-sub">Do it once, do it right</div>
-    </div>
-  </div>
-  <div class="btn-row"><button class="back-btn" onclick="goBack()">&larr; Back</button><button class="next-btn" id="next-5" disabled onclick="goTo(6)">
-    Next <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-  </button></div>
-</div>
-
-<!-- Q6: MOTIVATION (multi) -->
-<div class="screen" id="screen-6">
-  <div class="q-eyebrow">6 of 7</div>
   <h1 class="q-title">Why do you want to grow at home?</h1>
-  <p class="q-sub">Pick as many as you like &mdash; this shapes the tips we send you.</p>
   <div class="motivation-grid">
-    <div class="motivation-card" data-val="save_money" onclick="toggleMotivation(this)">
+    <div class="motivation-card" data-motivation="save_money" onclick="pickMotivation(this)">
       <div class="motivation-icon">$</div>
       <div class="motivation-label">Save money on food</div>
     </div>
-    <div class="motivation-card" data-val="fresher_food" onclick="toggleMotivation(this)">
+    <div class="motivation-card" data-motivation="fresher_food" onclick="pickMotivation(this)">
       <div class="motivation-icon">Fresh</div>
       <div class="motivation-label">Fresher, healthier food</div>
     </div>
-    <div class="motivation-card" data-val="sustainability" onclick="toggleMotivation(this)">
+    <div class="motivation-card" data-motivation="sustainability" onclick="pickMotivation(this)">
       <div class="motivation-icon">Less waste</div>
       <div class="motivation-label">Sustainability &amp; less waste</div>
     </div>
-    <div class="motivation-card" data-val="hobby" onclick="toggleMotivation(this)">
+    <div class="motivation-card" data-motivation="hobby" onclick="pickMotivation(this)">
       <div class="motivation-icon">Hobby</div>
       <div class="motivation-label">A relaxing hobby</div>
     </div>
-    <div class="motivation-card" data-val="always_wanted" onclick="toggleMotivation(this)">
+    <div class="motivation-card" data-motivation="always_wanted" onclick="pickMotivation(this)">
       <div class="motivation-icon">Start</div>
       <div class="motivation-label">I've always wanted to</div>
     </div>
   </div>
-  <div class="btn-row"><button class="back-btn" onclick="goBack()">&larr; Back</button><button class="next-btn" id="next-6" disabled onclick="goTo(7)">
+  <button class="next-btn" id="next-3" disabled onclick="goTo(4)">
     Next <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-  </button></div>
+  </button>
 </div>
 
-<!-- Q7: EMAIL -->
-<div class="screen" id="screen-7">
-  <div class="q-eyebrow">7 of 7</div>
-  <h1 class="q-title">Want your plan emailed?</h1>
-  <p class="q-sub">We'll send your shopping list plus a week-by-week beginner guide for your exact setup.</p>
+<!-- Q4: EMAIL -->
+<div class="screen" id="screen-4">
+  <h1 class="q-title">Would you like your recommendation by email?</h1>
   <div class="email-wrap">
     <input class="email-input" type="email" id="email-input" placeholder="you@example.com" oninput="checkEmail()">
-    <p class="email-note"><span>Email is optional. Leave it blank to view your result now.</span></p>
-    <div class="btn-row"><button class="back-btn" onclick="goBack()">&larr; Back</button><button class="next-btn" id="next-7" onclick="showResult()">
-      See my match <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    </button></div>
+    <p class="email-note" id="email-note"><span>Email is optional. Leave it blank to view your result now.</span></p>
+    <button class="next-btn" id="next-4" onclick="showResult()">
+      See my recommendation <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
   </div>
 </div>
 
 <!-- RESULT -->
 <div class="result-screen" id="result-screen">
-  <div class="result-eyebrow">Your match</div>
   <h2 class="result-title" id="r-title"></h2>
   <p class="result-sub" id="r-sub"></p>
 
@@ -448,15 +407,17 @@ body{background:#f7f7f5}
       <div class="primary-name" id="r-name"></div>
       <div class="primary-tagline" id="r-tagline"></div>
       <div class="primary-grows" id="r-grows"></div>
-      <div class="match-reasons" id="r-reasons"></div>
       <div class="primary-not-ideal" id="r-not-ideal"></div>
       <div class="primary-shop" id="r-shop"></div>
-      <div class="primary-why" id="r-why"></div>
     </div>
   </div>
-
-  <div class="ruled-title" id="r-ruled-title" style="display:none">What we ruled out for you</div>
-  <div class="ruled-grid" id="r-ruled"></div>
+  <div class="result-email-card">
+    <div style="flex:1">
+      <input class="email-input" type="email" id="result-email-input" placeholder="you@example.com">
+      <div class="result-email-status" id="result-email-status"></div>
+    </div>
+    <button class="next-btn" id="result-email-btn" onclick="sendResultByEmail()">Send by email</button>
+  </div>
 
   <div class="others-title" id="r-others-title"></div>
   <div class="others-grid" id="r-others"></div>
@@ -466,13 +427,12 @@ body{background:#f7f7f5}
 
 </main>
 
-
 <!-- FOOTER -->
 <footer class="footer">
   <div class="footer-inner footer-inner-simple">
     <div class="footer-brand">
       <div class="footer-logo">GrowACrop</div>
-      <p>Helping beginners choose their first grow setup.</p>
+      <p>Helping Australians choose a beginner-friendly hydroponic setup for growing food at home.</p>
     </div>
     <div class="footer-links-group footer-links-simple">
       <div class="footer-col">
@@ -489,9 +449,6 @@ body{background:#f7f7f5}
         </ul>
       </div>
     </div>
-  </div>
-  <div class="footer-bottom">
-    <p>&copy; 2026 GrowACrop. All rights reserved.</p>
   </div>
 </footer>
 
@@ -678,38 +635,51 @@ const SYSTEM_NAMES = {
 };
 
 
-const SIZE_LABELS_V2 = { small:'Compact', medium:'Mid-size', large:'Full-size', vertical:'Wall-mounted' };
-function getSizeLabel(size){ return SIZE_LABELS_V2[size] || size; }
-
-const SYSTEM_SIZES = {
-  microgreens:['small','medium','large'],
-  mini_garden:['small','medium','large'],
-  dwc_bucket:['small','medium','large'],
-  tower:['small','medium','large'],
-  salad_table:['small','large'],
-  grow_shelf:['small','large'],
+const SIZE_LABELS = {
+  small: 'Windowsill or bench',
+  medium: 'Small table area',
+  large: 'Floor space',
 };
-const APPROX_PRICE = {
-  'microgreens:small':129,'microgreens:medium':185,'microgreens:large':400,
-  'mini_garden:small':74,'mini_garden:medium':137,'mini_garden:large':279,
-  'dwc_bucket:small':130,'dwc_bucket:medium':200,'dwc_bucket:large':290,
-  'tower:small':128,'tower:medium':245,'tower:large':315,
-  'salad_table:small':88,'salad_table:large':330,'salad_table:vertical':495,
-  'grow_shelf:small':440,'grow_shelf:large':1299,
+
+const BUDGET_LABELS = {
+  small: 'Budget-friendly',
+  medium: 'Mid-range',
+  large: 'Premium',
 };
-const BUDGET_MAX = { low:150, mid:350, high:Infinity };
-const BUDGET_TEXT = { low:'under $150', mid:'$150-$350', high:'$350+' };
 
-const A = { crops:[], location:null, harvest:null, confidence:null, budget:null, motivations:[], email:'' };
+const SHELF_LABELS = {
+  small: 'Small crop',
+  large: 'Big crop',
+};
 
-const QUIZ_VERSION = 'growacrop_quiz_v2';
-const QUIZ_ATTEMPT_KEY = 'growacrop_quiz_attempt_id_v2';
-const QUIZ_STARTED_AT_KEY = 'growacrop_quiz_started_at_v2';
-const QUIZ_COMPLETED_KEY = 'growacrop_quiz_completed_v2';
+const DWC_BUCKET_LABELS = {
+  small: 'One plant',
+  medium: 'Two plants',
+  large: 'Four plants',
+};
+
+const SALAD_TABLE_LABELS = {
+  small: 'Small',
+  large: 'Large',
+  vertical: 'Vertical',
+};
+
+function getSizeLabel(size) {
+  if (A.system === 'mini_garden') return BUDGET_LABELS[size];
+  if (A.system === 'grow_shelf') return SHELF_LABELS[size];
+  if (A.system === 'dwc_bucket') return DWC_BUCKET_LABELS[size];
+  if (A.system === 'salad_table') return SALAD_TABLE_LABELS[size];
+  return SIZE_LABELS[size];
+}
+
+const A = { system: null, size: null, motivation: null, email: '' };
+
+const QUIZ_VERSION = 'growacrop_quiz_v1';
+const QUIZ_ATTEMPT_KEY = 'growacrop_quiz_attempt_id';
+const QUIZ_STARTED_AT_KEY = 'growacrop_quiz_started_at';
+const QUIZ_COMPLETED_KEY = 'growacrop_quiz_completed';
 let quizAttemptId = sessionStorage.getItem(QUIZ_ATTEMPT_KEY);
 let quizStartedAt = Number(sessionStorage.getItem(QUIZ_STARTED_AT_KEY));
-let quizCompletedTracked = false;
-let emailSubmissionStarted = false;
 let currentQuizStep = 1;
 
 function createQuizAttempt() {
@@ -719,6 +689,7 @@ function createQuizAttempt() {
   sessionStorage.setItem(QUIZ_STARTED_AT_KEY, String(quizStartedAt));
   sessionStorage.removeItem(QUIZ_COMPLETED_KEY);
 }
+
 if (!quizAttemptId || !quizStartedAt || sessionStorage.getItem(QUIZ_COMPLETED_KEY)) {
   createQuizAttempt();
 }
@@ -731,17 +702,36 @@ function captureQuizEvent(eventName, properties) {
   }, properties || {}));
 }
 
-const QUESTION_IDS = {1:'crop',2:'placement',3:'harvest_amount',4:'confidence',5:'budget',6:'motivation',7:'email_opt_in'};
 function getQuestionDetails(step) {
-  return { question_id: QUESTION_IDS[step] || 'unknown', question_number: step };
+  let questionId = 'email_opt_in';
+  if (step === 1) questionId = 'setup_style';
+  if (step === 2) {
+    if (A.system === 'mini_garden') questionId = 'budget';
+    else if (A.system === 'grow_shelf') questionId = 'grow_amount';
+    else if (A.system === 'salad_table') questionId = 'salad_table_style';
+    else questionId = 'space';
+  }
+  if (step === 3) questionId = 'motivation';
+  const questions = {
+    1: { question_id: questionId, question_number: 1 },
+    2: { question_id: questionId, question_number: 2 },
+    3: { question_id: questionId, question_number: 3 },
+    4: { question_id: questionId, question_number: 4 }
+  };
+  return questions[step];
 }
+
 function trackQuizStarted() {
   const startedKey = 'growacrop_quiz_started_' + quizAttemptId;
   if (sessionStorage.getItem(startedKey)) return;
   sessionStorage.setItem(startedKey, '1');
   captureQuizEvent('quiz_started');
 }
-function trackStepViewed(step) { captureQuizEvent('quiz_step_viewed', getQuestionDetails(step)); }
+
+function trackStepViewed(step) {
+  captureQuizEvent('quiz_step_viewed', getQuestionDetails(step));
+}
+
 function trackAnswer(questionNumber, answerId, answerLabel) {
   captureQuizEvent('quiz_answered', Object.assign(
     getQuestionDetails(questionNumber),
@@ -752,80 +742,60 @@ function trackAnswer(questionNumber, answerId, answerLabel) {
 trackQuizStarted();
 trackStepViewed(1);
 
-function pickAnswer(el, key) {
-  const isRepeated = A[key] === el.dataset.val;
-  el.parentElement.querySelectorAll('.motivation-card').forEach(c => c.classList.remove('selected'));
+// Grab system images from the DOM for result card
+const SYS_IMAGES = {};
+document.querySelectorAll('.system-card').forEach(c => {
+  const img = c.querySelector('img');
+  if (img) SYS_IMAGES[c.dataset.system] = img.src;
+});
+
+function pickSystem(el) {
+  const answerId = el.dataset.system;
+  const isRepeatedAnswer = A.system === answerId;
+  document.querySelectorAll('.system-card').forEach(c => c.classList.remove('selected'));
   el.classList.add('selected');
-  A[key] = el.dataset.val;
-  document.getElementById('next-' + currentQuizStep).disabled = false;
-  if (!isRepeated) trackAnswer(currentQuizStep, el.dataset.val, el.querySelector('.motivation-label').textContent.trim());
+  A.system = answerId;
+  document.getElementById('next-1').disabled = false;
+  if (!isRepeatedAnswer) trackAnswer(1, answerId, el.querySelector('img').alt);
 }
 
-function updateCropAvailability() {
-  const cards = document.querySelectorAll('#screen-1 .motivation-card');
-  const hasMicrogreens = A.crops.includes('microgreens');
-  const hasOther = A.crops.some(v => v !== 'microgreens');
-  cards.forEach(c => {
-    const isMicrogreens = c.dataset.val === 'microgreens';
-    if (isMicrogreens) c.classList.toggle('disabled', hasOther);
-    else c.classList.toggle('disabled', hasMicrogreens);
-  });
-  document.getElementById('next-1').disabled = A.crops.length === 0;
+function setQ2Mode(system) {
+  const isBench = system === 'mini_garden';
+  const isShelf = system === 'grow_shelf';
+  const isSalad = system === 'salad_table';
+  const isDwcBucket = system === 'dwc_bucket';
+  document.getElementById('q2-size').style.display = (isBench || isShelf || isSalad || isDwcBucket) ? 'none' : 'block';
+  document.getElementById('q2-dwc-bucket').style.display = isDwcBucket ? 'block' : 'none';
+  document.getElementById('q2-budget').style.display = isBench ? 'block' : 'none';
+  document.getElementById('q2-grow-shelf').style.display = isShelf ? 'block' : 'none';
+  document.getElementById('q2-salad-table').style.display = isSalad ? 'block' : 'none';
+  document.querySelectorAll('.size-card').forEach(c => c.classList.remove('selected'));
+  A.size = null;
+  document.getElementById('next-2').disabled = true;
 }
 
-function toggleCrop(el) {
-  const val = el.dataset.val;
-  const idx = A.crops.indexOf(val);
-  if (idx >= 0) {
-    A.crops.splice(idx, 1);
-    el.classList.remove('selected');
-  } else {
-    if (val === 'microgreens') {
-      A.crops.forEach(v => {
-        const other = document.querySelector('#screen-1 .motivation-card[data-val="' + v + '"]');
-        if (other) other.classList.remove('selected');
-      });
-      A.crops = [];
-    } else if (A.crops.includes('microgreens')) {
-      A.crops = [];
-      const mg = document.querySelector('#screen-1 .motivation-card[data-val="microgreens"]');
-      if (mg) mg.classList.remove('selected');
-    }
-    A.crops.push(val);
-    el.classList.add('selected');
-    trackAnswer(1, val, el.querySelector('.motivation-label').textContent.trim());
-  }
-  updateCropAvailability();
-}
-
-function toggleMotivation(el) {
-  const val = el.dataset.val;
-  const idx = A.motivations.indexOf(val);
-  if (idx >= 0) { A.motivations.splice(idx, 1); el.classList.remove('selected'); }
-  else { A.motivations.push(val); el.classList.add('selected'); trackAnswer(6, val, el.querySelector('.motivation-label').textContent.trim()); }
-  document.getElementById('next-6').disabled = A.motivations.length === 0;
+function pickSize(el) {
+  const answerId = el.dataset.size;
+  const isRepeatedAnswer = A.size === answerId;
+  document.querySelectorAll('.size-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  A.size = answerId;
+  document.getElementById('next-2').disabled = false;
+  if (!isRepeatedAnswer) trackAnswer(2, answerId, el.querySelector('.size-label').textContent.trim());
 }
 
 function checkEmail() {
   const val = document.getElementById('email-input').value.trim();
   const valid = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(val);
-  document.getElementById('next-7').disabled = val !== '' && !valid;
+  document.getElementById('next-4').disabled = val !== '' && !valid;
   A.email = val;
-}
-
-function goBack() {
-  if (currentQuizStep <= 1) return;
-  captureQuizEvent('quiz_back_clicked', Object.assign(
-    getQuestionDetails(currentQuizStep),
-    { destination_step: currentQuizStep - 1 }
-  ));
-  goTo(currentQuizStep - 1);
 }
 
 function goTo(step) {
   if (step === currentQuizStep) return;
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + step).classList.add('active');
+  if (step === 2) setQ2Mode(A.system);
   updateProgress(step);
   currentQuizStep = step;
   trackStepViewed(step);
@@ -834,15 +804,12 @@ function goTo(step) {
 
 function updateProgress(step) {
   const labels = {
-    1: "Step 1 of 7 - What you'll grow",
-    2: 'Step 2 of 7 - Your space',
-    3: 'Step 3 of 7 - Harvest size',
-    4: 'Step 4 of 7 - Your experience',
-    5: 'Step 5 of 7 - Budget',
-    6: 'Step 6 of 7 - Why grow',
-    7: 'Step 7 of 7 - Your plan',
+    1: 'Step 1 of 4 - Choose your style',
+    2: 'Step 2 of 4 - Your space',
+    3: 'Step 3 of 4 - Why grow',
+    4: 'Step 4 of 4 - Get your recommendation',
   };
-  for (let i = 1; i <= 7; i++) {
+  for (let i = 1; i <= 4; i++) {
     const el = document.getElementById('step' + i);
     el.className = 'step';
     if (i < step) el.classList.add('done');
@@ -851,259 +818,250 @@ function updateProgress(step) {
   document.getElementById('progress-label').textContent = labels[step] || '';
 }
 
-/* ---------------- DERIVATION ENGINE ---------------- */
-function deriveMatch() {
-  const cr = A.crops, l = A.location, h = A.harvest;
-  const flags = { budget: false, stretch: false, confidence: false };
-  let sys;
-  if (cr.includes('microgreens')) sys = 'microgreens';
-  else if (cr.includes('fruiting')) sys = 'dwc_bucket';
-  else if (l === 'wall') sys = 'salad_table';
-  else if (l === 'bench') sys = 'mini_garden';
-  else if (l === 'indoor_floor') sys = 'grow_shelf';
-  else if (cr.includes('salad')) sys = 'salad_table';
-  else sys = 'tower';
-
-  let size;
-  if (sys === 'salad_table') size = (l === 'wall') ? 'vertical' : (h === 'serious' ? 'large' : 'small');
-  else if (sys === 'grow_shelf') size = (h === 'serious') ? 'large' : 'small';
-  else size = h === 'taste' ? 'small' : (h === 'weekly' ? 'medium' : 'large');
-
-  // Budget cap: step down while over budget
-  if (size !== 'vertical') {
-    const order = SYSTEM_SIZES[sys];
-    let idx = order.indexOf(size);
-    while (idx > 0 && APPROX_PRICE[sys + ':' + order[idx]] > BUDGET_MAX[A.budget]) {
-      idx--; flags.budget = true;
-    }
-    size = order[idx];
-  }
-  if (APPROX_PRICE[sys + ':' + size] > BUDGET_MAX[A.budget]) flags.stretch = true;
-
-  // Confidence guard: beginners don't start on the biggest pump-driven systems
-  if ((A.confidence === 'none' || A.confidence === 'killer') && size === 'large' && (sys === 'dwc_bucket' || sys === 'tower')) {
-    size = 'medium'; flags.confidence = true;
-  }
-  return { sys: sys, size: size, flags: flags };
+function pickMotivation(el) {
+  const answerId = el.dataset.motivation;
+  const isRepeatedAnswer = A.motivation === answerId;
+  document.querySelectorAll('.motivation-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  A.motivation = answerId;
+  document.getElementById('next-3').disabled = false;
+  if (!isRepeatedAnswer) trackAnswer(3, answerId, el.querySelector('.motivation-label').textContent.trim());
 }
 
-const CROP_TEXT = {
-  herbs: 'fresh herbs', salad: 'salad greens', fruiting: 'fruiting veg like tomatoes and chillies',
-  microgreens: 'microgreens',
-};
-const SYS_CROP_REASON = {
-  microgreens: 'it is the fastest path to harvest - seed to plate in under two weeks',
-  mini_garden: 'an all-in-one benchtop unit with built-in light is the easiest way to grow herbs and greens indoors',
-  dwc_bucket: 'deep water culture gives big fruiting plants the root space and nutrients they need',
-  tower: 'a vertical tower packs the widest mix of crops into the smallest outdoor footprint',
-  salad_table: 'a flat NFT table is the easiest way to plant, tend and harvest salad greens in volume',
-  grow_shelf: 'a shelf system stacks growing levels under their own lights - real volume, indoors',
-};
-const LOC_REASON = {
-  bench: 'It fits on a kitchen bench with lighting built in - no sun needed.',
-  indoor_floor: 'It stands on its own small footprint indoors under its own lights.',
-  balcony: 'It suits a balcony or courtyard that gets decent sun.',
-  backyard: 'Your sunny spot gives it the 6+ hours of light it wants.',
-  wall: 'It mounts on a wall or fence and uses zero floor space.',
-};
-const HARVEST_REASON = {
-  taste: "We sized it compact - enough for steady herbs and garnishes without becoming a chore.",
-  weekly: 'We sized it for reliable weekly harvests for your household.',
-  serious: 'We sized it for serious output - this is a volume setup.',
-};
-
-function cropText() {
-  const labels = A.crops.map(v => CROP_TEXT[v]).filter(Boolean);
-  if (labels.length <= 1) return labels[0] || 'your crops';
-  return labels.slice(0, -1).join(', ') + ' and ' + labels[labels.length - 1];
+function setEmailNote(message) {
+  document.getElementById('email-note').innerHTML = '<span>' + message + '</span>';
 }
 
-function buildReasons(sys, size, flags) {
-  const items = [];
-  items.push('You want to grow ' + cropText() + ', and ' + SYS_CROP_REASON[sys] + '.');
-  items.push(LOC_REASON[A.location]);
-  items.push(HARVEST_REASON[A.harvest]);
-  if (flags.confidence) {
-    items.push("You told us you're new to growing, so we stepped down from the biggest version - fewer plants to keep alive while you learn. It's below if you want it anyway.");
-  } else if (A.confidence === 'none' || A.confidence === 'killer') {
-    items.push("You said you're new to this - this setup is forgiving, and the beginner guide walks you through week by week.");
-  }
-  if (flags.stretch) {
-    items.push('Heads up: this system costs more than your ' + BUDGET_TEXT[A.budget] + ' budget - it is the most affordable way to do what you asked for. The alternatives below are cheaper but compromise on it.');
-  } else if (flags.budget) {
-    items.push('We kept the setup inside your ' + BUDGET_TEXT[A.budget] + ' budget. The bigger version is below for when you are ready.');
-  } else {
-    items.push('It fits your ' + BUDGET_TEXT[A.budget] + ' budget, shopping list included.');
-  }
-  return items;
+function resetEmailStepState() {
+  const nextButton = document.getElementById('next-4');
+  nextButton.disabled = false;
+  nextButton.innerHTML = 'See my recommendation <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+  setEmailNote('Email is optional. Leave it blank to view your result now.');
 }
 
-function buildRuledOut(sys) {
-  const l = A.location, h = A.harvest;
-  const out = [];
-  const add = (s, why) => { if (s !== sys && out.length < 2) out.push({ name: SYSTEM_NAMES[s], why: why }); };
-  switch (sys) {
-    case 'microgreens':
-      add('mini_garden', 'Grows full plants, but slower - microgreens get you harvesting in under two weeks.');
-      break;
-    case 'mini_garden':
-      add('tower', 'Needs outdoor sun or a serious lighting setup - your bench spot suits an all-in-one with built-in LED.');
-      add('dwc_bucket', 'Built for big fruiting plants like tomatoes - more system than herbs and greens need.');
-      break;
-    case 'dwc_bucket':
-      add('mini_garden', "Benchtop pods can't support full-size tomatoes, chillies or cucumbers.");
-      add('tower', 'Tower ports are too small for large fruiting plants - buckets give the roots room.');
-      break;
-    case 'tower':
-      add('salad_table', h === 'taste' ? 'Great for salad volume, but more than you need for steady herbs and garnishes.' : 'Strong for pure salad output, but the tower handles a wider crop mix in less floor space.');
-      add('dwc_bucket', 'Fewer plants per dollar for herbs and greens - buckets earn their keep on big fruiting crops.');
-      break;
-    case 'salad_table':
-      add('tower', l === 'wall' ? 'Needs floor space - your wall-mounted option uses none.' : "Covers more crop types, but for salad growing the table's flat layout is easier to plant and harvest.");
-      add('mini_garden', 'Too small for the salad volume you are after.');
-      break;
-    case 'grow_shelf':
-      add('mini_garden', "A single benchtop unit can't reach the indoor volume you want.");
-      add('tower', 'Wants outdoor sun - the shelf keeps everything compact indoors under its own lights.');
-      break;
-  }
-  return out;
+function setResultEmailStatus(message) {
+  const status = document.getElementById('result-email-status');
+  status.textContent = message;
+  status.classList.add('active');
 }
 
-/* ---------------- KIT + RESULT ---------------- */
-function submitToKit(email, recommendedSetup) {
-  if (emailSubmissionStarted) return;
-  emailSubmissionStarted = true;
+async function submitToKit(email, system, sizeName, motivation) {
   const formData = new FormData();
   formData.append('email_address', email);
-  if (A.motivations.length) formData.append('fields[motivation]', A.motivations.join(', '));
-  if (A.crops.length) formData.append('fields[crop]', A.crops.join(', '));
-  if (A.confidence) formData.append('fields[confidence]', A.confidence);
-  if (A.budget) formData.append('fields[budget]', A.budget);
-  formData.append('fields[system]', recommendedSetup);
-  fetch('https://app.kit.com/forms/9690777/subscriptions', {
+  if (motivation) formData.append('fields[motivation]', motivation);
+  if (system) formData.append('fields[system]', system);
+
+  const response = await fetch('https://app.kit.com/forms/9690777/subscriptions', {
     method: 'POST',
     body: formData,
     headers: { 'Accept': 'application/json' }
-  }).then(function(response) {
-    if (!response.ok) throw new Error('Kit returned HTTP ' + response.status);
-    captureQuizEvent('email_submitted', { recommended_setup: recommendedSetup });
-  }).catch(function(err) {
-    console.error('Kit signup failed silently:', err);
   });
-}
 
-function showResult() {
-  const match = deriveMatch();
-  const recommendedSetup = RECS[match.sys][match.size].name;
-  if (A.email) submitToKit(A.email, recommendedSetup);
-
-  if (!quizCompletedTracked) {
-    quizCompletedTracked = true;
-    sessionStorage.setItem(QUIZ_COMPLETED_KEY, '1');
-    captureQuizEvent('quiz_completed', {
-      recommended_setup: recommendedSetup,
-      derived_system: match.sys,
-      derived_size: match.size,
-      budget_capped: match.flags.budget,
-      stretch: match.flags.stretch,
-      confidence_adjusted: match.flags.confidence,
-      duration_seconds: Math.max(0, Math.round((Date.now() - quizStartedAt) / 1000))
-    });
+  const data = await response.json().catch(function() { return {}; });
+  console.log('Kit response:', { status: response.status, body: data });
+  if (!response.ok || data.status === 'failed') {
+    const message = data.errors && data.errors.messages ? data.errors.messages.join(', ') : 'Kit signup failed.';
+    throw new Error(message);
   }
 
-  renderRecommendation(match.sys, match.size, match.flags);
+  return data;
+}
 
+async function sendResultByEmail() {
+  const emailInput = document.getElementById('result-email-input');
+  const email = emailInput.value.trim();
+  const validEmail = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
+  const button = document.getElementById('result-email-btn');
+
+  if (!validEmail) {
+    setResultEmailStatus('Please enter a valid email address.');
+    emailInput.focus();
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = 'Sending...';
+  setResultEmailStatus('Sending your recommendation...');
+
+  try {
+    A.email = email;
+    await submitToKit(email, A.system, getSizeLabel(A.size), A.motivation);
+    setResultEmailStatus('Sent. Check your inbox for your recommendation.');
+    button.textContent = 'Sent';
+  } catch (err) {
+    console.error('Kit result email failed:', err);
+    setResultEmailStatus('Sorry, the email did not send. Please try again.');
+    button.disabled = false;
+    button.textContent = 'Send by email';
+  }
+}
+
+async function showResult() {
+  const sys = A.system;
+  const size = A.size;
+  const emailInput = document.getElementById('email-input');
+  const email = emailInput.value.trim();
+  const validEmail = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email);
+  const nextButton = document.getElementById('next-4');
+
+  if (email && !validEmail) {
+    setEmailNote('Please enter a valid email address, or leave it blank to skip.');
+    emailInput.focus();
+    return;
+  }
+
+  A.email = email;
+  if (A.email) {
+    nextButton.disabled = true;
+    nextButton.textContent = 'Saving...';
+    setEmailNote('Saving your recommendation...');
+    try {
+      await submitToKit(A.email, sys, getSizeLabel(size), A.motivation);
+    } catch (err) {
+      console.error('Kit signup failed:', err);
+      setEmailNote('Sorry, the email signup did not work. Please try again.');
+      nextButton.disabled = false;
+      nextButton.innerHTML = 'See my recommendation <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+      return;
+    }
+    resetEmailStepState();
+  }
+
+  renderRecommendation(sys, size);
+  document.getElementById('result-email-input').value = A.email || '';
+  document.getElementById('result-email-status').classList.remove('active');
+  document.getElementById('result-email-btn').disabled = false;
+  document.getElementById('result-email-btn').textContent = 'Send by email';
+
+  // Show result screen
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('result-screen').classList.add('active');
-  for (let i = 1; i <= 7; i++) document.getElementById('step' + i).className = 'step done';
+  ['step1','step2','step3','step4'].forEach(id => {
+    document.getElementById(id).className = 'step done';
+  });
   document.getElementById('progress-label').textContent = 'Complete';
   window.scrollTo(0, 0);
+
+  // Send email (placeholder - replace with Klaviyo endpoint)
+  console.log('Email to send recommendation to:', A.email);
 }
 
 function getShoppingTotal(rec) {
   if (rec.shopping_total) return rec.shopping_total;
-  const total = rec.shop.split(' - ').reduce(function(sum, item) {
-    if (/optional|indoor only|with light/i.test(item)) return sum;
+
+  return formatCurrency(getShoppingTotalValue(rec, false));
+}
+
+function formatCurrency(total) {
+  return total.toLocaleString('en-AU', {
+    style: 'currency',
+    currency: 'AUD',
+    minimumFractionDigits: 2
+  });
+}
+
+function isLedItem(item) {
+  return /grow lights?|indoor only|with light/i.test(item);
+}
+
+function hasLedOption(rec) {
+  if (rec.shopping_total) return false;
+  return getShopItems(rec.shop).some(isLedItem);
+}
+
+function getShoppingTotalValue(rec, includeLed) {
+  const total = getShopItems(rec.shop).reduce(function(sum, item) {
+    const ledItem = isLedItem(item);
+    if (/optional/i.test(item) && !(includeLed && ledItem)) return sum;
+    if (!includeLed && ledItem) return sum;
     const match = item.match(/\$([\d,]+(?:\.\d+)?)/);
     if (!match) return sum;
+
     let price = Number(match[1].replace(/,/g, ''));
     if (/recommend 3/i.test(item)) price *= 3;
     return sum + price;
   }, 0);
-  return total.toLocaleString('en-AU', { style: 'currency', currency: 'AUD', minimumFractionDigits: 2 });
+
+  return total;
 }
 
-function renderRecommendation(sys, size, flags) {
+function getShoppingTotalsHTML(rec) {
+  if (!hasLedOption(rec)) {
+    return '<div class="shop-total"><span>Estimated total (priced essentials)</span><span>' + getShoppingTotal(rec) + '</span></div>';
+  }
+
+  return '<div class="shop-total"><span>Estimated total without LED</span><span>' + formatCurrency(getShoppingTotalValue(rec, false)) + '</span></div>' +
+    '<div class="shop-total"><span>Estimated total with LED</span><span>' + formatCurrency(getShoppingTotalValue(rec, true)) + '</span></div>';
+}
+
+function getShopItems(shop) {
+  const items = [];
+  let start = 0;
+  let inTag = false;
+  let anchorDepth = 0;
+
+  for (let i = 0; i < shop.length; i++) {
+    if (shop.slice(i, i + 2).toLowerCase() === '<a') {
+      anchorDepth++;
+    }
+    if (shop.slice(i, i + 4).toLowerCase() === '</a>') {
+      anchorDepth = Math.max(0, anchorDepth - 1);
+    }
+    if (shop[i] === '<') inTag = true;
+    if (shop[i] === '>') inTag = false;
+
+    if (!inTag && anchorDepth === 0 && shop.slice(i, i + 3) === ' - ') {
+      items.push(shop.slice(start, i).trim());
+      start = i + 3;
+      i += 2;
+    }
+  }
+
+  items.push(shop.slice(start).trim());
+  return items.filter(Boolean);
+}
+
+function renderRecommendation(sys, size) {
   const rec = RECS[sys][size];
   const sysName = SYSTEM_NAMES[sys];
   const sizeName = getSizeLabel(size);
-  const isMatched = !!flags;
-  document.getElementById('best-match-badge').style.display = isMatched ? 'inline-block' : 'none';
+  document.getElementById('best-match-badge').style.display = size === A.size ? 'inline-block' : 'none';
 
-  document.getElementById('r-title').textContent = isMatched ? 'We matched you with the ' + sysName : sysName + ' - ' + sizeName;
-  document.getElementById('r-sub').textContent = isMatched
-    ? 'Worked out from your answers - what you want to grow, your space, and your budget.'
-    : 'Another option in the ' + sysName + ' family.';
+  // Primary card
+  document.getElementById('r-title').textContent = 'Your reccomendation';
+  document.getElementById('r-sub').textContent = 'Based on your choices - ' + sysName + ', ' + sizeName + '.';
   const primaryImage = document.getElementById('r-img');
   primaryImage.style.display = 'block';
-  primaryImage.src = rec.img;
+  primaryImage.src = rec.img || SYS_IMAGES[sys];
   primaryImage.alt = rec.name;
   document.getElementById('r-name').textContent = rec.name;
   document.getElementById('r-tagline').textContent = rec.tagline;
   document.getElementById('r-grows').innerHTML = '<strong>Grows:</strong> ' + rec.grows;
-
-  const reasonsEl = document.getElementById('r-reasons');
-  if (isMatched) {
-    reasonsEl.style.display = 'block';
-    reasonsEl.innerHTML = '<strong>Why this match:</strong><ul>' +
-      buildReasons(sys, size, flags).map(function(r){ return '<li>' + r + '</li>'; }).join('') + '</ul>';
-  } else {
-    reasonsEl.style.display = 'none';
-  }
-
-  const notIdealEl = document.getElementById('r-not-ideal');
+  var notIdealEl = document.getElementById('r-not-ideal');
   if (rec.not_ideal) {
     notIdealEl.innerHTML = '<strong>Not ideal for:</strong> ' + rec.not_ideal;
     notIdealEl.style.display = 'block';
   } else {
     notIdealEl.style.display = 'none';
   }
-
-  const shopItems = rec.shop.split(' - ');
+  const shopItems = getShopItems(rec.shop);
   const shopHTML = '<strong>Shopping list:</strong><ul class="shop-list">' +
     shopItems.map(function(item, index) {
       const linkedItem = item.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ');
       return '<li class="shop-item"><input type="checkbox" aria-label="Mark shopping item ' + (index + 1) + ' complete" onchange="this.parentElement.classList.toggle(\'checked\', this.checked)"><div class="shop-item-content">' + linkedItem + '</div></li>';
     }).join('') +
     '</ul>' +
-    '<div class="shop-total"><span>Estimated total (priced essentials)</span><span>' + getShoppingTotal(rec) + '</span></div>' +
-    '<div class="shop-total-note">Optional and unpriced items are not included.</div>';
+    getShoppingTotalsHTML(rec) +
+    '<div class="shop-total-note">Unpriced items are not included. The LED total includes listed grow-light items.</div>';
   document.getElementById('r-shop').innerHTML = shopHTML;
-  document.getElementById('r-why').textContent = rec.why;
 
-  // Ruled-out systems (only for the original match)
-  const ruledTitle = document.getElementById('r-ruled-title');
-  const ruledGrid = document.getElementById('r-ruled');
-  if (isMatched) {
-    const ruled = buildRuledOut(sys);
-    if (ruled.length) {
-      ruledTitle.style.display = 'block';
-      ruledGrid.innerHTML = ruled.map(function(r) {
-        return '<div class="ruled-card"><strong>' + r.name + '</strong>' + r.why + '</div>';
-      }).join('');
-    } else {
-      ruledTitle.style.display = 'none';
-      ruledGrid.innerHTML = '';
-    }
-  }
-
-  // Other sizes in this system
-  const otherSizes = Object.keys(RECS[sys]).filter(function(s){ return s !== size; });
+  // Other sizes - check all keys of the system (handles vertical, small, medium, large)
+  const otherSizes = Object.keys(RECS[sys]).filter(s => s !== size);
   document.getElementById('r-others-title').textContent = 'Other ' + sysName + ' options';
+
   const othersGrid = document.getElementById('r-others');
   othersGrid.innerHTML = '';
-  otherSizes.forEach(function(s) {
+  otherSizes.forEach(s => {
     const r = RECS[sys][s];
     const card = document.createElement('div');
     card.className = 'other-card';
@@ -1114,43 +1072,47 @@ function renderRecommendation(sys, size, flags) {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); switchToOption(sys, s); }
     };
     card.innerHTML =
-      '<img class="other-card-img" src="' + r.img + '" alt="' + r.name + '">' +
+      '<img class="other-card-img" src="' + (r.img || SYS_IMAGES[sys]) + '" alt="' + r.name + '">' +
       '<div class="other-card-body">' +
         '<div class="other-size-tag">' + getSizeLabel(s) + '</div>' +
         '<div class="other-name">' + r.name + '</div>' +
+        '<div class="other-price">' + r.price + '</div>' +
         '<div class="other-grows">' + r.grows + '</div>' +
-        '<div class="other-cta">View this option -></div>' +
+        '<div class="other-cta">View this option →</div>' +
       '</div>';
     othersGrid.appendChild(card);
   });
 }
 
 function switchToOption(sys, newSize) {
-  renderRecommendation(sys, newSize, null);
+  renderRecommendation(sys, newSize);
+  // Scroll to the top of the result so the new primary is immediately visible
   const resultTop = document.getElementById('result-screen');
   if (resultTop) resultTop.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function restart() {
-  captureQuizEvent('quiz_restarted');
-  createQuizAttempt();
-  quizCompletedTracked = false;
-  emailSubmissionStarted = false;
-  currentQuizStep = 1;
-  A.crops = []; A.location = null; A.harvest = null; A.confidence = null; A.budget = null; A.motivations = []; A.email = '';
-  document.querySelectorAll('.motivation-card').forEach(function(c){ c.classList.remove('selected'); c.classList.remove('disabled'); });
+  A.system = null; A.size = null; A.motivation = null; A.email = '';
+  document.querySelectorAll('.system-card').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('.size-card').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('.motivation-card').forEach(c => c.classList.remove('selected'));
   document.getElementById('email-input').value = '';
-  for (let i = 1; i <= 6; i++) document.getElementById('next-' + i).disabled = true;
-  document.getElementById('next-7').disabled = false;
+  document.getElementById('result-email-input').value = '';
+  document.getElementById('result-email-status').classList.remove('active');
+  document.getElementById('result-email-btn').disabled = false;
+  document.getElementById('result-email-btn').textContent = 'Send by email';
+  resetEmailStepState();
+  document.getElementById('next-1').disabled = true;
+  document.getElementById('next-2').disabled = true;
+  document.getElementById('next-3').disabled = true;
   document.getElementById('result-screen').classList.remove('active');
-  document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
   document.getElementById('screen-1').classList.add('active');
   updateProgress(1);
+  currentQuizStep = 1;
   trackQuizStarted();
   trackStepViewed(1);
   window.scrollTo(0, 0);
 }
-
 </script>
 </body>
 </html>
