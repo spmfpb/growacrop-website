@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GrowACrop - Find Your Setup</title>
+<link rel="stylesheet" href="style.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-height:100vh}
+
+/* HEADER */
+.header{background:#1e3a22;padding:16px 24px}
+.header-logo{color:white;font-size:18px;font-weight:800;letter-spacing:-0.02em}
+.header-tagline{color:rgba(255,255,255,0.6);font-size:12px}
+
+/* PROGRESS */
+.progress-wrap{background:#ede9df;padding:14px 24px 0}
+.progress-steps{display:flex;gap:8px;margin-bottom:12px}
+.step{flex:1;height:3px;background:#ddd8cc;border-radius:100px;transition:background .3s}
+.step.done{background:#1e3a22}
+.step.active{background:#4a7c59}
+.progress-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#888;padding-bottom:12px}
+
+/* SCREENS */
+.screen{display:none;padding:28px 20px;max-width:860px;margin:0 auto}
+.screen.active{display:block}
+.q-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#b5863a;margin-bottom:8px}
+.q-title{font-size:26px;font-weight:800;color:#1e3a22;line-height:1.2;margin-bottom:6px}
+.q-sub{font-size:14px;color:#4a4a4a;margin-bottom:24px;line-height:1.6}
+
+/* SYSTEM CARDS */
+.system-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:22px}
+.system-card{background:white;border:2px solid #ddd8cc;border-radius:12px;overflow:hidden;cursor:pointer;transition:all .2s ease;display:flex;flex-direction:column}
+.system-card:hover{border-color:#1e3a22;transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.09)}
+.system-card.selected{border-color:#1e3a22;box-shadow:0 0 0 3px rgba(30,58,34,.15)}
+.system-img{width:100%;height:160px;object-fit:contain;display:block;background:#f5f5f3;padding:8px}
+.system-info{padding:12px;flex:1;text-align:center}
+.system-name{font-size:13px;font-weight:700;color:#1e3a22;margin-bottom:3px;display:flex;justify-content:center;align-items:center;gap:6px}
+.system-desc{font-size:11px;color:#555;line-height:1.6}
+.crop-line{margin-bottom:2px}
+.crop-best{font-weight:700;color:#1e3a22}
+.crop-also{font-weight:700;color:#4a7c59}
+.crop-not{font-weight:700;color:#b5863a}
+.system-check{width:20px;height:20px;min-width:20px;border-radius:50%;background:#1e3a22;display:none;align-items:center;justify-content:center;margin-left:6px;margin-top:1px}
+.system-card.selected .system-check{display:flex}
+.system-check svg{width:10px;height:10px;stroke:white;fill:none;stroke-width:3}
+
+/* SIZE CARDS */
+.size-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px}
+.size-card{background:white;border:2px solid #ddd8cc;border-radius:12px;padding:18px 14px;cursor:pointer;transition:all .2s ease;position:relative;text-align:center}
+.size-card:hover{border-color:#1e3a22;transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.09)}
+.size-card.selected{border-color:#1e3a22;box-shadow:0 0 0 3px rgba(30,58,34,.15)}
+.size-icon{font-size:28px;margin-bottom:8px}
+.size-label{font-size:11px;color:#888;line-height:1.4;margin-bottom:4px}
+.size-hint{font-size:13px;font-weight:700;color:#1e3a22;margin-bottom:4px}
+.size-check{width:20px;height:20px;border-radius:50%;background:#1e3a22;display:none;align-items:center;justify-content:center;position:absolute;top:10px;right:10px}
+.size-card.selected .size-check{display:flex}
+.size-check svg{width:10px;height:10px;stroke:white;fill:none;stroke-width:3}
+
+/* EMAIL SCREEN */
+.email-wrap{max-width:460px}
+.email-input{width:100%;padding:13px 16px;border:2px solid #ddd8cc;border-radius:100px;font-size:15px;color:#1e3a22;background:white;margin-bottom:10px;outline:none;transition:border .15s}
+.email-input:focus{border-color:#1e3a22}
+.email-note{font-size:13px;color:#edf2e8;margin-bottom:20px;background:#1e3a22;border-radius:8px;padding:10px 14px;display:inline-flex;align-items:center;gap:8px}
+.email-note span{font-weight:700}
+
+/* BTN */
+.next-btn{background:#1e3a22;color:white;padding:13px 30px;border:none;border-radius:100px;font-size:15px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:background .15s}
+.next-btn:hover{background:#2d6a2d}
+.next-btn:disabled{opacity:.4;cursor:not-allowed}
+.next-btn svg{width:16px;height:16px;stroke:white;fill:none;stroke-width:2.5}
+
+/* RESULT */
+.result-screen{display:none;padding:28px 20px;max-width:860px;margin:0 auto}
+.result-screen.active{display:block}
+.result-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#b5863a;margin-bottom:8px}
+.result-title{font-size:26px;font-weight:800;color:#1e3a22;margin-bottom:4px}
+.result-sub{font-size:14px;color:#4a4a4a;margin-bottom:22px}
+
+/* PRIMARY CARD */
+.primary-card{background:white;border:2px solid #1e3a22;border-radius:14px;overflow:hidden;margin-bottom:28px;box-shadow:0 0 0 4px rgba(30,58,34,.08)}
+.primary-card-img{width:100%;height:240px;object-fit:contain;display:block;background:#edf2e8}
+.primary-card-body{padding:22px}
+.badge{display:inline-block;background:#1e3a22;color:white;font-size:10px;font-weight:800;padding:3px 12px;border-radius:100px;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.primary-name{font-size:20px;font-weight:800;color:#1e3a22;margin-bottom:4px}
+.primary-tagline{font-size:13px;color:#4a7c59;font-weight:600;margin-bottom:4px}
+.primary-grows{background:#f5f2ea;border-radius:8px;padding:10px 14px;font-size:12px;color:#4a4a4a;margin-bottom:12px;line-height:1.6}
+.primary-grows strong{color:#1e3a22}
+.primary-not-ideal{background:#fdf2f2;border-radius:8px;padding:10px 14px;font-size:12px;color:#4a4a4a;margin-bottom:12px;line-height:1.6;display:none}
+.primary-not-ideal strong{color:#8b0000}
+.primary-shop{background:#f5f2ea;border-radius:8px;padding:10px 14px;font-size:12px;color:#4a4a4a;margin-bottom:12px;line-height:1.7}
+.motivation-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:20px}
+.motivation-card{background:white;border:2px solid #ddd8cc;border-radius:12px;padding:20px 16px;cursor:pointer;transition:all .15s;text-align:center}
+.motivation-card:hover{border-color:#2d6a2d}
+.motivation-card.selected{border-color:#1e3a22;background:#f5f9ec}
+.motivation-icon{font-size:32px;margin-bottom:8px}
+.motivation-label{font-size:13px;font-weight:600;color:#1e3a22}
+.primary-shop strong{color:#1e3a22}
+.shop-list{list-style:none;padding:0;margin:8px 0 0 0}
+.shop-item{padding:6px 0;border-bottom:1px solid #e8e2d3;display:flex;align-items:flex-start;gap:8px}
+.shop-item:last-child{border-bottom:none}
+.shop-item input[type="checkbox"]{margin-top:3px;flex-shrink:0;width:16px;height:16px;accent-color:#1e3a22;cursor:pointer}
+.shop-item-content{flex:1}
+.shop-item.checked .shop-item-content{text-decoration:line-through;opacity:0.5}
+.shop-item a{color:#1e3a22;text-decoration:underline}
+.shop-total{display:flex;justify-content:space-between;gap:16px;margin-top:10px;padding-top:10px;border-top:2px solid #ddd8cc;font-size:13px;font-weight:800;color:#1e3a22}
+.shop-total-note{font-size:10px;color:#888;margin-top:4px;line-height:1.4}
+.primary-why{font-size:12px;color:#888;font-style:italic;line-height:1.6;padding-top:10px;border-top:1px solid #edf2e8}
+
+/* OTHER SIZES */
+.others-title{font-size:15px;font-weight:700;color:#1e3a22;margin-bottom:12px}
+.others-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:24px}
+.other-card{background:white;border:2px solid #ddd8cc;border-radius:12px;overflow:hidden;cursor:pointer;transition:transform .12s ease,border-color .12s ease,box-shadow .12s ease}
+.other-card:hover{border-color:#2d6a2d;transform:translateY(-2px);box-shadow:0 4px 14px rgba(30,58,34,.08)}
+.other-card:focus{outline:none;border-color:#1e3a22;box-shadow:0 0 0 3px rgba(30,58,34,.15)}
+.other-cta{font-size:11px;font-weight:700;color:#2d6a2d;text-transform:uppercase;letter-spacing:.06em;margin-top:8px}
+.other-card-img{width:100%;height:130px;object-fit:contain;display:block;background:#edf2e8}
+.other-card-body{padding:14px}
+.other-size-tag{display:inline-block;background:#edf2e8;color:#4a7c59;font-size:10px;font-weight:700;padding:2px 10px;border-radius:100px;text-transform:uppercase;margin-bottom:6px}
+.other-name{font-size:13px;font-weight:700;color:#1e3a22;margin-bottom:2px}
+.other-grows{font-size:11px;color:#4a4a4a;line-height:1.5}
+
+/* RESTART */
+.restart-btn{padding:9px 20px;border-radius:100px;border:2px solid #ddd8cc;background:white;color:#4a4a4a;font-size:12px;cursor:pointer;font-weight:600}
+.restart-btn:hover{border-color:#1e3a22;color:#1e3a22}
+
+/* MOBILE */
+@media(max-width:580px){
+  .system-grid{grid-template-columns:1fr 1fr}
+  .size-grid{grid-template-columns:1fr}
+  .system-img{height:110px}
+  .system-info{padding:8px}
+  .system-name{font-size:11px}
+  .crop-line{font-size:10px}
+  .crop-best,.crop-also,.crop-not{font-size:10px}
+  .others-grid{grid-template-columns:1fr}
+  .q-title{font-size:20px}
+  .primary-card-img{height:180px}
+  .screen{padding:20px 12px}
+  .result-screen{padding:20px 12px}
+}
+.quiz-page-main{min-height:calc(100vh - 220px)}
+.nav-quiz-link[aria-current="page"]{background:var(--green-ghost);color:var(--green-deep)}
+@media(max-width:760px){.quiz-page-main{min-height:auto}}
+</style>
+<script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog && window.posthog.__loaded)||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="Ji Yi init fn mn Hr pn bn cn capture calculateEventProperties Sn register register_once register_for_session unregister unregister_for_session In getFeatureFlag getFeatureFlagPayload getFeatureFlagResult getAllFeatureFlags isFeatureEnabled reloadFeatureFlags updateFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey displaySurvey cancelPendingSurvey canRenderSurvey canRenderSurveyAsync Tn identify setPersonProperties unsetPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset shutdown setIdentity clearIdentity get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException addExceptionStep captureLog startExceptionAutocapture stopExceptionAutocapture loadToolbar get_property getSessionProperty Cn xn createPersonProfile setInternalOrTestUser Mn hn Pn opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing get_explicit_consent_status is_capturing clear_opt_in_out_capturing debug Ur wt getPageViewId captureTraceFeedback captureTraceMetric an".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_wdgnbETqxfAdeM6DH8ojGGPrV6swhrZk4KjzQctLQQot', {
+        api_host: 'https://eu.i.posthog.com',
+        defaults: '2026-05-30',
+        person_profiles: 'identified_only', // or 'always' to create profiles for anonymous users as well
+    })
+</script> 
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-mark"><img src="images/branding/growacrop-logo.png" alt=""></div>
+    <span class="nav-logo-text">GrowACrop</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/quiz.html" class="nav-quiz-link" aria-current="page">Take the quiz</a></li>
+  </ul>
+  <button class="nav-hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<main class="quiz-page-main">
+
+<style>
+.match-reasons{background:#f5f9ec;border-radius:8px;padding:12px 14px;font-size:12.5px;color:#3a4a36;margin-bottom:12px;line-height:1.7}
+.match-reasons strong{color:#1e3a22}
+.match-reasons ul{margin:6px 0 0 18px;padding:0}
+.match-reasons li{margin-bottom:3px}
+.ruled-title{font-size:15px;font-weight:700;color:#1e3a22;margin:4px 0 10px}
+.ruled-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-bottom:24px}
+.ruled-card{background:#faf8f2;border:1px dashed #cfc9b8;border-radius:10px;padding:12px 14px;font-size:12px;color:#4a4a4a;line-height:1.6}
+.ruled-card strong{color:#8a6d2f;display:block;margin-bottom:2px}
+.option-sub{font-size:11px;color:#888;margin-top:3px;line-height:1.4}
+.q-why{font-size:12px;color:#8a6d2f;margin:-16px 0 22px;line-height:1.5}
+.motivation-card.disabled{opacity:.35;pointer-events:none;cursor:not-allowed}
+.back-btn{background:none;border:none;color:#4a4a4a;font-size:13px;font-weight:700;cursor:pointer;padding:13px 18px;letter-spacing:.04em;display:inline-flex;align-items:center;gap:6px}
+.back-btn:hover{color:#1e3a22}
+.btn-row{display:flex;align-items:center;gap:8px}
+</style>
+
+<div class="progress-wrap">
+  <div class="progress-steps">
+    <div class="step active" id="step1"></div>
+    <div class="step" id="step2"></div>
+    <div class="step" id="step3"></div>
+    <div class="step" id="step4"></div>
+    <div class="step" id="step5"></div>
+    <div class="step" id="step6"></div>
+    <div class="step" id="step7"></div>
+  </div>
+  <div class="progress-label" id="progress-label">Step 1 of 7 - What you'll grow</div>
+</div>
+
+<!-- Q1: CROP -->
+<div class="screen active" id="screen-1">
+  <div class="q-eyebrow">Step 1 of 7</div>
+  <h1 class="q-title">What do you want to grow?</h1>
+  <p class="q-sub">Pick as many as you like. Microgreens grow in their own compact system, so that one's exclusive of the rest.</p>
+  <p class="q-why">Why we ask: this decides which system families suit you.</p>
+  <div class="motivation-grid">
+    <div class="motivation-card" data-val="herbs" onclick="toggleCrop(this)">
+      <div class="motivation-label">Fresh herbs</div>
+      <div class="option-sub">Basil, mint, coriander for cooking</div>
+    </div>
+    <div class="motivation-card" data-val="salad" onclick="toggleCrop(this)">
+      <div class="motivation-label">Salad greens</div>
+      <div class="option-sub">Lettuce, spinach, rocket</div>
+    </div>
+    <div class="motivation-card" data-val="fruiting" onclick="toggleCrop(this)">
+      <div class="motivation-label">Fruiting veg</div>
+      <div class="option-sub">Tomatoes, chillies, cucumbers</div>
+    </div>
+    <div class="motivation-card" data-val="microgreens" onclick="toggleCrop(this)">
+      <div class="motivation-label">Microgreens</div>
+      <div class="option-sub">Fast, nutrient-dense shoots</div>
+    </div>
+  </div>
+  <button class="next-btn" id="next-1" disabled onclick="goTo(2)">
+    Next <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </button>
+</div>
+
+<!-- Q2: LOCATION -->
+<div class="screen" id="screen-2">
+  <div class="q-eyebrow">Step 2 of 7</div>
+  <h1 class="q-title">Where would your setup live?</h1>
+  <p class="q-sub">Outdoor spots want roughly 6+ hours of sun. Indoors is fine too &mdash; we'll add a grow light to your list where needed.</p>
+  <p class="q-why">Why we ask: this decides indoor vs outdoor and whether you need lighting.</p>
+  <div class="motivation-grid">
+    <div class="motivation-card" data-val="bench" onclick="pickAnswer(this,'location')">
+      <div class="motivation-label">Kitchen bench</div>
+      <div class="option-sub">A countertop spot indoors</div>
+    </div>
+    <div class="motivation-card" data-val="indoor_floor" onclick="pickAnswer(this,'location')">
+      <div class="motivation-label">Indoor floor space</div>
+      <div class="option-sub">A corner or spare spot inside</div>
+    </div>
+    <div class="motivation-card" data-val="balcony" onclick="pickAnswer(this,'location')">
+      <div class="motivation-label">Balcony or courtyard</div>
+      <div class="option-sub">Outdoors with some sun</div>
+    </div>
+    <div class="motivation-card" data-val="backyard" onclick="pickAnswer(this,'location')">
+      <div class="motivation-label">Sunny backyard</div>
+      <div class="option-sub">6+ hours of sun</div>
+    </div>
+    <div class="motivation-card" data-val="wall" onclick="pickAnswer(this,'location')">
+      <div class="motivation-label">Garden wall or fence</div>
+      <div class="option-sub">Vertical outdoor space</div>
+    </div>
+  </div>
+  <div class="btn-row"><button class="back-btn" onclick="goBack()">&larr; Back</button><button class="next-btn" id="next-2" disabled onclick="goTo(3)">
+    Next <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </button></div>
+</div>
+
+<!-- Q3: HARVEST -->
+<div class="screen" id="screen-3">
+  <div class="q-eyebrow">Step 3 of 7</div>
+  <h1 class="q-title">How much do you want to harvest?</h1>
+  <p class="q-sub">Be honest &mdash; bigger isn't better if it becomes a chore.</p>
+  <p class="q-why">Why we ask: this sizes the system to what you'll actually use.</p>
+  <div class="motivation-grid">
+    <div class="motivation-card" data-val="taste" onclick="pickAnswer(this,'harvest')">
+      <div class="motivation-label">A steady taste</div>
+      <div class="option-sub">Herbs and garnishes for cooking</div>
+    </div>
+    <div class="motivation-card" data-val="weekly" onclick="pickAnswer(this,'harvest')">
+      <div class="motivation-label">Weekly harvests</div>
+      <div class="option-sub">Greens for the household most weeks</div>
+    </div>
+    <div class="motivation-card" data-val="serious" onclick="pickAnswer(this,'harvest')">
+      <div class="motivation-label">Serious volume</div>
+      <div class="option-sub">Replace a real chunk of the shopping</div>
+    </div>
+  </div>
+  <div class="btn-row"><button class="back-btn" onclick="goBack()">&larr; Back</button><button class="next-btn" id="next-3" disabled onclick="goTo(4)">
+    Next <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </button></div>
+</div>
+
+<!-- Q4: CONFIDENCE -->
+<div class="screen" id="screen-4">
+  <div class="q-eyebrow">Step 4 of 7</div>
+  <h1 class="q-title">How are you with plants?</h1>
+  <p class="q-sub">No judgement &mdash; honest answers get better matches.</p>
+  <p class="q-why">Why we ask: if you're new, we'll pick something forgiving.</p>
+  <div class="motivation-grid">
+    <div class="motivation-card" data-val="none" onclick="pickAnswer(this,'confidence')">
+      <div class="motivation-label">Never grown anything</div>
+      <div class="option-sub">Complete beginner</div>
+    </div>
+    <div class="motivation-card" data-val="killer" onclick="pickAnswer(this,'confidence')">
+      <div class="motivation-label">I kill every plant I touch</div>
+      <div class="option-sub">It's a gift, really</div>
+    </div>
+    <div class="motivation-card" data-val="somewhat" onclick="pickAnswer(this,'confidence')">
+      <div class="motivation-label">Somewhat confident</div>
+      <div class="option-sub">I've kept things alive before</div>
+    </div>
+    <div class="motivation-card" data-val="very" onclick="pickAnswer(this,'confidence')">
+      <div class="motivation-label">Very confident</div>
+      <div class="option-sub">Plants love me</div>
+    </div>
+  </div>
+  <div class="btn-row"><button class="back-btn" onclick="goBack()">&larr; Back</button><button class="next-btn" id="next-4" disabled onclick="goTo(5)">
+    Next <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </button></div>
+</div>
+
+<!-- Q5: BUDGET -->
+<div class="screen" id="screen-5">
+  <div class="q-eyebrow">Step 5 of 7</div>
+  <h1 class="q-title">What's your starting budget?</h1>
+  <p class="q-sub">Full setups below span roughly $80 to $500+. We'll keep your list inside your range.</p>
+  <p class="q-why">Why we ask: so the recommendation is one you can actually buy this week.</p>
+  <div class="motivation-grid">
+    <div class="motivation-card" data-val="low" onclick="pickAnswer(this,'budget')">
+      <div class="motivation-label">Under $150</div>
+      <div class="option-sub">Start small, prove it works</div>
+    </div>
+    <div class="motivation-card" data-val="mid" onclick="pickAnswer(this,'budget')">
+      <div class="motivation-label">$150 &ndash; $350</div>
+      <div class="option-sub">Room for a proper setup</div>
+    </div>
+    <div class="motivation-card" data-val="high" onclick="pickAnswer(this,'budget')">
+      <div class="motivation-label">$350+</div>
+      <div class="option-sub">Do it once, do it right</div>
+    </div>
+  </div>
+  <div class="btn-row"><button class="back-btn" onclick="goBack()">&larr; Back</button><button class="next-btn" id="next-5" disabled onclick="goTo(6)">
+    Next <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </button></div>
+</div>
+
+<!-- Q6: MOTIVATION (multi) -->
+<div class="screen" id="screen-6">
+  <div class="q-eyebrow">Step 6 of 7</div>
+  <h1 class="q-title">Why do you want to grow at home?</h1>
+  <p class="q-sub">Pick as many as you like &mdash; this shapes the tips we send you.</p>
+  <div class="motivation-grid">
+    <div class="motivation-card" data-val="save_money" onclick="toggleMotivation(this)">
+      <div class="motivation-icon">$</div>
+      <div class="motivation-label">Save money on food</div>
+    </div>
+    <div class="motivation-card" data-val="fresher_food" onclick="toggleMotivation(this)">
+      <div class="motivation-icon">Fresh</div>
+      <div class="motivation-label">Fresher, healthier food</div>
+    </div>
+    <div class="motivation-card" data-val="sustainability" onclick="toggleMotivation(this)">
+      <div class="motivation-icon">Less waste</div>
+      <div class="motivation-label">Sustainability &amp; less waste</div>
+    </div>
+    <div class="motivation-card" data-val="hobby" onclick="toggleMotivation(this)">
+      <div class="motivation-icon">Hobby</div>
+      <div class="motivation-label">A relaxing hobby</div>
+    </div>
+    <div class="motivation-card" data-val="always_wanted" onclick="toggleMotivation(this)">
+      <div class="motivation-icon">Start</div>
+      <div class="motivation-label">I've always wanted to</div>
+    </div>
+  </div>
+  <div class="btn-row"><button class="back-btn" onclick="goBack()">&larr; Back</button><button class="next-btn" id="next-6" disabled onclick="goTo(7)">
+    Next <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </button></div>
+</div>
+
+<!-- Q7: EMAIL -->
+<div class="screen" id="screen-7">
+  <div class="q-eyebrow">Step 7 of 7</div>
+  <h1 class="q-title">Want your plan emailed?</h1>
+  <p class="q-sub">We'll send your shopping list plus a week-by-week beginner guide for your exact setup.</p>
+  <div class="email-wrap">
+    <input class="email-input" type="email" id="email-input" placeholder="you@example.com" oninput="checkEmail()">
+    <p class="email-note"><span>Email is optional. Leave it blank to view your result now.</span></p>
+    <div class="btn-row"><button class="back-btn" onclick="goBack()">&larr; Back</button><button class="next-btn" id="next-7" onclick="showResult()">
+      See my match <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button></div>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div class="result-screen" id="result-screen">
+  <div class="result-eyebrow">Your match</div>
+  <h2 class="result-title" id="r-title"></h2>
+  <p class="result-sub" id="r-sub"></p>
+
+  <div class="primary-card">
+    <img class="primary-card-img" id="r-img" src="" alt="">
+    <div class="primary-card-body">
+      <div class="badge" id="best-match-badge">Best match</div>
+      <div class="primary-name" id="r-name"></div>
+      <div class="primary-tagline" id="r-tagline"></div>
+      <div class="primary-grows" id="r-grows"></div>
+      <div class="match-reasons" id="r-reasons"></div>
+      <div class="primary-not-ideal" id="r-not-ideal"></div>
+      <div class="primary-shop" id="r-shop"></div>
+      <div class="primary-why" id="r-why"></div>
+    </div>
+  </div>
+
+  <div class="ruled-title" id="r-ruled-title" style="display:none">What we ruled out for you</div>
+  <div class="ruled-grid" id="r-ruled"></div>
+
+  <div class="others-title" id="r-others-title"></div>
+  <div class="others-grid" id="r-others"></div>
+
+  <button class="restart-btn" onclick="restart()">Start again</button>
+</div>
+
+</main>
+
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner footer-inner-simple">
+    <div class="footer-brand">
+      <div class="footer-logo">GrowACrop</div>
+      <p>Helping beginners choose their first grow setup.</p>
+    </div>
+    <div class="footer-links-group footer-links-simple">
+      <div class="footer-col">
+        <div class="footer-col-label">Start</div>
+        <ul class="footer-links">
+          <li><a href="/quiz.html">Take the quiz</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <div class="footer-col-label">Follow</div>
+        <ul class="footer-links">
+          <li><a href="https://instagram.com/growacrop" target="_blank" rel="noopener">Instagram</a></li>
+          <li><a href="https://tiktok.com/@growacrop" target="_blank" rel="noopener">TikTok</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2026 GrowACrop. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+const RECS = {
+  'microgreens': {
+    'small': {
+      img: 'images/quiz/quiz-product-07.png',
+      name: 'LaNiTex Smart Microgreen Kit',
+      tagline: 'Seeds to plate in 7-14 days',
+      price: '$129',
+      grows: 'Microgreens',
+      not_ideal: 'Anything, but microgreens',
+      shop: '<a href="https://amzn.asia/d/0fNl0Xl9">LaNiTex Smart Microgreen Kit</a> ($129) - <a href="https://seedmart.com.au/product-category/sprouting-seeds-australia/">Seeds - Seedmart</a> - <a href="https://www.amazon.com.au/Hills-500ml-Trigger-Sprayer-Bottles/dp/B0811D2H93/">Spray bottle</a> ($4.80) - <a href="https://www.urbanhavenliving.com.au/products/urban-greens-ergonomic-garden-snips?variant=47029188853982">Trimmers</a> ($29.95)',
+      why: 'The fastest harvest in hydroponics - seed to plate in under 2 weeks. Everything included, just add seeds and water.',
+    },
+    'medium': {
+      img: 'images/quiz/quiz-product-08.png',
+      name: 'MicroPod Continuous Grow Kit + LED',
+      tagline: 'Year-round harvests with LED lighting',
+      price: '$129 + $55',
+      grows: 'Microgreens',
+      not_ideal: 'Anything, but microgreens',
+      shop: '<a href="https://micropod.com.au/products/continuous-grow-kit">MicroPod Continuous Grow Kit</a> ($129) - <a href="https://gathera.com/products/full-spectrum-led-grow-light">LED grow light</a> ($54.99) - <a href="https://www.drgreenthumbs.com.au/products/coco-coir-block-4-5kg">Coco coir block</a> ($35) - <a href="https://seedmart.com.au/product-category/sprouting-seeds-australia/">Seeds - Seedmart</a> - <a href="https://www.amazon.com.au/Hills-500ml-Trigger-Sprayer-Bottles/dp/B0811D2H93/">Spray bottle</a> ($4.80) - <a href="https://www.urbanhavenliving.com.au/products/urban-greens-ergonomic-garden-snips?variant=47029188853982">Trimmers</a> ($29.95)',
+      why: 'The MicroPod lets you stagger planting for a continuous supply. Add the LED and you can grow year-round regardless of season.',
+    },
+    'large': {
+      img: 'images/quiz/quiz-product-09.png',
+      name: 'Multi-Shelf Microgreen Rack',
+      tagline: 'Restaurant-level output from your home',
+      price: '$350 - $450',
+      grows: 'Microgreens',
+      not_ideal: 'Anything, but microgreens',
+      shop: '<a href="https://www.amazon.com.au/AmazonBasics-SL-SUAM-7-4-Shelf-Shelving-Unit-Black/dp/B01LYBQXRH/">4-shelf wire unit</a> ($87.65) - <a href="http://www.amazon.com.au/Spectrum-Growing-Lighting-Dimmable-Suitable/dp/B0D4198CDY/">LED grow lights 4-pack</a> ($51.49) - <a href="https://www.amazon.com.au/SHEING-Sprouter-Nursery-Germination-Wheatgrass/dp/B07MXZG8DV/">Growing trays</a> ($25.30) - <a href="https://www.drgreenthumbs.com.au/products/coco-coir-block-4-5kg">Coco coir</a> ($35) - <a href="https://seedmart.com.au/product-category/sprouting-seeds-australia/">Seeds - Seedmart</a> - <a href="https://www.amazon.com.au/Hills-Chemical-Garden-Pressure-Sprayer/dp/B07XC3Z3ZV/">Spray bottle</a> ($15.75) - <a href="https://www.urbanhavenliving.com.au/products/urban-greens-ergonomic-garden-snips?variant=47029188853982">Trimmers</a> ($29.95) - <a href="https://www.bunnings.com.au/click-white-0-9m-4-outlet-powerboard_p0255490">Powerboard</a> ($3.45)',
+      why: 'Stagger 8-12 trays across 4 shelves for a continuous weekly harvest. Multiple varieties always cycling - enough to completely replace your bought microgreens.',
+    },
+  },
+  'mini_garden': {
+    'small': {
+      img: 'images/quiz/quiz-product-10.png',
+      name: 'Maxkon 12-Pod Hydroponic Garden',
+      tagline: 'Compact benchtop garden, easy to run',
+      price: '$74',
+      grows: 'Herbs, leafy greens, small flowers',
+      shop: '<a href="https://www.harveynorman.com.au/maxkon-12-pods-hydroponics-growing-system-indoor-herb-garden-kit.html">Maxkon 12-Pod system</a> ($74) - <a href="https://www.drgreenthumbs.com.au/products/easy-plug?variant=43390432870597">Easy plug seeds</a> ($12 for 6) - <a href="https://growkings.com.au/products/bloom-euro-a-b?variant=42095612330037">Nutrients - Bloom Euro A+B</a> ($35.49) - <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down kit</a> ($36.95 optional) - <a href="https://www.ebay.com.au/itm/196876073047">pH test kit</a> ($19.99) - <a href="https://growkings.com.au/products/hydro-bitz-measuring-syringe-20ml?variant=43252743962677">Syringe</a> ($6.20) - <a href="https://www.happyvalleyseeds.com.au/collections/pot-container-vegetable-seeds">Dwarf seeds - Happy Valley</a>',
+      why: 'A no-fuss benchtop garden that fits on your kitchen counter. Twelve pods, built-in light, and everything you need to start growing herbs and greens today.',
+    },
+    'medium': {
+      img: 'images/quiz/quiz-product-11.png',
+      name: 'Vevine LED Hydroponics System',
+      tagline: 'Mid-range system, solid output',
+      price: '$137',
+      grows: 'Herbs, leafy greens, microgreens',
+      shop: '<a href="https://www.templeandwebster.com.au/Vevine-LED-Hydroponics-Growing-System-LEVE3873.html">Vevine LED system</a> ($137) - <a href="https://growkings.com.au/products/bloom-euro-a-b?variant=42095612330037">Nutrients - Bloom Euro A+B</a> ($35.49) - <a href="https://www.amazon.com.au/Alternative-Sponges-Hydroponics-Hydroponic-Indoor/dp/B0CXNQCJRS/">Sponge growing medium</a> ($19.95) - <a href="https://www.ebay.com.au/itm/196876073047">pH test kit</a> ($19.99 optional) - <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> (optional) - <a href="https://growkings.com.au/products/hydro-bitz-measuring-syringe-20ml?variant=43252743962677">Syringe</a> ($6.20) - <a href="https://www.urbanhavenliving.com.au/products/urban-greens-ergonomic-garden-snips?variant=47029188853982">Trimmers</a> ($29.95) - Seeds - Amazon AU',
+      why: 'A step up from the entry-level garden with more pod sites and better LED coverage. Great for households that want a consistent weekly harvest.',
+    },
+    'large': {
+      img: 'images/quiz/quiz-product-12.png',
+      name: 'Eponic Mini Farm',
+      tagline: 'All-in-one grow kit, serious output',
+      price: '$279',
+      grows: 'Herbs, leafy greens, microgreens',
+      shop: '<a href="https://www.hydroexperts.com.au/Eponic-Mini-Farm-Go-Healthy-Go-Green-All-in-One-Grow-Kit">Eponic Mini Farm</a> ($279) - <a href="https://growkings.com.au/products/bloom-euro-a-b?variant=42095612330037">Nutrients - Bloom Euro A+B</a> ($35.49) - <a href="https://www.amazon.com.au/BESPORTBLE-Rock-Wool-Starter-Plugs-Hydroponics/dp/B0D1GF5ZPT/">Rockwool growing medium</a> ($26.99) - <a href="https://www.ebay.com.au/itm/196876073047">pH test kit</a> ($19.99 optional) - <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> ($36.95) - <a href="https://growkings.com.au/products/hydro-bitz-measuring-syringe-20ml?variant=43252743962677">Syringe</a> ($6.20) - <a href="https://www.urbanhavenliving.com.au/products/urban-greens-ergonomic-garden-snips?variant=47029188853982">Trimmers</a> ($29.95) - Seeds - Amazon AU',
+      why: 'A fully featured grow kit built for maximum output on a bench. Multiple levels of plant sites with professional LED - more produce than most households can eat.',
+    },
+  },
+  'dwc_bucket': {
+    'small': {
+      img: 'images/quiz/quiz-product-13.png',
+      name: 'GrowKings Single DWC Pot System',
+      tagline: 'One bucket, full nutrient control',
+      price: '$115 - $150',
+      grows: 'Herbs, chillies, cherry tomatoes, leafy greens',
+      shop: '<a href="https://growkings.com.au/products/deep-water-culture-single-pot-system-with-air-pump-39l?variant=45043672285237">Single DWC system 39L</a> ($114.95) - <a href="https://www.amazon.com.au/Hydroponic-Nutrients-Plant-Grow-Bloom/dp/B0CX4MHXDM/">Nutrients A+B</a> ($34.50) - <a href="https://franshydroponics.com.au/products/professors-hydro-clay-balls-10l-bag?variant=44760106696904">Clay pebbles</a> ($22) - <a href="https://bruceshark.com/en-au/products/3-in-1-digital-ph-tds-temp-waterproof-water-quality-meter-tester-test-pen-tool?variant=42881541275802">pH/TDS/Temp tester</a> ($36.55) - <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> ($36.95) - <a href="https://growkings.com.au/products/hydro-bitz-measuring-syringe-20ml?variant=43252743962677">Syringe</a> ($6.20) - <a href="https://www.urbanhavenliving.com.au/products/urban-greens-ergonomic-garden-snips?variant=47029188853982">Trimmers</a> ($29.95) - <a href="https://www.theseedcollection.com.au/vegetable">Seeds - The Seed Collection</a> - <a href="https://vivosun.com/vivosun-lumalight-led-grow-light-100w-p165790210430400513-v165790210430400512">LED grow light</a> ($149.95 - indoor only) - <a href="https://www.bigw.com.au/product/oznala-digital-timer-switch-socket-electric-programmable-power-240v-au-plug-clock/p/9901205333">Timer</a> ($19.95 - with light)',
+      why: 'A complete DWC bucket with air pump for beginners who want to grow serious plants. One bucket, one plant - herbs, chillies or cherry tomatoes.',
+    },
+    'medium': {
+      img: 'images/quiz/quiz-product-14.png',
+      name: 'Spider Farmer 2-Bucket DWC System',
+      tagline: 'Two plants, professional results',
+      price: '$150 - $250',
+      grows: 'Herbs, leafy greens, chillies, cherry tomatoes',
+      shop: '<a href="https://spiderfarmer.com.au/products/spider-farmer-dwc-hydroponics-grow-system-with-top-drip-kit-7-gallon-deep-water-culture-2-buckets/">Spider Farmer 2-bucket DWC</a> ($149.99) - <a href="https://www.amazon.com.au/Hydroponic-Nutrients-Plant-Grow-Bloom/dp/B0CX4MHXDM/">Nutrients A+B</a> ($34.50) - <a href="https://franshydroponics.com.au/products/professors-hydro-clay-balls-10l-bag?variant=44760106696904">Clay pebbles</a> ($22) - <a href="https://bruceshark.com/en-au/products/3-in-1-digital-ph-tds-temp-waterproof-water-quality-meter-tester-test-pen-tool?variant=42881541275802">pH/TDS/Temp tester</a> ($36.55) - <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> ($36.95) - <a href="https://www.amazon.com.au/Marhynchus-Injector-Stainless-Laboratory-Experiment/dp/B0FBT19L8N/">Syringe</a> ($20.06) - <a href="https://www.urbanhavenliving.com.au/products/urban-greens-ergonomic-garden-snips?variant=47029188853982">Trimmers</a> ($29.95) - <a href="https://www.theseedcollection.com.au/vegetable">Seeds - The Seed Collection</a> - <a href="https://vivosun.com/vivosun-lumalight-led-grow-light-100w-p165790210430400513-v165790210430400512">LED grow light</a> ($149.99 - indoor only) - <a href="https://www.bigw.com.au/product/oznala-digital-timer-switch-socket-electric-programmable-power-240v-au-plug-clock/p/9901205333">Timer</a> ($19.95 - with light)',
+      why: 'Two connected buckets with a top drip system - the most popular DWC setup for home growers. Grow two different plants and harvest more regularly.',
+    },
+    'large': {
+      img: 'images/quiz/quiz-product-15.png',
+      name: 'VEVOR RDWC 4-Bucket System',
+      tagline: 'Recirculating deep water culture, serious volume',
+      price: '$249 - $330',
+      grows: 'Herbs, greens, chillies, cucumber, cherry tomatoes',
+      shop: '<a href="https://www.vevor.com.au/dwc-hydroponic-system-c_10208/vevor-rdwc-hydroponics-system-recirculating-deep-water-culture-4-buckets-20l-p_010917500216">VEVOR RDWC 4-bucket system</a> ($249) - <a href="https://amzn.asia/d/0fbodbo7">Nutrients premium A+B</a> ($144.56) - <a href="https://franshydroponics.com.au/products/professors-hydro-clay-balls-10l-bag?variant=44760106696904">Clay pebbles</a> ($22) - <a href="https://www.amazon.com.au/Salinity-Backlight-Waterproof-Accuracy-Hydroponics/dp/B0DLK6N2HN/">EC/pH/Salinity tester</a> ($47.35) - <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> ($36.95) - <a href="https://www.woolworths.com.au/shop/productdetails/1127763065">Rockwool cubes - Woolworths</a> ($49.47) - <a href="https://www.amazon.com.au/Marhynchus-Injector-Stainless-Laboratory-Experiment/dp/B0FBT19L8N/">Syringe</a> ($20.06) - <a href="https://www.theseedcollection.com.au/vegetable">Seeds - The Seed Collection</a> - <a href="https://spiderfarmer.com.au/products/se3000-full-spectrum-led-grow-light/">LED grow light SE3000</a> ($419.99 - indoor only) - <a href="https://www.bigw.com.au/product/oznala-digital-timer-switch-socket-electric-programmable-power-240v-au-plug-clock/p/9901205333">Timer</a> ($19.99)',
+      why: 'Four recirculating buckets sharing one reservoir - the setup serious home growers use. Multiple plants, maximum output, and shared nutrients mean less work per plant.',
+    },
+  },
+  'tower': {
+    'small': {
+      img: 'images/quiz/quiz-product-16.png',
+      name: 'Hydroland 5-Tier Modular Tower',
+      tagline: 'Pump, timer and power supply included',
+      price: '$128',
+      grows: 'Herbs, leafy greens, strawberries',
+      shop: '<a href="https://hydroland.com.au/products/modular-hydroponic-tower-5-tier-includes-pump-timer-and-power-supply">Hydroland 5-tier tower</a> ($128) - <a href="https://www.amazon.com.au/Hydroponic-Nutrients-Plant-Grow-Bloom/dp/B0CX4MHXDM/">Nutrients A+B</a> ($34.50) - <a href="https://bruceshark.com/en-au/products/3-in-1-digital-ph-tds-temp-waterproof-water-quality-meter-tester-test-pen-tool?variant=42881541275802">pH/TDS tester</a> ($36.55) - <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> ($36.95) - <a href="https://www.woolworths.com.au/shop/productdetails/1127763065">Rockwool cubes - Woolworths</a> ($49.47) - <a href="https://growkings.com.au/products/hydro-bitz-measuring-syringe-20ml?variant=43252743962677">Syringe</a> ($6.20) - <a href="https://www.urbanhavenliving.com.au/products/urban-greens-ergonomic-garden-snips?variant=47029188853982">Trimmers</a> ($29.95) - <a href="https://www.theseedcollection.com.au/vegetable">Seeds - The Seed Collection</a> - <a href="https://www.bigw.com.au/product/oznala-digital-timer-switch-socket-electric-programmable-power-240v-au-plug-clock/p/9901205333">Timer</a> ($19.99)',
+      why: 'A compact tower that comes with everything - pump, timer and power supply. Perfect for a balcony or patio. Grow herbs and greens vertically with minimal footprint.',
+    },
+    'medium': {
+      img: 'images/quiz/quiz-product-17.png',
+      name: 'All-in-One Tower (Outdoor) or HydroCulture Jumbo Tower (Indoor)',
+      tagline: 'Mid-size tower for outdoors or indoors',
+      price: '$109 - $380',
+      shopping_total: '$220.40 outdoor / $491.50 indoor',
+      grows: 'Herbs, leafy greens, strawberries, Asian greens',
+      shop: 'Outdoor: <a href="https://amzn.asia/d/0i87QrGy">All-in-one tower</a> ($108.90) - Indoor: <a href="https://happyhydroponics.com.au/products/hydroculture-jumbo-vertical-tower-with-led-full-spectrum-35l-reservoir">HydroCulture Jumbo Tower + LED</a> ($380) - <a href="https://www.amazon.com.au/Hydroponic-Nutrients-Plant-Grow-Bloom/dp/B0CX4MHXDM/">Nutrients A+B</a> ($34.50) - <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> ($36.95) - <a href="https://www.amazon.com.au/Salinity-Backlight-Waterproof-Accuracy-Hydroponics/dp/B0DLK6N2HN/">EC/pH tester</a> - <a href="https://www.amazon.com.au/BESPORTBLE-Rock-Wool-Starter-Plugs-Hydroponics/dp/B0D1GF5ZPT/">Rockwool plugs</a> - <a href="https://www.amazon.com.au/Marhynchus-Injector-Stainless-Laboratory-Experiment/dp/B0FBT19L8N/">Syringe</a> ($20.06) - <a href="https://www.happyvalleyseeds.com.au/">Seeds - Happy Valley</a> - <a href="https://www.bigw.com.au/product/oznala-digital-timer-switch-socket-electric-programmable-power-240v-au-plug-clock/p/9901205333">Timer</a> ($19.99)',
+      why: 'Two options depending on where you\'re growing. The outdoor tower is a great value all-in-one. The indoor HydroCulture tower includes a full-spectrum LED for year-round production.',
+    },
+    'large': {
+      img: 'images/quiz/quiz-product-18.png',
+      name: 'Pineapple Tower - 10-Layer Vertical Tower',
+      tagline: '10 layers, serious capacity',
+      price: '$315',
+      grows: 'Herbs, leafy greens, strawberries, Asian greens, cherry tomatoes',
+      shop: '<a href="https://www.aliexpress.com/item/1005002007515192.html">Pineapple Tower 10-layer</a> ($315.19) - <a href="https://amzn.asia/d/0fbodbo7">Premium nutrients A+B</a> ($138.50) - <a href="https://www.amazon.com.au/Salinity-Backlight-Waterproof-Accuracy-Hydroponics/dp/B0DLK6N2HN/">EC/pH/Salinity tester</a> ($47.35) - <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> ($36.95) - <a href="https://www.amazon.com.au/Marhynchus-Injector-Stainless-Laboratory-Experiment/dp/B0FBT19L8N/">Syringe</a> ($20.06) - <a href="https://au.shein.com/goods-p-283575235.html">Rockwool plugs</a> ($4.16) - <a href="https://www.urbanhavenliving.com.au/products/urban-greens-ergonomic-garden-snips?variant=47029188853982">Trimmers</a> ($29.95) - <a href="https://www.happyvalleyseeds.com.au/">Seeds - Happy Valley</a> - Grow lights ($198)',
+      why: 'Ten layers of vertical growing space for serious growers. Maximum output in a small footprint - ideal for a patio, balcony or large outdoor space.',
+    },
+  },
+  'salad_table': {
+    'small': {
+      img: 'images/quiz/quiz-product-19.png',
+      name: 'Angled Pipe NFT System',
+      tagline: 'Simple passive flow, compact footprint',
+      price: '$88.00',
+      grows: 'Lettuce, leafy greens, herbs',
+      shop: '<a href="https://www.amazon.com.au/DOMINFLY-Hydroponics-Gardening-Aquaculture-Vegetables/dp/B0GS85HCPW/ref=sr_1_17?dib=eyJ2IjoiMSJ9.oD0N769gA1LS-GbjymdMG3iLqIU-wbv8bTTBKMom4sDXpcfYKl0gNzlL2l51rKUDmQLPXcg9kq3VXT30GOF-ZnLjFwpb8qHeWvcg7-gsV_FubR23X1Hdgma4SLaq7me5pb5Cm_1-9rdCdQFwu7E70cII-0C-1PR2FjNRYbWyXOffREUW-_9AY8BB49HVbtX1u5FaMadBWYp3HBtIJVYw0vkbC3rOyUBoQmNOEqaYCigJRl77IPIdveBPBjH32xNq8tz7GD61TaPO-Lua_J2nv5aXNsEPgVjibiz1j3JloGA.lkmb3tYUh_J2wUp7nF7VvhGwJcFVCIBymPzPXfFsqco&dib_tag=se&keywords=hydroponic%2Bsystem&qid=1783507426&sr=8-17&th=1">Angled pipe NFT system</a> ($88.00) - <a href="https://www.amazon.com.au/Hydroponic-Nutrients-Plant-Grow-Bloom/dp/B0CX4MHXDM/">Nutrients A+B</a> ($34.50) - <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> ($36.95) - <a href="https://bruceshark.com/en-au/products/3-in-1-digital-ph-tds-temp-waterproof-water-quality-meter-tester-test-pen-tool?variant=42881541275802">pH/TDS tester</a> ($36.55) - <a href="https://farmtek.com.au/products/hydroponic-sponge-cubes-cross-cut-25x25x25mm-100-pcs">Sponge cubes</a> ($9.90) - <a href="https://www.officeworks.com.au/shop/officeworks/p/j-burrows-40l-heavy-duty-storage-container-black-jbh0040">Reservoir tote</a> ($13) - <a href="https://growkings.com.au/products/hydro-bitz-measuring-syringe-20ml?variant=43252743962677">Syringe</a> ($6.20) - <a href="https://www.hydroexperts.com.au/Precision-Pruner-For-Hydroponic-Indoor-Plantations-Curved-Blade">Trimmer</a> ($9.95) - <a href="https://www.happyvalleyseeds.com.au/">Seeds - Happy Valley</a>',
+      why: 'A compact NFT salad system with everything built in. Simple passive flow keeps roots fed - harvest fresh salad greens in under 4 weeks.',
+    },
+    'vertical': {
+      img: 'images/quiz/quiz-product-20.png',
+      name: 'Hydroland 35-Hole Wall-Mounted System',
+      tagline: 'Wall-mounted, 35 plant sites, no bench space needed',
+      price: '$495',
+      grows: 'Lettuce, herbs, leafy greens, Asian greens',
+      shop: '<a href="https://hydroland.com.au/products/35-hole-wall-mounted-hydroponic-system">Hydroland 35-hole wall system</a> ($495) - <a href="https://www.amazon.com.au/Hydroponic-Nutrients-Plant-Grow-Bloom/dp/B0CX4MHXDM/">Nutrients A+B</a> ($34.50) - <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> ($36.95) - <a href="https://bruceshark.com/en-au/products/3-in-1-digital-ph-tds-temp-waterproof-water-quality-meter-tester-test-pen-tool?variant=42881541275802">pH/TDS tester</a> ($36.55) - <a href="https://www.amazon.com.au/BESPORTBLE-Rock-Wool-Starter-Plugs-Hydroponics/dp/B0D1GF5ZPT/">Rockwool plugs</a> ($26.99) - <a href="https://www.amazon.com.au/Marhynchus-Injector-Stainless-Laboratory-Experiment/dp/B0FBT19L8N/">Syringe</a> ($20.06) - <a href="https://www.urbanhavenliving.com.au/products/urban-greens-ergonomic-garden-snips?variant=47029188853982">Trimmers</a> ($29.95) - <a href="https://www.happyvalleyseeds.com.au/">Seeds - Happy Valley</a>',
+      why: 'A wall-mounted system with 35 plant sites that takes up zero bench or floor space. Perfect for a garden wall, fence or feature wall - herbs and greens growing vertically.',
+    },
+    'large': {
+      img: 'images/quiz/quiz-product-21.png',
+      name: 'TheSaladTable 60-Plant NFT System',
+      tagline: 'The Australian-made NFT table, 60 sites',
+      price: '$58 - $600',
+      grows: 'Leafy greens, herbs, lettuce, cherry tomatoes - in volume',
+      shop: '<a href="https://thesaladtable.com.au/products/premium-indoor-outdoor-60-plant-salad-table?variant=42548066123945">TheSaladTable 60-plant system</a> ($58+) - <a href="https://www.amazon.com.au/Hydroponic-Nutrients-Plant-Grow-Bloom/dp/B0CX4MHXDM/">Nutrients A+B</a> ($34.50) - <a href="https://www.amazon.com.au/Salinity-Backlight-Waterproof-Accuracy-Hydroponics/dp/B0DLK6N2HN/">EC/pH tester</a> ($47.35) - <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> ($36.95) - <a href="https://www.amazon.com.au/BESPORTBLE-Rock-Wool-Starter-Plugs-Hydroponics/dp/B0D1GF5ZPT/">Rockwool plugs</a> ($26.99) - <a href="https://franshydroponics.com.au/products/professors-hydro-clay-balls-10l-bag?variant=44760106696904">Clay pebbles</a> ($22) - <a href="https://www.amazon.com.au/Marhynchus-Injector-Stainless-Laboratory-Experiment/dp/B0FBT19L8N/">Syringe</a> ($20.06) - <a href="https://www.urbanhavenliving.com.au/products/urban-greens-ergonomic-garden-snips?variant=47029188853982">Trimmers</a> ($29.95) - <a href="https://spiderfarmer.com.au/products/se3000-full-spectrum-led-grow-light/">LED grow light SE3000</a> ($419.99 optional) - <a href="https://www.happyvalleyseeds.com.au/">Seeds - Happy Valley</a>',
+      why: 'An Australian-made NFT table with 60 plant sites. Nutrient film runs continuously - faster growth, cleaner roots, restaurant-quality salad output every week.',
+    },
+  },
+  'grow_shelf': {
+    'small': {
+      img: 'images/quiz/quiz-product-22.png',
+      name: 'Gathera Sun Shelf + Heirloom Basin (×3)',
+      tagline: 'Shelf, LED and passive Kratky basins in one kit',
+      price: '$199 shelf + $240 basins',
+      grows: 'Herbs, leafy greens, microgreens',
+      shop: '<a href="https://gathera.com/collections/grow-indoor-plants/products/sun-shelf-3">Gathera Sun Shelf 3</a> ($199) - <a href="https://gathera.com/products/heirloom-basin">Gathera Heirloom Basin ×3</a> ($79.99 each, recommend 3) - <a href="https://www.amazon.com.au/Hydroponic-Nutrients-Plant-Grow-Bloom/dp/B0CX4MHXDM/">Nutrients A+B</a> ($34.50) - <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> ($36.95) - <a href="https://www.amazon.com.au/Salinity-Backlight-Waterproof-Accuracy-Hydroponics/dp/B0DLK6N2HN/">EC/pH tester</a> ($47.35) - <a href="https://www.amazon.com.au/Marhynchus-Injector-Stainless-Laboratory-Experiment/dp/B0FBT19L8N/">Syringe</a> ($20.06) - <a href="https://www.amazon.com.au/BESPORTBLE-Rock-Wool-Starter-Plugs-Hydroponics/dp/B0D1GF5ZPT/">Rockwool plugs</a> ($26.99) - <a href="https://www.urbanhavenliving.com.au/products/urban-greens-ergonomic-garden-snips?variant=47029188853982">Trimmers</a> ($29.95) - <a href="https://www.happyvalleyseeds.com.au/">Seeds - Happy Valley</a>',
+      why: 'The Gathera Sun Shelf comes with a built-in LED bar - just add the Heirloom Basins underneath for a clean, passive Kratky setup. No pump, no timer, minimal fuss.',
+    },
+    'large': {
+      img: 'images/quiz/quiz-product-23.png',
+      name: 'Farmtek HydroTower 120-Plant System',
+      tagline: '120 plant sites, vertical indoor farm',
+      price: '$1,299',
+      grows: 'Herbs, leafy greens, microgreens - in serious volume',
+      shop: '<a href="https://farmtek.com.au/products/hydrotower-indoor-hydroponic-growing-tower-system-kit-vertical-farming-tower-garden-120-plants">Farmtek HydroTower 120-plant system</a> ($1,299) - <a href="https://www.amazon.com.au/Hydroponic-Nutrients-Plant-Grow-Bloom/dp/B0CX4MHXDM/">Nutrients A+B</a> ($34.50) - <a href="https://www.amazon.com.au/Salinity-Backlight-Waterproof-Accuracy-Hydroponics/dp/B0DLK6N2HN/">EC/pH tester</a> - <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> ($36.95) - <a href="https://farmtek.com.au/products/moss-peat-sponge-plug-the-best-hydroponics-grow-medium-for-ss120-hydrotower-pack-of-30">Farmtek sponge plugs</a> ($18.90) - <a href="https://www.amazon.com.au/Marhynchus-Injector-Stainless-Laboratory-Experiment/dp/B0FBT19L8N/">Syringe</a> ($20.06) - <a href="https://www.bigw.com.au/product/oznala-digital-timer-switch-socket-electric-programmable-power-240v-au-plug-clock/p/9901205333">Timer</a> ($19.99) - <a href="https://www.urbanhavenliving.com.au/products/urban-greens-ergonomic-garden-snips?variant=47029188853982">Trimmers</a> ($29.95) - <a href="https://www.happyvalleyseeds.com.au/">Seeds - Happy Valley</a>',
+      why: 'A serious vertical indoor farm with 120 plant sites across multiple levels. Built-in lighting and circulation - grow enough for a whole household year-round.',
+    },
+  },
+};
+
+const SYSTEM_NAMES = {
+  mini_garden: 'Bench Mini Garden',
+  salad_table: 'Salad Table',
+  dwc_bucket: 'Bucket & Tote Garden',
+  tower: 'Tower Garden',
+  microgreens: 'Microgreen Station',
+  grow_shelf: 'Grow Shelf',
+};
+
+
+const SIZE_LABELS_V2 = { small:'Compact', medium:'Mid-size', large:'Full-size', vertical:'Wall-mounted' };
+function getSizeLabel(size){ return SIZE_LABELS_V2[size] || size; }
+
+const SYSTEM_SIZES = {
+  microgreens:['small','medium','large'],
+  mini_garden:['small','medium','large'],
+  dwc_bucket:['small','medium','large'],
+  tower:['small','medium','large'],
+  salad_table:['small','large'],
+  grow_shelf:['small','large'],
+};
+const APPROX_PRICE = {
+  'microgreens:small':129,'microgreens:medium':185,'microgreens:large':400,
+  'mini_garden:small':74,'mini_garden:medium':137,'mini_garden:large':279,
+  'dwc_bucket:small':130,'dwc_bucket:medium':200,'dwc_bucket:large':290,
+  'tower:small':128,'tower:medium':245,'tower:large':315,
+  'salad_table:small':88,'salad_table:large':330,'salad_table:vertical':495,
+  'grow_shelf:small':440,'grow_shelf:large':1299,
+};
+const BUDGET_MAX = { low:150, mid:350, high:Infinity };
+const BUDGET_TEXT = { low:'under $150', mid:'$150-$350', high:'$350+' };
+
+const A = { crops:[], location:null, harvest:null, confidence:null, budget:null, motivations:[], email:'' };
+
+const QUIZ_VERSION = 'growacrop_quiz_v2';
+const QUIZ_ATTEMPT_KEY = 'growacrop_quiz_attempt_id_v2';
+const QUIZ_STARTED_AT_KEY = 'growacrop_quiz_started_at_v2';
+const QUIZ_COMPLETED_KEY = 'growacrop_quiz_completed_v2';
+let quizAttemptId = sessionStorage.getItem(QUIZ_ATTEMPT_KEY);
+let quizStartedAt = Number(sessionStorage.getItem(QUIZ_STARTED_AT_KEY));
+let quizCompletedTracked = false;
+let emailSubmissionStarted = false;
+let currentQuizStep = 1;
+
+function createQuizAttempt() {
+  quizAttemptId = crypto.randomUUID();
+  quizStartedAt = Date.now();
+  sessionStorage.setItem(QUIZ_ATTEMPT_KEY, quizAttemptId);
+  sessionStorage.setItem(QUIZ_STARTED_AT_KEY, String(quizStartedAt));
+  sessionStorage.removeItem(QUIZ_COMPLETED_KEY);
+}
+if (!quizAttemptId || !quizStartedAt || sessionStorage.getItem(QUIZ_COMPLETED_KEY)) {
+  createQuizAttempt();
+}
+
+function captureQuizEvent(eventName, properties) {
+  if (!window.posthog || typeof window.posthog.capture !== 'function') return;
+  window.posthog.capture(eventName, Object.assign({
+    quiz_attempt_id: quizAttemptId,
+    quiz_version: QUIZ_VERSION
+  }, properties || {}));
+}
+
+const QUESTION_IDS = {1:'crop',2:'placement',3:'harvest_amount',4:'confidence',5:'budget',6:'motivation',7:'email_opt_in'};
+function getQuestionDetails(step) {
+  return { question_id: QUESTION_IDS[step] || 'unknown', question_number: step };
+}
+function trackQuizStarted() {
+  const startedKey = 'growacrop_quiz_started_' + quizAttemptId;
+  if (sessionStorage.getItem(startedKey)) return;
+  sessionStorage.setItem(startedKey, '1');
+  captureQuizEvent('quiz_started');
+}
+function trackStepViewed(step) { captureQuizEvent('quiz_step_viewed', getQuestionDetails(step)); }
+function trackAnswer(questionNumber, answerId, answerLabel) {
+  captureQuizEvent('quiz_answered', Object.assign(
+    getQuestionDetails(questionNumber),
+    { answer_id: answerId, answer_label: answerLabel }
+  ));
+}
+
+trackQuizStarted();
+trackStepViewed(1);
+
+function pickAnswer(el, key) {
+  const isRepeated = A[key] === el.dataset.val;
+  el.parentElement.querySelectorAll('.motivation-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  A[key] = el.dataset.val;
+  document.getElementById('next-' + currentQuizStep).disabled = false;
+  if (!isRepeated) trackAnswer(currentQuizStep, el.dataset.val, el.querySelector('.motivation-label').textContent.trim());
+}
+
+function updateCropAvailability() {
+  const cards = document.querySelectorAll('#screen-1 .motivation-card');
+  const hasMicrogreens = A.crops.includes('microgreens');
+  const hasOther = A.crops.some(v => v !== 'microgreens');
+  cards.forEach(c => {
+    const isMicrogreens = c.dataset.val === 'microgreens';
+    if (isMicrogreens) c.classList.toggle('disabled', hasOther);
+    else c.classList.toggle('disabled', hasMicrogreens);
+  });
+  document.getElementById('next-1').disabled = A.crops.length === 0;
+}
+
+function toggleCrop(el) {
+  const val = el.dataset.val;
+  const idx = A.crops.indexOf(val);
+  if (idx >= 0) {
+    A.crops.splice(idx, 1);
+    el.classList.remove('selected');
+  } else {
+    if (val === 'microgreens') {
+      A.crops.forEach(v => {
+        const other = document.querySelector('#screen-1 .motivation-card[data-val="' + v + '"]');
+        if (other) other.classList.remove('selected');
+      });
+      A.crops = [];
+    } else if (A.crops.includes('microgreens')) {
+      A.crops = [];
+      const mg = document.querySelector('#screen-1 .motivation-card[data-val="microgreens"]');
+      if (mg) mg.classList.remove('selected');
+    }
+    A.crops.push(val);
+    el.classList.add('selected');
+    trackAnswer(1, val, el.querySelector('.motivation-label').textContent.trim());
+  }
+  updateCropAvailability();
+}
+
+function toggleMotivation(el) {
+  const val = el.dataset.val;
+  const idx = A.motivations.indexOf(val);
+  if (idx >= 0) { A.motivations.splice(idx, 1); el.classList.remove('selected'); }
+  else { A.motivations.push(val); el.classList.add('selected'); trackAnswer(6, val, el.querySelector('.motivation-label').textContent.trim()); }
+  document.getElementById('next-6').disabled = A.motivations.length === 0;
+}
+
+function checkEmail() {
+  const val = document.getElementById('email-input').value.trim();
+  const valid = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(val);
+  document.getElementById('next-7').disabled = val !== '' && !valid;
+  A.email = val;
+}
+
+function goBack() {
+  if (currentQuizStep <= 1) return;
+  captureQuizEvent('quiz_back_clicked', Object.assign(
+    getQuestionDetails(currentQuizStep),
+    { destination_step: currentQuizStep - 1 }
+  ));
+  goTo(currentQuizStep - 1);
+}
+
+function goTo(step) {
+  if (step === currentQuizStep) return;
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + step).classList.add('active');
+  updateProgress(step);
+  currentQuizStep = step;
+  trackStepViewed(step);
+  window.scrollTo(0, 0);
+}
+
+function updateProgress(step) {
+  const labels = {
+    1: "Step 1 of 7 - What you'll grow",
+    2: 'Step 2 of 7 - Your space',
+    3: 'Step 3 of 7 - Harvest size',
+    4: 'Step 4 of 7 - Your experience',
+    5: 'Step 5 of 7 - Budget',
+    6: 'Step 6 of 7 - Why grow',
+    7: 'Step 7 of 7 - Your plan',
+  };
+  for (let i = 1; i <= 7; i++) {
+    const el = document.getElementById('step' + i);
+    el.className = 'step';
+    if (i < step) el.classList.add('done');
+    else if (i === step) el.classList.add('active');
+  }
+  document.getElementById('progress-label').textContent = labels[step] || '';
+}
+
+/* ---------------- DERIVATION ENGINE ---------------- */
+function deriveMatch() {
+  const cr = A.crops, l = A.location, h = A.harvest;
+  const flags = { budget: false, stretch: false, confidence: false };
+  let sys;
+  if (cr.includes('microgreens')) sys = 'microgreens';
+  else if (cr.includes('fruiting')) sys = 'dwc_bucket';
+  else if (l === 'wall') sys = 'salad_table';
+  else if (l === 'bench') sys = 'mini_garden';
+  else if (l === 'indoor_floor') sys = 'grow_shelf';
+  else if (cr.includes('salad')) sys = 'salad_table';
+  else sys = 'tower';
+
+  let size;
+  if (sys === 'salad_table') size = (l === 'wall') ? 'vertical' : (h === 'serious' ? 'large' : 'small');
+  else if (sys === 'grow_shelf') size = (h === 'serious') ? 'large' : 'small';
+  else size = h === 'taste' ? 'small' : (h === 'weekly' ? 'medium' : 'large');
+
+  // Budget cap: step down while over budget
+  if (size !== 'vertical') {
+    const order = SYSTEM_SIZES[sys];
+    let idx = order.indexOf(size);
+    while (idx > 0 && APPROX_PRICE[sys + ':' + order[idx]] > BUDGET_MAX[A.budget]) {
+      idx--; flags.budget = true;
+    }
+    size = order[idx];
+  }
+  if (APPROX_PRICE[sys + ':' + size] > BUDGET_MAX[A.budget]) flags.stretch = true;
+
+  // Confidence guard: beginners don't start on the biggest pump-driven systems
+  if ((A.confidence === 'none' || A.confidence === 'killer') && size === 'large' && (sys === 'dwc_bucket' || sys === 'tower')) {
+    size = 'medium'; flags.confidence = true;
+  }
+  return { sys: sys, size: size, flags: flags };
+}
+
+const CROP_TEXT = {
+  herbs: 'fresh herbs', salad: 'salad greens', fruiting: 'fruiting veg like tomatoes and chillies',
+  microgreens: 'microgreens',
+};
+const SYS_CROP_REASON = {
+  microgreens: 'it is the fastest path to harvest - seed to plate in under two weeks',
+  mini_garden: 'an all-in-one benchtop unit with built-in light is the easiest way to grow herbs and greens indoors',
+  dwc_bucket: 'deep water culture gives big fruiting plants the root space and nutrients they need',
+  tower: 'a vertical tower packs the widest mix of crops into the smallest outdoor footprint',
+  salad_table: 'a flat NFT table is the easiest way to plant, tend and harvest salad greens in volume',
+  grow_shelf: 'a shelf system stacks growing levels under their own lights - real volume, indoors',
+};
+const LOC_REASON = {
+  bench: 'It fits on a kitchen bench with lighting built in - no sun needed.',
+  indoor_floor: 'It stands on its own small footprint indoors under its own lights.',
+  balcony: 'It suits a balcony or courtyard that gets decent sun.',
+  backyard: 'Your sunny spot gives it the 6+ hours of light it wants.',
+  wall: 'It mounts on a wall or fence and uses zero floor space.',
+};
+const HARVEST_REASON = {
+  taste: "We sized it compact - enough for steady herbs and garnishes without becoming a chore.",
+  weekly: 'We sized it for reliable weekly harvests for your household.',
+  serious: 'We sized it for serious output - this is a volume setup.',
+};
+
+function cropText() {
+  const labels = A.crops.map(v => CROP_TEXT[v]).filter(Boolean);
+  if (labels.length <= 1) return labels[0] || 'your crops';
+  return labels.slice(0, -1).join(', ') + ' and ' + labels[labels.length - 1];
+}
+
+function buildReasons(sys, size, flags) {
+  const items = [];
+  items.push('You want to grow ' + cropText() + ', and ' + SYS_CROP_REASON[sys] + '.');
+  items.push(LOC_REASON[A.location]);
+  items.push(HARVEST_REASON[A.harvest]);
+  if (flags.confidence) {
+    items.push("You told us you're new to growing, so we stepped down from the biggest version - fewer plants to keep alive while you learn. It's below if you want it anyway.");
+  } else if (A.confidence === 'none' || A.confidence === 'killer') {
+    items.push("You said you're new to this - this setup is forgiving, and the beginner guide walks you through week by week.");
+  }
+  if (flags.stretch) {
+    items.push('Heads up: this system costs more than your ' + BUDGET_TEXT[A.budget] + ' budget - it is the most affordable way to do what you asked for. The alternatives below are cheaper but compromise on it.');
+  } else if (flags.budget) {
+    items.push('We kept the setup inside your ' + BUDGET_TEXT[A.budget] + ' budget. The bigger version is below for when you are ready.');
+  } else {
+    items.push('It fits your ' + BUDGET_TEXT[A.budget] + ' budget, shopping list included.');
+  }
+  return items;
+}
+
+function buildRuledOut(sys) {
+  const l = A.location, h = A.harvest;
+  const out = [];
+  const add = (s, why) => { if (s !== sys && out.length < 2) out.push({ name: SYSTEM_NAMES[s], why: why }); };
+  switch (sys) {
+    case 'microgreens':
+      add('mini_garden', 'Grows full plants, but slower - microgreens get you harvesting in under two weeks.');
+      break;
+    case 'mini_garden':
+      add('tower', 'Needs outdoor sun or a serious lighting setup - your bench spot suits an all-in-one with built-in LED.');
+      add('dwc_bucket', 'Built for big fruiting plants like tomatoes - more system than herbs and greens need.');
+      break;
+    case 'dwc_bucket':
+      add('mini_garden', "Benchtop pods can't support full-size tomatoes, chillies or cucumbers.");
+      add('tower', 'Tower ports are too small for large fruiting plants - buckets give the roots room.');
+      break;
+    case 'tower':
+      add('salad_table', h === 'taste' ? 'Great for salad volume, but more than you need for steady herbs and garnishes.' : 'Strong for pure salad output, but the tower handles a wider crop mix in less floor space.');
+      add('dwc_bucket', 'Fewer plants per dollar for herbs and greens - buckets earn their keep on big fruiting crops.');
+      break;
+    case 'salad_table':
+      add('tower', l === 'wall' ? 'Needs floor space - your wall-mounted option uses none.' : "Covers more crop types, but for salad growing the table's flat layout is easier to plant and harvest.");
+      add('mini_garden', 'Too small for the salad volume you are after.');
+      break;
+    case 'grow_shelf':
+      add('mini_garden', "A single benchtop unit can't reach the indoor volume you want.");
+      add('tower', 'Wants outdoor sun - the shelf keeps everything compact indoors under its own lights.');
+      break;
+  }
+  return out;
+}
+
+/* ---------------- KIT + RESULT ---------------- */
+function submitToKit(email, recommendedSetup) {
+  if (emailSubmissionStarted) return;
+  emailSubmissionStarted = true;
+  const formData = new FormData();
+  formData.append('email_address', email);
+  if (A.motivations.length) formData.append('fields[motivation]', A.motivations.join(', '));
+  if (A.crops.length) formData.append('fields[crop]', A.crops.join(', '));
+  if (A.confidence) formData.append('fields[confidence]', A.confidence);
+  if (A.budget) formData.append('fields[budget]', A.budget);
+  formData.append('fields[system]', recommendedSetup);
+  fetch('https://app.kit.com/forms/9647335/subscriptions', {
+    method: 'POST',
+    body: formData,
+    headers: { 'Accept': 'application/json' }
+  }).then(function(response) {
+    if (!response.ok) throw new Error('Kit returned HTTP ' + response.status);
+    captureQuizEvent('email_submitted', { recommended_setup: recommendedSetup });
+  }).catch(function(err) {
+    console.error('Kit signup failed silently:', err);
+  });
+}
+
+function showResult() {
+  const match = deriveMatch();
+  const recommendedSetup = RECS[match.sys][match.size].name;
+  if (A.email) submitToKit(A.email, recommendedSetup);
+
+  if (!quizCompletedTracked) {
+    quizCompletedTracked = true;
+    sessionStorage.setItem(QUIZ_COMPLETED_KEY, '1');
+    captureQuizEvent('quiz_completed', {
+      recommended_setup: recommendedSetup,
+      derived_system: match.sys,
+      derived_size: match.size,
+      budget_capped: match.flags.budget,
+      stretch: match.flags.stretch,
+      confidence_adjusted: match.flags.confidence,
+      duration_seconds: Math.max(0, Math.round((Date.now() - quizStartedAt) / 1000))
+    });
+  }
+
+  renderRecommendation(match.sys, match.size, match.flags);
+
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('result-screen').classList.add('active');
+  for (let i = 1; i <= 7; i++) document.getElementById('step' + i).className = 'step done';
+  document.getElementById('progress-label').textContent = 'Complete';
+  window.scrollTo(0, 0);
+}
+
+function getShoppingTotal(rec) {
+  if (rec.shopping_total) return rec.shopping_total;
+  const total = rec.shop.split(' - ').reduce(function(sum, item) {
+    if (/optional|indoor only|with light/i.test(item)) return sum;
+    const match = item.match(/\$([\d,]+(?:\.\d+)?)/);
+    if (!match) return sum;
+    let price = Number(match[1].replace(/,/g, ''));
+    if (/recommend 3/i.test(item)) price *= 3;
+    return sum + price;
+  }, 0);
+  return total.toLocaleString('en-AU', { style: 'currency', currency: 'AUD', minimumFractionDigits: 2 });
+}
+
+function renderRecommendation(sys, size, flags) {
+  const rec = RECS[sys][size];
+  const sysName = SYSTEM_NAMES[sys];
+  const sizeName = getSizeLabel(size);
+  const isMatched = !!flags;
+  document.getElementById('best-match-badge').style.display = isMatched ? 'inline-block' : 'none';
+
+  document.getElementById('r-title').textContent = isMatched ? 'We matched you with the ' + sysName : sysName + ' - ' + sizeName;
+  document.getElementById('r-sub').textContent = isMatched
+    ? 'Worked out from your answers - what you want to grow, your space, and your budget.'
+    : 'Another option in the ' + sysName + ' family.';
+  const primaryImage = document.getElementById('r-img');
+  primaryImage.style.display = 'block';
+  primaryImage.src = rec.img;
+  primaryImage.alt = rec.name;
+  document.getElementById('r-name').textContent = rec.name;
+  document.getElementById('r-tagline').textContent = rec.tagline;
+  document.getElementById('r-grows').innerHTML = '<strong>Grows:</strong> ' + rec.grows;
+
+  const reasonsEl = document.getElementById('r-reasons');
+  if (isMatched) {
+    reasonsEl.style.display = 'block';
+    reasonsEl.innerHTML = '<strong>Why this match:</strong><ul>' +
+      buildReasons(sys, size, flags).map(function(r){ return '<li>' + r + '</li>'; }).join('') + '</ul>';
+  } else {
+    reasonsEl.style.display = 'none';
+  }
+
+  const notIdealEl = document.getElementById('r-not-ideal');
+  if (rec.not_ideal) {
+    notIdealEl.innerHTML = '<strong>Not ideal for:</strong> ' + rec.not_ideal;
+    notIdealEl.style.display = 'block';
+  } else {
+    notIdealEl.style.display = 'none';
+  }
+
+  const shopItems = rec.shop.split(' - ');
+  const shopHTML = '<strong>Shopping list:</strong><ul class="shop-list">' +
+    shopItems.map(function(item, index) {
+      const linkedItem = item.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ');
+      return '<li class="shop-item"><input type="checkbox" aria-label="Mark shopping item ' + (index + 1) + ' complete" onchange="this.parentElement.classList.toggle(\'checked\', this.checked)"><div class="shop-item-content">' + linkedItem + '</div></li>';
+    }).join('') +
+    '</ul>' +
+    '<div class="shop-total"><span>Estimated total (priced essentials)</span><span>' + getShoppingTotal(rec) + '</span></div>' +
+    '<div class="shop-total-note">Optional and unpriced items are not included.</div>';
+  document.getElementById('r-shop').innerHTML = shopHTML;
+  document.getElementById('r-why').textContent = rec.why;
+
+  // Ruled-out systems (only for the original match)
+  const ruledTitle = document.getElementById('r-ruled-title');
+  const ruledGrid = document.getElementById('r-ruled');
+  if (isMatched) {
+    const ruled = buildRuledOut(sys);
+    if (ruled.length) {
+      ruledTitle.style.display = 'block';
+      ruledGrid.innerHTML = ruled.map(function(r) {
+        return '<div class="ruled-card"><strong>' + r.name + '</strong>' + r.why + '</div>';
+      }).join('');
+    } else {
+      ruledTitle.style.display = 'none';
+      ruledGrid.innerHTML = '';
+    }
+  }
+
+  // Other sizes in this system
+  const otherSizes = Object.keys(RECS[sys]).filter(function(s){ return s !== size; });
+  document.getElementById('r-others-title').textContent = 'Other ' + sysName + ' options';
+  const othersGrid = document.getElementById('r-others');
+  othersGrid.innerHTML = '';
+  otherSizes.forEach(function(s) {
+    const r = RECS[sys][s];
+    const card = document.createElement('div');
+    card.className = 'other-card';
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.onclick = function() { switchToOption(sys, s); };
+    card.onkeydown = function(e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); switchToOption(sys, s); }
+    };
+    card.innerHTML =
+      '<img class="other-card-img" src="' + r.img + '" alt="' + r.name + '">' +
+      '<div class="other-card-body">' +
+        '<div class="other-size-tag">' + getSizeLabel(s) + '</div>' +
+        '<div class="other-name">' + r.name + '</div>' +
+        '<div class="other-grows">' + r.grows + '</div>' +
+        '<div class="other-cta">View this option -></div>' +
+      '</div>';
+    othersGrid.appendChild(card);
+  });
+}
+
+function switchToOption(sys, newSize) {
+  renderRecommendation(sys, newSize, null);
+  const resultTop = document.getElementById('result-screen');
+  if (resultTop) resultTop.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function restart() {
+  captureQuizEvent('quiz_restarted');
+  createQuizAttempt();
+  quizCompletedTracked = false;
+  emailSubmissionStarted = false;
+  currentQuizStep = 1;
+  A.crops = []; A.location = null; A.harvest = null; A.confidence = null; A.budget = null; A.motivations = []; A.email = '';
+  document.querySelectorAll('.motivation-card').forEach(function(c){ c.classList.remove('selected'); c.classList.remove('disabled'); });
+  document.getElementById('email-input').value = '';
+  for (let i = 1; i <= 6; i++) document.getElementById('next-' + i).disabled = true;
+  document.getElementById('next-7').disabled = false;
+  document.getElementById('result-screen').classList.remove('active');
+  document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+  document.getElementById('screen-1').classList.add('active');
+  updateProgress(1);
+  trackQuizStarted();
+  trackStepViewed(1);
+  window.scrollTo(0, 0);
+}
+
+</script>
+</body>
+</html>
