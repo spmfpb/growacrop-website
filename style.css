@@ -49,6 +49,7 @@ main { flex: 1; }
   align-items: center;
   position: relative;
   overflow: hidden;
+  min-height: auto;
   background:
     linear-gradient(rgba(247,244,238,0.14), rgba(247,244,238,0.14)),
     url('images/backgrounds/hydroponic-grid.webp') center / cover no-repeat;
