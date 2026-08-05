@@ -149,7 +149,14 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 .screen,.result-screen{position:relative;z-index:1}
 @media(prefers-reduced-motion:reduce){.quiz-growth-bg{transition:none}}
 .nav-quiz-link[aria-current="page"]{background:var(--green-ghost);color:var(--green-deep)}
-@media(max-width:760px){.quiz-page-main{min-height:auto}}
+@media(max-width:760px){
+  .quiz-page-main{min-height:auto}
+  .quiz-growth-bg{
+    background-size:100% 100%,auto 45%;
+    background-position:center,center top;
+    background-repeat:no-repeat;
+  }
+}
 </style>
 <script>
     !function(t,e){var o,n,p,r;e.__SV||(window.posthog && window.posthog.__loaded)||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="Ji Yi init fn mn Hr pn bn cn capture calculateEventProperties Sn register register_once register_for_session unregister unregister_for_session In getFeatureFlag getFeatureFlagPayload getFeatureFlagResult getAllFeatureFlags isFeatureEnabled reloadFeatureFlags updateFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey displaySurvey cancelPendingSurvey canRenderSurvey canRenderSurveyAsync Tn identify setPersonProperties unsetPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset shutdown setIdentity clearIdentity get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException addExceptionStep captureLog startExceptionAutocapture stopExceptionAutocapture loadToolbar get_property getSessionProperty Cn xn createPersonProfile setInternalOrTestUser Mn hn Pn opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing get_explicit_consent_status is_capturing clear_opt_in_out_capturing debug Ur wt getPageViewId captureTraceFeedback captureTraceMetric an".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
@@ -249,11 +256,11 @@ body{background:#f7f7f5}
 .btn-row{display:flex;align-items:center;gap:8px}
 @media(max-width:700px){
   .quiz-page-main{min-height:calc(100dvh - 148px);margin-top:0}
-  .screen{width:100%;min-height:calc(100dvh - 148px);padding:48px 14px 18px;text-align:center}
+  .screen{width:100%;min-height:calc(100dvh - 148px);padding:38px 12px 14px;text-align:center}
   .screen.active{display:flex;flex-direction:column;align-items:center}
-  .q-eyebrow{font-size:12px;margin-bottom:8px}
-  .q-title{font-size:22px;line-height:1.2;margin-bottom:8px;max-width:520px}
-  .q-sub{font-size:13px;line-height:1.4;margin:0 auto 14px;max-width:520px}
+  .q-eyebrow{font-size:10px;margin-bottom:6px}
+  .q-title{font-size:18px;line-height:1.2;margin-bottom:6px;max-width:440px}
+  .q-sub{font-size:11px;line-height:1.35;margin:0 auto 11px;max-width:440px}
   .q-why{display:none}
   .motivation-grid,
   #screen-1 .motivation-grid,
@@ -264,10 +271,10 @@ body{background:#f7f7f5}
   #screen-6 .motivation-grid{
     display:grid;
     grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:8px;
-    width:100%;
-    max-width:520px;
-    margin:0 auto 14px;
+    gap:6px;
+    width:84%;
+    max-width:440px;
+    margin:0 auto 11px;
   }
   #screen-1 .motivation-card,
   #screen-2 .motivation-card,
@@ -278,21 +285,21 @@ body{background:#f7f7f5}
     width:auto;
     min-width:0;
     max-width:none;
-    padding:11px 10px;
-    column-gap:8px;
-    border-radius:8px;
+    padding:9px 8px;
+    column-gap:6px;
+    border-radius:7px;
   }
-  #screen-1 .motivation-card{grid-template-columns:14px 1fr;grid-template-rows:66px auto auto;padding:9px 8px 10px}
-  #screen-1 .crop-option-img{height:66px;margin-bottom:3px}
-  .motivation-card::before{width:14px;height:14px;margin-top:1px}
-  .motivation-label{font-size:13px;line-height:1.25}
-  .option-sub{font-size:11px;line-height:1.3}
-  #screen-6 .motivation-card{min-height:52px;align-content:center}
+  #screen-1 .motivation-card{grid-template-columns:12px 1fr;grid-template-rows:53px auto auto;padding:7px 6px 8px}
+  #screen-1 .crop-option-img{height:53px;margin-bottom:2px}
+  .motivation-card::before{width:12px;height:12px;margin-top:1px}
+  .motivation-label{font-size:11px;line-height:1.25}
+  .option-sub{font-size:9px;line-height:1.3}
+  #screen-6 .motivation-card{min-height:42px;align-content:center}
   #screen-2 .motivation-card:last-child:nth-child(odd),
   #screen-3 .motivation-card:last-child:nth-child(odd),
   #screen-5 .motivation-card:last-child:nth-child(odd),
   #screen-6 .motivation-card:last-child:nth-child(odd){grid-column:1 / -1;width:calc(50% - 4px);justify-self:center}
-  .next-btn,.back-btn{font-size:12px;padding:9px 11px}
+  .next-btn,.back-btn{font-size:10px;padding:7px 9px}
   .btn-row{justify-content:center;margin-top:0}
   .email-wrap{width:100%;max-width:440px}
   .email-note{margin-bottom:14px}
