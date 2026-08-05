@@ -152,8 +152,9 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 @media(max-width:760px){
   .quiz-page-main{min-height:auto}
   .quiz-growth-bg{
-    background-size:100% 100%,auto 45%;
-    background-position:center,center top;
+    background-image:linear-gradient(rgba(247,244,238,.14),rgba(247,244,238,.14)),url('images/backgrounds/quiz-growth/mobile/stage-1.webp');
+    background-size:cover;
+    background-position:center top;
     background-repeat:no-repeat;
   }
 }
@@ -923,21 +924,33 @@ const GROWTH_STAGE_IMAGES = [
   'images/backgrounds/quiz-growth/stage-6.webp',
   'images/backgrounds/quiz-growth/stage-7.webp'
 ];
+const MOBILE_GROWTH_STAGE_IMAGES = [
+  'images/backgrounds/quiz-growth/mobile/stage-1.webp',
+  'images/backgrounds/quiz-growth/mobile/stage-2.webp',
+  'images/backgrounds/quiz-growth/mobile/stage-3.webp',
+  'images/backgrounds/quiz-growth/mobile/stage-4.webp',
+  'images/backgrounds/quiz-growth/mobile/stage-5.webp',
+  'images/backgrounds/quiz-growth/mobile/stage-6.webp',
+  'images/backgrounds/quiz-growth/mobile/stage-7.webp'
+];
+const mobileGrowthQuery = window.matchMedia('(max-width:760px)');
 let growthStageTimer;
-GROWTH_STAGE_IMAGES.forEach(function(src){ const img = new Image(); img.src = src; });
+[...GROWTH_STAGE_IMAGES, ...MOBILE_GROWTH_STAGE_IMAGES].forEach(function(src){ const img = new Image(); img.src = src; });
 
-function setGrowthStage(step) {
+function setGrowthStage(step, force) {
   const bg = document.getElementById('quiz-growth-bg');
   const stage = Math.max(1, Math.min(7, step));
-  if (!bg || bg.dataset.stage === String(stage)) return;
+  if (!bg || (!force && bg.dataset.stage === String(stage))) return;
   clearTimeout(growthStageTimer);
   bg.style.opacity = '0';
   growthStageTimer = setTimeout(function(){
-    bg.style.backgroundImage = "linear-gradient(rgba(247,244,238,.14),rgba(247,244,238,.14)),url('" + GROWTH_STAGE_IMAGES[stage - 1] + "')";
+    const stageImages = mobileGrowthQuery.matches ? MOBILE_GROWTH_STAGE_IMAGES : GROWTH_STAGE_IMAGES;
+    bg.style.backgroundImage = "linear-gradient(rgba(247,244,238,.14),rgba(247,244,238,.14)),url('" + stageImages[stage - 1] + "')";
     bg.dataset.stage = String(stage);
     requestAnimationFrame(function(){ bg.style.opacity = '1'; });
   }, 150);
 }
+mobileGrowthQuery.addEventListener('change', function(){ setGrowthStage(currentQuizStep, true); });
 
 function goBack() {
   if (currentQuizStep <= 1) return;
