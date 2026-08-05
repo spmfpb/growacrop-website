@@ -144,7 +144,10 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
   .screen{padding:20px 12px}
   .result-screen{padding:20px 12px}
 }
-.quiz-page-main{display:flex;flex-direction:column;margin-top:76px;background:linear-gradient(rgba(247,244,238,.14),rgba(247,244,238,.14)),url('images/backgrounds/hydroponic-grid.webp') center/cover no-repeat}
+.quiz-page-main{display:flex;flex-direction:column;margin-top:76px;background:#f7f4ee;position:relative;overflow:hidden;isolation:isolate}
+.quiz-growth-bg{position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(rgba(247,244,238,.14),rgba(247,244,238,.14)),url('images/backgrounds/quiz-growth/stage-1.webp') center/cover no-repeat;opacity:1;transition:opacity .28s ease}
+.screen,.result-screen{position:relative;z-index:1}
+@media(prefers-reduced-motion:reduce){.quiz-growth-bg{transition:none}}
 .nav-quiz-link[aria-current="page"]{background:var(--green-ghost);color:var(--green-deep)}
 @media(max-width:760px){.quiz-page-main{min-height:auto}}
 </style>
@@ -174,6 +177,8 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 </nav>
 
 <main class="quiz-page-main">
+
+<div class="quiz-growth-bg" id="quiz-growth-bg" data-stage="1" aria-hidden="true"></div>
 
 <style>
 .match-reasons{background:#f5f9ec;border-radius:8px;padding:12px 14px;font-size:12.5px;color:#3a4a36;margin-bottom:12px;line-height:1.7}
@@ -902,6 +907,31 @@ function checkEmail() {
   A.email = val;
 }
 
+const GROWTH_STAGE_IMAGES = [
+  'images/backgrounds/quiz-growth/stage-1.webp',
+  'images/backgrounds/quiz-growth/stage-2.webp',
+  'images/backgrounds/quiz-growth/stage-3.webp',
+  'images/backgrounds/quiz-growth/stage-4.webp',
+  'images/backgrounds/quiz-growth/stage-5.webp',
+  'images/backgrounds/quiz-growth/stage-6.webp',
+  'images/backgrounds/quiz-growth/stage-7.webp'
+];
+let growthStageTimer;
+GROWTH_STAGE_IMAGES.forEach(function(src){ const img = new Image(); img.src = src; });
+
+function setGrowthStage(step) {
+  const bg = document.getElementById('quiz-growth-bg');
+  const stage = Math.max(1, Math.min(7, step));
+  if (!bg || bg.dataset.stage === String(stage)) return;
+  clearTimeout(growthStageTimer);
+  bg.style.opacity = '0';
+  growthStageTimer = setTimeout(function(){
+    bg.style.backgroundImage = "linear-gradient(rgba(247,244,238,.14),rgba(247,244,238,.14)),url('" + GROWTH_STAGE_IMAGES[stage - 1] + "')";
+    bg.dataset.stage = String(stage);
+    requestAnimationFrame(function(){ bg.style.opacity = '1'; });
+  }, 150);
+}
+
 function goBack() {
   if (currentQuizStep <= 1) return;
   captureQuizEvent('quiz_back_clicked', Object.assign(
@@ -915,6 +945,7 @@ function goTo(step) {
   if (step === currentQuizStep) return;
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + step).classList.add('active');
+  setGrowthStage(step);
   updateProgress(step);
   currentQuizStep = step;
   trackStepViewed(step);
@@ -1105,6 +1136,7 @@ function showResult() {
 
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('result-screen').classList.add('active');
+  setGrowthStage(7);
   for (let i = 1; i <= 7; i++) document.getElementById('step' + i).className = 'step done';
   document.getElementById('progress-label').textContent = 'Complete';
   window.scrollTo(0, 0);
@@ -1261,6 +1293,7 @@ function restart() {
   document.getElementById('result-screen').classList.remove('active');
   document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
   document.getElementById('screen-1').classList.add('active');
+  setGrowthStage(1);
   updateProgress(1);
   trackQuizStarted();
   trackStepViewed(1);
