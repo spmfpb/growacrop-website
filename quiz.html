@@ -108,6 +108,14 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 .shop-item-content{flex:1}
 .shop-item.checked .shop-item-content{text-decoration:line-through;opacity:0.5}
 .shop-item a{color:#1e3a22;text-decoration:underline}
+.shop-item-need{font-size:12px;font-weight:700;color:#1e3a22;line-height:1.4}
+.shop-item-suggestion{font-size:11px;color:#777;line-height:1.45;margin-top:2px}
+.shop-item-suggestion-label{color:#999}
+.shop-sections{display:grid;gap:10px;margin-top:8px}
+.shop-section{background:rgba(255,255,255,.72);border:1px solid #e4ddcd;border-radius:9px;padding:10px 12px}
+.shop-section-title{font-size:13px;font-weight:800;color:#1e3a22;margin-bottom:1px}
+.shop-section-note{font-size:10px;color:#888;line-height:1.45;margin-bottom:5px}
+.shop-section .shop-list{margin-top:0}
 .shop-total{display:flex;justify-content:space-between;gap:16px;margin-top:10px;padding-top:10px;border-top:2px solid #ddd8cc;font-size:13px;font-weight:800;color:#1e3a22}
 .shop-total-note{font-size:10px;color:#888;margin-top:4px;line-height:1.4}
 .primary-why{font-size:12px;color:#888;font-style:italic;line-height:1.6;padding-top:10px;border-top:1px solid #edf2e8}
@@ -145,14 +153,14 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
   .result-screen{padding:20px 12px}
 }
 .quiz-page-main{display:flex;flex-direction:column;background:#f7f4ee;position:relative;overflow:hidden;isolation:isolate}
-.quiz-growth-bg{position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(rgba(247,244,238,.14),rgba(247,244,238,.14)),url('images/backgrounds/quiz-growth/stage-1.webp') center/cover no-repeat;opacity:1;transition:opacity .28s ease}
+.quiz-growth-bg{position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(rgba(247,244,238,.14),rgba(247,244,238,.14)),url('images/backgrounds/quiz-growth/stage-1.webp?v=clean-20260806') center/cover no-repeat;opacity:1;transition:opacity .28s ease}
 .screen,.result-screen{position:relative;z-index:1}
 @media(prefers-reduced-motion:reduce){.quiz-growth-bg{transition:none}}
 .nav-quiz-link[aria-current="page"]{background:var(--green-ghost);color:var(--green-deep)}
 @media(max-width:760px){
   .quiz-page-main{min-height:auto}
   .quiz-growth-bg{
-    background-image:linear-gradient(rgba(247,244,238,.14),rgba(247,244,238,.14)),url('images/backgrounds/quiz-growth/mobile/stage-1.webp');
+    background-image:linear-gradient(rgba(247,244,238,.14),rgba(247,244,238,.14)),url('images/backgrounds/quiz-growth/mobile/stage-1.webp?v=clean-20260806');
     background-size:cover;
     background-position:center top;
     background-repeat:no-repeat;
@@ -264,6 +272,8 @@ body{background:#f7f7f5}
 .btn-row{display:flex;align-items:center;gap:8px}
 @media(min-width:1025px){
   .screen{padding-top:calc(56px + 2cm)}
+  .screen > .q-sub{min-height:48px}
+  #screen-6 > .q-sub,#screen-7 > .q-sub{margin-bottom:63px}
 }
 @media(max-width:700px){
   .quiz-page-main{min-height:calc(100dvh - 148px);margin-top:0}
@@ -695,7 +705,7 @@ const RECS = {
       tagline: 'Recirculating deep water culture, serious volume',
       price: '$249 - $330',
       grows: 'Herbs, greens, chillies, cucumber, cherry tomatoes',
-      shop: '<a href="https://www.vevor.com.au/dwc-hydroponic-system-c_10208/vevor-rdwc-hydroponics-system-recirculating-deep-water-culture-4-buckets-20l-p_010917500216">VEVOR RDWC 4-bucket system</a> ($249) - <a href="https://www.amazon.com.au/Hydroponic-Nutrients-Plant-Grow-Bloom/dp/B0CX4MHXDM/">Nutrients A+B</a> ($34.50) - <a href="https://franshydroponics.com.au/products/professors-hydro-clay-balls-10l-bag?variant=44760106696904">Clay pebbles</a> ($22) - <a href="https://bruceshark.com/en-au/products/3-in-1-digital-ph-tds-temp-waterproof-water-quality-meter-tester-test-pen-tool?variant=42881541275802">pH/TDS tester</a> ($36.55) - <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> ($36.95) - <a href="https://www.woolworths.com.au/shop/productdetails/1127763065">Rockwool cubes - Woolworths</a> ($49.47) - <a href="https://growkings.com.au/products/hydro-bitz-measuring-syringe-20ml?variant=43252743962677">Syringe</a> ($6.20) - <a href="https://www.theseedcollection.com.au/vegetable">Seeds</a> - <a href="https://spiderfarmer.com.au/products/se3000-full-spectrum-led-grow-light/">LED grow light SE3000</a> ($419.99 [LIGHT]) - <a href="https://www.bigw.com.au/product/oznala-digital-timer-switch-socket-electric-programmable-power-240v-au-plug-clock/p/9901205333">Timer</a> ($19.99)',
+      shop: '<a href="https://www.vevor.com.au/dwc-hydroponic-system-c_10208/vevor-rdwc-hydroponics-system-recirculating-deep-water-culture-4-buckets-20l-p_010917500216">VEVOR RDWC 4-bucket system</a> ($249) - <a href="https://www.amazon.com.au/Hydroponic-Nutrients-Plant-Grow-Bloom/dp/B0CX4MHXDM/">Nutrients A+B</a> ($34.50) - <a href="https://franshydroponics.com.au/products/professors-hydro-clay-balls-10l-bag?variant=44760106696904">Clay pebbles</a> ($22) - <a href="https://bruceshark.com/en-au/products/3-in-1-digital-ph-tds-temp-waterproof-water-quality-meter-tester-test-pen-tool?variant=42881541275802">pH/TDS tester</a> ($36.55) - <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> ($36.95) - <a href="https://www.woolworths.com.au/shop/productdetails/1127763065">Rockwool cubes from Woolworths</a> ($49.47) - <a href="https://growkings.com.au/products/hydro-bitz-measuring-syringe-20ml?variant=43252743962677">Syringe</a> ($6.20 optional) - <a href="https://www.theseedcollection.com.au/vegetable">Seeds</a> - <a href="https://spiderfarmer.com.au/products/se3000-full-spectrum-led-grow-light/">LED grow light SE3000</a> ($419.99 [LIGHT]) - <a href="https://www.bigw.com.au/product/oznala-digital-timer-switch-socket-electric-programmable-power-240v-au-plug-clock/p/9901205333">Timer</a> ($19.99 [LIGHT])',
       why: 'Four recirculating buckets sharing one reservoir - the setup serious home growers use. Multiple plants, maximum output, and shared nutrients mean less work per plant.',
     },
   },
@@ -926,22 +936,22 @@ function checkEmail() {
 }
 
 const GROWTH_STAGE_IMAGES = [
-  'images/backgrounds/quiz-growth/stage-1.webp',
-  'images/backgrounds/quiz-growth/stage-2.webp',
-  'images/backgrounds/quiz-growth/stage-3.webp',
-  'images/backgrounds/quiz-growth/stage-4.webp',
-  'images/backgrounds/quiz-growth/stage-5.webp',
-  'images/backgrounds/quiz-growth/stage-6.webp',
-  'images/backgrounds/quiz-growth/stage-7.webp'
+  'images/backgrounds/quiz-growth/stage-1.webp?v=clean-20260806',
+  'images/backgrounds/quiz-growth/stage-2.webp?v=clean-20260806',
+  'images/backgrounds/quiz-growth/stage-3.webp?v=clean-20260806',
+  'images/backgrounds/quiz-growth/stage-4.webp?v=clean-20260806',
+  'images/backgrounds/quiz-growth/stage-5.webp?v=clean-20260806',
+  'images/backgrounds/quiz-growth/stage-6.webp?v=clean-20260806',
+  'images/backgrounds/quiz-growth/stage-7.webp?v=clean-20260806'
 ];
 const MOBILE_GROWTH_STAGE_IMAGES = [
-  'images/backgrounds/quiz-growth/mobile/stage-1.webp',
-  'images/backgrounds/quiz-growth/mobile/stage-2.webp',
-  'images/backgrounds/quiz-growth/mobile/stage-3.webp',
-  'images/backgrounds/quiz-growth/mobile/stage-4.webp',
-  'images/backgrounds/quiz-growth/mobile/stage-5.webp',
-  'images/backgrounds/quiz-growth/mobile/stage-6.webp',
-  'images/backgrounds/quiz-growth/mobile/stage-7.webp'
+  'images/backgrounds/quiz-growth/mobile/stage-1.webp?v=clean-20260806',
+  'images/backgrounds/quiz-growth/mobile/stage-2.webp?v=clean-20260806',
+  'images/backgrounds/quiz-growth/mobile/stage-3.webp?v=clean-20260806',
+  'images/backgrounds/quiz-growth/mobile/stage-4.webp?v=clean-20260806',
+  'images/backgrounds/quiz-growth/mobile/stage-5.webp?v=clean-20260806',
+  'images/backgrounds/quiz-growth/mobile/stage-6.webp?v=clean-20260806',
+  'images/backgrounds/quiz-growth/mobile/stage-7.webp?v=clean-20260806'
 ];
 const mobileGrowthQuery = window.matchMedia('(max-width:760px)');
 let growthStageTimer;
@@ -1173,7 +1183,13 @@ function showResult() {
 }
 
 function splitShopItems(shop) {
-  const raw = shop.split(' - ');
+  const protectedSeparator = '\uE000';
+  const protectedShop = shop.replace(/<a\b[^>]*>[\s\S]*?<\/a>/gi, function(link) {
+    return link.split(' - ').join(protectedSeparator);
+  });
+  const raw = protectedShop.split(' - ').map(function(item) {
+    return item.split(protectedSeparator).join(' - ');
+  });
   const out = []; let buf = '';
   for (let k = 0; k < raw.length; k++) {
     buf = buf ? buf + ' - ' + raw[k] : raw[k];
@@ -1197,6 +1213,66 @@ function shopItemState(item) {
 
 function cleanShopItem(item) {
   return item.replace(/\s*\[LIGHT\]/, needsGrowLight() ? '' : ' (only needed indoors)');
+}
+
+function getShopItemNeedLabel(item, index) {
+  if (/Heirloom Basin/i.test(item)) return 'Growing basins';
+  if (/Growing trays/i.test(item)) return 'Growing trays';
+  if (/Reservoir container/i.test(item)) return 'Water reservoir';
+  if (index === 0 || /^\s*(?:Outdoor|Indoor):/i.test(item)) return 'Grow system';
+  if (/LED grow lights?/i.test(item)) return 'Grow light';
+  if (/Powerboard/i.test(item)) return 'Powerboard';
+  if (/Timer/i.test(item)) return /\[LIGHT\]/.test(item) ? 'Light timer' : 'Timer';
+  if (/Nutrients?/i.test(item)) return 'Hydroponic nutrients';
+  if (/pH Up\/Down/i.test(item)) return 'pH adjustment solution';
+  if (/(?:pH|TDS|EC).*?(?:tester|test kit)/i.test(item)) return 'Water testing meter';
+  if (/Syringe/i.test(item)) return 'Measuring syringe';
+  if (/Easy plug|Rockwool/i.test(item)) return 'Seed-starting plugs';
+  if (/Clay pebbles|Sponge|Coco coir|growing medium/i.test(item)) return 'Growing medium';
+  if (/Seeds?/i.test(item)) return 'Seeds';
+  if (/Spray bottle/i.test(item)) return 'Spray bottle';
+  if (/Trimmers?/i.test(item)) return 'Harvesting scissors';
+  return 'Growing supplies';
+}
+
+function renderShopListItem(item, index, needLabel) {
+  const linkedItem = cleanShopItem(item).replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ');
+  const itemContent = needLabel
+    ? '<div class="shop-item-need">' + needLabel + '</div><div class="shop-item-suggestion"><span class="shop-item-suggestion-label">Suggested product:</span> ' + linkedItem + '</div>'
+    : linkedItem;
+  return '<li class="shop-item"><input type="checkbox" aria-label="Mark ' + (needLabel || 'shopping item ' + (index + 1)) + ' complete" onchange="this.parentElement.classList.toggle(\'checked\', this.checked)"><div class="shop-item-content">' + itemContent + '</div></li>';
+}
+
+function classifyShopItem(item, index) {
+  if (/optional/i.test(item) || /Trimmers?/i.test(item)) return 'optional';
+  if (/\[LIGHT\]/.test(item) || /LED grow lights?|Powerboard/i.test(item)) return 'indoors';
+  if (index === 0 || /^\s*(?:Outdoor|Indoor):/i.test(item) || /Heirloom Basin|Growing trays|Reservoir container/i.test(item)) return 'system';
+  if (/Seeds?|Easy plug|Clay pebbles|Rockwool|Sponge|Coco coir|Spray bottle/i.test(item)) return 'start';
+  return 'health';
+}
+
+function buildShoppingSections(shopItems, needLabels) {
+  const sections = [
+    { key: 'system', title: 'Your grow system', note: 'The main setup everything else supports.', items: [] },
+    { key: 'start', title: 'Everything needed to start growing', note: 'The planting supplies that hold your seeds and support the roots.', items: [] },
+    { key: 'health', title: 'Keep your plants healthy', note: 'Use these to feed the plants and keep the water balanced.', items: [] },
+    { key: 'indoors', title: 'Only needed indoors', note: 'Skip these when your setup receives enough natural sunlight.', items: [] },
+    { key: 'optional', title: 'Optional extras', note: 'Helpful for convenience, but not required to begin.', items: [] }
+  ];
+
+  shopItems.forEach(function(item, index) {
+    const key = classifyShopItem(item, index);
+    sections.find(function(section) { return section.key === key; }).items.push({ item: item, index: index });
+  });
+
+  return '<div class="shop-sections">' + sections.filter(function(section) {
+    return section.items.length > 0;
+  }).map(function(section) {
+    return '<section class="shop-section"><div class="shop-section-title">' + section.title + '</div>' +
+      '<div class="shop-section-note">' + section.note + '</div><ul class="shop-list">' +
+      section.items.map(function(entry) { return renderShopListItem(entry.item, entry.index, needLabels && needLabels[entry.index]); }).join('') +
+      '</ul></section>';
+  }).join('') + '</div>';
 }
 
 function getShoppingTotal(rec) {
@@ -1248,13 +1324,10 @@ function renderRecommendation(sys, size, flags) {
     notIdealEl.style.display = 'none';
   }
 
-  const shopItems = splitShopItems(rec.shop).map(cleanShopItem);
-  const shopHTML = '<strong>Shopping list:</strong><ul class="shop-list">' +
-    shopItems.map(function(item, index) {
-      const linkedItem = item.replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ');
-      return '<li class="shop-item"><input type="checkbox" aria-label="Mark shopping item ' + (index + 1) + ' complete" onchange="this.parentElement.classList.toggle(\'checked\', this.checked)"><div class="shop-item-content">' + linkedItem + '</div></li>';
-    }).join('') +
-    '</ul>' +
+  const shopItems = splitShopItems(rec.shop);
+  const needLabels = shopItems.map(getShopItemNeedLabel);
+  const shoppingListHTML = buildShoppingSections(shopItems, needLabels);
+  const shopHTML = '<strong>Shopping list:</strong>' + shoppingListHTML +
     '<div class="shop-total"><span>Estimated total (priced essentials)</span><span>' + getShoppingTotal(rec) + '</span></div>' +
     '<div class="shop-total-note">Optional and unpriced items are not included.</div>';
   document.getElementById('r-shop').innerHTML = shopHTML;
