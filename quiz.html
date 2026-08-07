@@ -155,12 +155,12 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 }
 .quiz-page-main{display:flex;flex-direction:column;background:#f7f4ee;position:relative;overflow:hidden;isolation:isolate}
 .quiz-growth-bg{position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(rgba(247,244,238,.14),rgba(247,244,238,.14)),url('images/backgrounds/quiz-growth/stage-1.webp?v=fixed-growth-20260807') center/cover no-repeat}
-.quiz-growth-plants{position:absolute;inset:0;width:100%;height:100%;overflow:hidden}
+.quiz-growth-plants{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;opacity:0;transition:opacity .36s ease;will-change:opacity}
+.quiz-growth-plants.is-active{opacity:1}
 .quiz-growth-plants-mobile{display:none}
-.growth-plant{opacity:0;transform-box:fill-box;transform-origin:center;transform:rotate(var(--plant-angle,0deg)) scale(var(--plant-scale,1));transition:opacity .24s ease}
-.quiz-growth-bg:not([data-stage="1"]):not(.plants-changing) .growth-plant{opacity:1}
+.growth-plant{transform-box:fill-box;transform-origin:center;transform:rotate(var(--plant-angle,0deg)) scale(var(--plant-scale,1))}
 .screen,.result-screen{position:relative;z-index:1}
-@media(prefers-reduced-motion:reduce){.growth-plant{transition:none}}
+@media(prefers-reduced-motion:reduce){.quiz-growth-plants{transition:none}}
 .nav-quiz-link[aria-current="page"]{background:var(--green-ghost);color:var(--green-deep)}
 @media(max-width:760px){
   .quiz-page-main{min-height:auto}
@@ -1005,11 +1005,13 @@ const GROWTH_PLANT_IMAGES = {
     7:['images/backgrounds/quiz-growth/cos-7.webp?v=natural-growth-20260807','images/backgrounds/quiz-growth/cos-7b.webp?v=natural-growth-20260807']
   }
 };
-const growthPlants = Array.from(document.querySelectorAll('.growth-plant'));
+const baseGrowthLayers = Array.from(document.querySelectorAll('.quiz-growth-plants'));
+const growthPlants = baseGrowthLayers.reduce(function(plants,layer) {
+  return plants.concat(Array.from(layer.querySelectorAll('.growth-plant')));
+}, []);
 const plantAngles = [-17,8,23,-6,14,-25,4,19,-12,27,-3,11,-21,6,16,-9,25,-14,2,20,-7];
 const plantScales = [1,.94,1.08,.97,1.04,.92,1.1,.96,1.03,.9,1.07,.98,1.05,.93,1.09,.95,1.02,.91,1.06,.97,1.04];
 const plantVariantCounts = {basil:0,cos:0};
-let growthStageTimer;
 
 growthPlants.forEach(function(plant,index) {
   const rockwoolScale = plant.dataset.medium === 'rockwool' ? .94 : 1;
@@ -1017,26 +1019,73 @@ growthPlants.forEach(function(plant,index) {
   plant.style.setProperty('--plant-angle', plantAngles[index % plantAngles.length] + 'deg');
   plant.style.setProperty('--plant-scale', String(plantScales[index % plantScales.length] * rockwoolScale));
 });
-Object.values(GROWTH_PLANT_IMAGES).forEach(function(cycle) {
-  Object.values(cycle).flat().forEach(function(src) { const img = new Image(); img.src = src; });
+const growthLayerPairs = baseGrowthLayers.map(function(layer) {
+  const duplicate = layer.cloneNode(true);
+  layer.parentNode.insertBefore(duplicate, layer.nextSibling);
+  return [layer,duplicate];
 });
+const growthPlantSets = [0,1].map(function(layerIndex) {
+  return growthLayerPairs.reduce(function(plants,pair) {
+    return plants.concat(Array.from(pair[layerIndex].querySelectorAll('.growth-plant')));
+  }, []);
+});
+const growthImageLoads = new Map();
+
+function preloadGrowthImage(src) {
+  if (!growthImageLoads.has(src)) {
+    growthImageLoads.set(src, new Promise(function(resolve) {
+      const img = new Image();
+      img.onload = resolve;
+      img.onerror = resolve;
+      img.src = src;
+    }));
+  }
+  return growthImageLoads.get(src);
+}
+
+Object.values(GROWTH_PLANT_IMAGES).forEach(function(cycle) {
+  Object.values(cycle).flat().forEach(preloadGrowthImage);
+});
+let activeGrowthLayer = 0;
+let requestedGrowthStage = 1;
+let growthStageRequest = 0;
 
 function setGrowthStage(step) {
   const bg = document.getElementById('quiz-growth-bg');
   const stage = Math.max(1, Math.min(7, step));
-  if (!bg || bg.dataset.stage === String(stage)) return;
-  clearTimeout(growthStageTimer);
-  bg.classList.add('plants-changing');
-  growthStageTimer = setTimeout(function() {
-    if (stage > 1) {
-      growthPlants.forEach(function(plant) {
-        const variants = GROWTH_PLANT_IMAGES[plant.dataset.plant][stage];
-        plant.setAttribute('href', variants[Number(plant.dataset.variant) % variants.length]);
-      });
-    }
+  if (!bg || requestedGrowthStage === stage) return;
+  requestedGrowthStage = stage;
+  const request = ++growthStageRequest;
+
+  if (stage === 1) {
+    growthLayerPairs.forEach(function(pair) {
+      pair.forEach(function(layer) { layer.classList.remove('is-active'); });
+    });
+    bg.dataset.stage = '1';
+    return;
+  }
+
+  const currentStage = Number(bg.dataset.stage);
+  const nextLayer = currentStage === 1 ? activeGrowthLayer : 1 - activeGrowthLayer;
+  const nextPlants = growthPlantSets[nextLayer];
+  const nextSources = nextPlants.map(function(plant) {
+    const variants = GROWTH_PLANT_IMAGES[plant.dataset.plant][stage];
+    return variants[Number(plant.dataset.variant) % variants.length];
+  });
+
+  Promise.all(nextSources.map(preloadGrowthImage)).then(function() {
+    if (request !== growthStageRequest || requestedGrowthStage !== stage) return;
+    nextPlants.forEach(function(plant,index) { plant.setAttribute('href', nextSources[index]); });
     bg.dataset.stage = String(stage);
-    requestAnimationFrame(function() { bg.classList.remove('plants-changing'); });
-  }, 130);
+    requestAnimationFrame(function() {
+      if (request !== growthStageRequest || requestedGrowthStage !== stage) return;
+      growthLayerPairs.forEach(function(pair) {
+        pair[nextLayer].classList.add('is-active');
+        pair[1 - nextLayer].classList.remove('is-active');
+      });
+      activeGrowthLayer = nextLayer;
+    });
+  });
 }
 
 function goBack() {
