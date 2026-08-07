@@ -154,18 +154,24 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
   .result-screen{padding:20px 12px}
 }
 .quiz-page-main{display:flex;flex-direction:column;background:#f7f4ee;position:relative;overflow:hidden;isolation:isolate}
-.quiz-growth-bg{position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(rgba(247,244,238,.14),rgba(247,244,238,.14)),url('images/backgrounds/quiz-growth/stage-1.webp?v=clean-20260806') center/cover no-repeat;opacity:1;transition:opacity .28s ease}
+.quiz-growth-bg{position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(rgba(247,244,238,.14),rgba(247,244,238,.14)),url('images/backgrounds/quiz-growth/stage-1.webp?v=fixed-growth-20260807') center/cover no-repeat}
+.quiz-growth-plants{position:absolute;inset:0;width:100%;height:100%;overflow:hidden}
+.quiz-growth-plants-mobile{display:none}
+.growth-plant{opacity:0;transform-box:fill-box;transform-origin:center;transform:rotate(var(--plant-angle,0deg)) scale(var(--plant-scale,1));transition:opacity .24s ease}
+.quiz-growth-bg:not([data-stage="1"]):not(.plants-changing) .growth-plant{opacity:1}
 .screen,.result-screen{position:relative;z-index:1}
-@media(prefers-reduced-motion:reduce){.quiz-growth-bg{transition:none}}
+@media(prefers-reduced-motion:reduce){.growth-plant{transition:none}}
 .nav-quiz-link[aria-current="page"]{background:var(--green-ghost);color:var(--green-deep)}
 @media(max-width:760px){
   .quiz-page-main{min-height:auto}
   .quiz-growth-bg{
-    background-image:linear-gradient(rgba(247,244,238,.14),rgba(247,244,238,.14)),url('images/backgrounds/quiz-growth/mobile/stage-1.webp?v=clean-20260806');
+    background-image:linear-gradient(rgba(247,244,238,.14),rgba(247,244,238,.14)),url('images/backgrounds/quiz-growth/mobile/stage-1.webp?v=fixed-growth-20260807');
     background-size:cover;
     background-position:center top;
     background-repeat:no-repeat;
   }
+  .quiz-growth-plants-desktop{display:none}
+  .quiz-growth-plants-mobile{display:block}
 }
 .quiz-page-main.recommendation-mode .quiz-growth-bg{
   background-color:#f7f4ee;
@@ -174,6 +180,7 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
   background-position:center;
   background-repeat:repeat;
 }
+.quiz-page-main.recommendation-mode .quiz-growth-plants{display:none}
 </style>
 <script>
     !function(t,e){var o,n,p,r;e.__SV||(window.posthog && window.posthog.__loaded)||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="Ji Yi init fn mn Hr pn bn cn capture calculateEventProperties Sn register register_once register_for_session unregister unregister_for_session In getFeatureFlag getFeatureFlagPayload getFeatureFlagResult getAllFeatureFlags isFeatureEnabled reloadFeatureFlags updateFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey displaySurvey cancelPendingSurvey canRenderSurvey canRenderSurveyAsync Tn identify setPersonProperties unsetPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset shutdown setIdentity clearIdentity get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException addExceptionStep captureLog startExceptionAutocapture stopExceptionAutocapture loadToolbar get_property getSessionProperty Cn xn createPersonProfile setInternalOrTestUser Mn hn Pn opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing get_explicit_consent_status is_capturing clear_opt_in_out_capturing debug Ur wt getPageViewId captureTraceFeedback captureTraceMetric an".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
@@ -202,7 +209,53 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 
 <main class="quiz-page-main">
 
-<div class="quiz-growth-bg" id="quiz-growth-bg" data-stage="1" aria-hidden="true"></div>
+<div class="quiz-growth-bg" id="quiz-growth-bg" data-stage="1" aria-hidden="true">
+  <svg class="quiz-growth-plants quiz-growth-plants-desktop" viewBox="0 0 1680 945" preserveAspectRatio="xMidYMid slice" focusable="false">
+    <image class="growth-plant" data-plant="basil" href="images/backgrounds/quiz-growth/basil-2.webp" x="242" y="-18" width="120" height="120"/>
+    <image class="growth-plant" data-plant="cos" href="images/backgrounds/quiz-growth/cos-2.webp" x="118" y="65" width="130" height="130"/>
+    <image class="growth-plant" data-plant="basil" href="images/backgrounds/quiz-growth/basil-2.webp" x="-8" y="162" width="140" height="140"/>
+    <image class="growth-plant" data-plant="cos" href="images/backgrounds/quiz-growth/cos-2.webp" x="1364" y="6" width="120" height="120"/>
+    <image class="growth-plant" data-plant="basil" href="images/backgrounds/quiz-growth/basil-2.webp" x="1467" y="79" width="130" height="130"/>
+    <image class="growth-plant" data-plant="cos" href="images/backgrounds/quiz-growth/cos-2.webp" x="1570" y="155" width="140" height="140"/>
+    <image class="growth-plant" data-plant="basil" href="images/backgrounds/quiz-growth/basil-2.webp" x="-45" y="656" width="130" height="130"/>
+    <image class="growth-plant" data-plant="cos" href="images/backgrounds/quiz-growth/cos-2.webp" x="53" y="748" width="130" height="130"/>
+    <image class="growth-plant" data-plant="basil" href="images/backgrounds/quiz-growth/basil-2.webp" x="149" y="830" width="140" height="140"/>
+    <image class="growth-plant" data-plant="cos" href="images/backgrounds/quiz-growth/cos-2.webp" x="1390" y="724" width="130" height="130"/>
+    <image class="growth-plant" data-plant="basil" href="images/backgrounds/quiz-growth/basil-2.webp" x="1508" y="800" width="130" height="130"/>
+    <image class="growth-plant" data-plant="cos" href="images/backgrounds/quiz-growth/cos-2.webp" x="1610" y="870" width="140" height="140"/>
+    <image class="growth-plant" data-plant="basil" href="images/backgrounds/quiz-growth/basil-2.webp" x="399" y="84" width="130" height="130"/>
+    <image class="growth-plant" data-plant="cos" href="images/backgrounds/quiz-growth/cos-2.webp" x="1228" y="86" width="130" height="130"/>
+    <image class="growth-plant" data-plant="basil" href="images/backgrounds/quiz-growth/basil-2.webp" x="4" y="407" width="132" height="132"/>
+    <image class="growth-plant" data-plant="cos" href="images/backgrounds/quiz-growth/cos-2.webp" x="1454" y="536" width="132" height="132"/>
+    <image class="growth-plant" data-plant="basil" href="images/backgrounds/quiz-growth/basil-2.webp" x="1172" y="792" width="132" height="132"/>
+    <image class="growth-plant" data-plant="cos" href="images/backgrounds/quiz-growth/cos-2.webp" x="400" y="835" width="132" height="132"/>
+    <image class="growth-plant" data-plant="basil" data-medium="rockwool" href="images/backgrounds/quiz-growth/basil-2.webp" x="500" y="0" width="112" height="112"/>
+    <image class="growth-plant" data-plant="cos" data-medium="rockwool" href="images/backgrounds/quiz-growth/cos-2.webp" x="226" y="686" width="112" height="112"/>
+    <image class="growth-plant" data-plant="basil" data-medium="rockwool" href="images/backgrounds/quiz-growth/basil-2.webp" x="271" y="724" width="112" height="112"/>
+  </svg>
+  <svg class="quiz-growth-plants quiz-growth-plants-mobile" viewBox="0 0 1024 1536" preserveAspectRatio="xMidYMin slice" focusable="false">
+    <image class="growth-plant" data-plant="basil" href="images/backgrounds/quiz-growth/basil-2.webp" x="201" y="-23" width="120" height="120"/>
+    <image class="growth-plant" data-plant="cos" href="images/backgrounds/quiz-growth/cos-2.webp" x="94" y="57" width="130" height="130"/>
+    <image class="growth-plant" data-plant="basil" href="images/backgrounds/quiz-growth/basil-2.webp" x="-18" y="140" width="140" height="140"/>
+    <image class="growth-plant" data-plant="cos" href="images/backgrounds/quiz-growth/cos-2.webp" x="795" y="17" width="120" height="120"/>
+    <image class="growth-plant" data-plant="basil" href="images/backgrounds/quiz-growth/basil-2.webp" x="898" y="74" width="130" height="130"/>
+    <image class="growth-plant" data-plant="cos" href="images/backgrounds/quiz-growth/cos-2.webp" x="-37" y="1178" width="130" height="130"/>
+    <image class="growth-plant" data-plant="basil" href="images/backgrounds/quiz-growth/basil-2.webp" x="48" y="1305" width="130" height="130"/>
+    <image class="growth-plant" data-plant="cos" href="images/backgrounds/quiz-growth/cos-2.webp" x="128" y="1410" width="140" height="140"/>
+    <image class="growth-plant" data-plant="basil" href="images/backgrounds/quiz-growth/basil-2.webp" x="819" y="1220" width="130" height="130"/>
+    <image class="growth-plant" data-plant="cos" href="images/backgrounds/quiz-growth/cos-2.webp" x="745" y="1333" width="130" height="130"/>
+    <image class="growth-plant" data-plant="basil" href="images/backgrounds/quiz-growth/basil-2.webp" x="866" y="1405" width="140" height="140"/>
+    <image class="growth-plant" data-plant="cos" href="images/backgrounds/quiz-growth/cos-2.webp" x="242" y="112" width="130" height="130"/>
+    <image class="growth-plant" data-plant="basil" href="images/backgrounds/quiz-growth/basil-2.webp" x="736" y="145" width="130" height="130"/>
+    <image class="growth-plant" data-plant="cos" href="images/backgrounds/quiz-growth/cos-2.webp" x="-13" y="618" width="132" height="132"/>
+    <image class="growth-plant" data-plant="basil" href="images/backgrounds/quiz-growth/basil-2.webp" x="889" y="918" width="132" height="132"/>
+    <image class="growth-plant" data-plant="cos" href="images/backgrounds/quiz-growth/cos-2.webp" x="641" y="1261" width="132" height="132"/>
+    <image class="growth-plant" data-plant="basil" href="images/backgrounds/quiz-growth/basil-2.webp" x="273" y="1324" width="132" height="132"/>
+    <image class="growth-plant" data-plant="cos" data-medium="rockwool" href="images/backgrounds/quiz-growth/cos-2.webp" x="396" y="17" width="112" height="112"/>
+    <image class="growth-plant" data-plant="basil" data-medium="rockwool" href="images/backgrounds/quiz-growth/basil-2.webp" x="137" y="1125" width="112" height="112"/>
+    <image class="growth-plant" data-plant="cos" data-medium="rockwool" href="images/backgrounds/quiz-growth/cos-2.webp" x="173" y="1169" width="112" height="112"/>
+  </svg>
+</div>
 
 <style>
 .match-reasons{background:#f5f9ec;border-radius:8px;padding:12px 14px;font-size:12.5px;color:#3a4a36;margin-bottom:12px;line-height:1.7}
@@ -934,42 +987,57 @@ function checkEmail() {
   A.email = val;
 }
 
-const GROWTH_STAGE_IMAGES = [
-  'images/backgrounds/quiz-growth/stage-1.webp?v=clean-20260806',
-  'images/backgrounds/quiz-growth/stage-2.webp?v=clean-20260806',
-  'images/backgrounds/quiz-growth/stage-3.webp?v=clean-20260806',
-  'images/backgrounds/quiz-growth/stage-4.webp?v=clean-20260806',
-  'images/backgrounds/quiz-growth/stage-5.webp?v=clean-20260806',
-  'images/backgrounds/quiz-growth/stage-6.webp?v=clean-20260806',
-  'images/backgrounds/quiz-growth/stage-7.webp?v=clean-20260806'
-];
-const MOBILE_GROWTH_STAGE_IMAGES = [
-  'images/backgrounds/quiz-growth/mobile/stage-1.webp?v=clean-20260806',
-  'images/backgrounds/quiz-growth/mobile/stage-2.webp?v=clean-20260806',
-  'images/backgrounds/quiz-growth/mobile/stage-3.webp?v=clean-20260806',
-  'images/backgrounds/quiz-growth/mobile/stage-4.webp?v=clean-20260806',
-  'images/backgrounds/quiz-growth/mobile/stage-5.webp?v=clean-20260806',
-  'images/backgrounds/quiz-growth/mobile/stage-6.webp?v=clean-20260806',
-  'images/backgrounds/quiz-growth/mobile/stage-7.webp?v=clean-20260806'
-];
-const mobileGrowthQuery = window.matchMedia('(max-width:760px)');
+const GROWTH_PLANT_IMAGES = {
+  basil: {
+    2:['images/backgrounds/quiz-growth/basil-2.webp?v=natural-growth-20260807'],
+    3:['images/backgrounds/quiz-growth/basil-3.webp?v=natural-growth-20260807'],
+    4:['images/backgrounds/quiz-growth/basil-4.webp?v=natural-growth-20260807'],
+    5:['images/backgrounds/quiz-growth/basil-5.webp?v=natural-growth-20260807','images/backgrounds/quiz-growth/basil-5b.webp?v=natural-growth-20260807'],
+    6:['images/backgrounds/quiz-growth/basil-6.webp?v=natural-growth-20260807','images/backgrounds/quiz-growth/basil-6b.webp?v=natural-growth-20260807'],
+    7:['images/backgrounds/quiz-growth/basil-7.webp?v=natural-growth-20260807','images/backgrounds/quiz-growth/basil-7b.webp?v=natural-growth-20260807']
+  },
+  cos: {
+    2:['images/backgrounds/quiz-growth/cos-2.webp?v=natural-growth-20260807'],
+    3:['images/backgrounds/quiz-growth/cos-3.webp?v=natural-growth-20260807'],
+    4:['images/backgrounds/quiz-growth/cos-4.webp?v=natural-growth-20260807'],
+    5:['images/backgrounds/quiz-growth/cos-5.webp?v=natural-growth-20260807','images/backgrounds/quiz-growth/cos-5b.webp?v=natural-growth-20260807'],
+    6:['images/backgrounds/quiz-growth/cos-6.webp?v=natural-growth-20260807','images/backgrounds/quiz-growth/cos-6b.webp?v=natural-growth-20260807'],
+    7:['images/backgrounds/quiz-growth/cos-7.webp?v=natural-growth-20260807','images/backgrounds/quiz-growth/cos-7b.webp?v=natural-growth-20260807']
+  }
+};
+const growthPlants = Array.from(document.querySelectorAll('.growth-plant'));
+const plantAngles = [-17,8,23,-6,14,-25,4,19,-12,27,-3,11,-21,6,16,-9,25,-14,2,20,-7];
+const plantScales = [1,.94,1.08,.97,1.04,.92,1.1,.96,1.03,.9,1.07,.98,1.05,.93,1.09,.95,1.02,.91,1.06,.97,1.04];
+const plantVariantCounts = {basil:0,cos:0};
 let growthStageTimer;
-[...GROWTH_STAGE_IMAGES, ...MOBILE_GROWTH_STAGE_IMAGES].forEach(function(src){ const img = new Image(); img.src = src; });
 
-function setGrowthStage(step, force) {
+growthPlants.forEach(function(plant,index) {
+  const rockwoolScale = plant.dataset.medium === 'rockwool' ? .94 : 1;
+  plant.dataset.variant = String(plantVariantCounts[plant.dataset.plant]++ % 2);
+  plant.style.setProperty('--plant-angle', plantAngles[index % plantAngles.length] + 'deg');
+  plant.style.setProperty('--plant-scale', String(plantScales[index % plantScales.length] * rockwoolScale));
+});
+Object.values(GROWTH_PLANT_IMAGES).forEach(function(cycle) {
+  Object.values(cycle).flat().forEach(function(src) { const img = new Image(); img.src = src; });
+});
+
+function setGrowthStage(step) {
   const bg = document.getElementById('quiz-growth-bg');
   const stage = Math.max(1, Math.min(7, step));
-  if (!bg || (!force && bg.dataset.stage === String(stage))) return;
+  if (!bg || bg.dataset.stage === String(stage)) return;
   clearTimeout(growthStageTimer);
-  bg.style.opacity = '0';
-  growthStageTimer = setTimeout(function(){
-    const stageImages = mobileGrowthQuery.matches ? MOBILE_GROWTH_STAGE_IMAGES : GROWTH_STAGE_IMAGES;
-    bg.style.backgroundImage = "linear-gradient(rgba(247,244,238,.14),rgba(247,244,238,.14)),url('" + stageImages[stage - 1] + "')";
+  bg.classList.add('plants-changing');
+  growthStageTimer = setTimeout(function() {
+    if (stage > 1) {
+      growthPlants.forEach(function(plant) {
+        const variants = GROWTH_PLANT_IMAGES[plant.dataset.plant][stage];
+        plant.setAttribute('href', variants[Number(plant.dataset.variant) % variants.length]);
+      });
+    }
     bg.dataset.stage = String(stage);
-    requestAnimationFrame(function(){ bg.style.opacity = '1'; });
-  }, 150);
+    requestAnimationFrame(function() { bg.classList.remove('plants-changing'); });
+  }, 130);
 }
-mobileGrowthQuery.addEventListener('change', function(){ setGrowthStage(currentQuizStep, true); });
 
 function goBack() {
   if (currentQuizStep <= 1) return;
