@@ -262,6 +262,10 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 .match-reasons strong{color:#1e3a22}
 .match-reasons ul{margin:6px 0 0 18px;padding:0}
 .match-reasons li{margin-bottom:3px}
+.budget-fit-note{display:none;border-radius:8px;padding:12px 14px;margin-bottom:12px;font-size:12.5px;line-height:1.6}
+.budget-fit-note.is-slightly-over{display:block;background:#fff8e8;border:1px solid #ead39d;color:#6d531d}
+.budget-fit-note.is-far-over{display:block;background:#fff1ed;border:1px solid #e8b8a8;color:#713827}
+.budget-fit-note strong{display:block;color:inherit;margin-bottom:2px}
 .ruled-title{font-size:15px;font-weight:700;color:#1e3a22;margin:4px 0 10px}
 .ruled-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-bottom:24px}
 .ruled-card{background:#faf8f2;border:1px dashed #cfc9b8;border-radius:10px;padding:12px 14px;font-size:12px;color:#4a4a4a;line-height:1.6}
@@ -541,7 +545,7 @@ body{background:#f7f7f5}
 <div class="screen" id="screen-5">
   <div class="q-eyebrow">5 of 7</div>
   <h1 class="q-title">What's your starting budget?</h1>
-  <p class="q-sub">This is the all-in cost &mdash; system, nutrients, seeds and testing kit. Most setups land between $150 and $650.</p>
+  <p class="q-sub">Think about the essentials needed to begin &mdash; the system, nutrients, seeds and anything your setup cannot run without. Testing tools and convenience extras are separate.</p>
   <div class="motivation-grid">
     <div class="motivation-card" data-val="low" onclick="pickAnswer(this,'budget')">
       <div class="motivation-label">Under $150</div>
@@ -620,6 +624,7 @@ body{background:#f7f7f5}
       <div class="primary-name" id="r-name"></div>
       <div class="primary-tagline" id="r-tagline"></div>
       <div class="primary-grows" id="r-grows"></div>
+      <div class="budget-fit-note" id="r-budget-note"></div>
       <div class="match-reasons" id="r-reasons"></div>
       <div class="primary-not-ideal" id="r-not-ideal"></div>
       <div class="primary-shop" id="r-shop"></div>
@@ -645,7 +650,7 @@ body{background:#f7f7f5}
   <div class="footer-inner footer-inner-simple">
     <div class="footer-brand">
       <div class="footer-logo">GrowACrop</div>
-      <p>Helping beginners choose their first grow setup.</p>
+      <p>Helping Australians choose a beginner-friendly hydroponic setup for growing food at home.</p>
     </div>
     <div class="footer-links-group footer-links-simple">
       <div class="footer-col">
@@ -772,7 +777,6 @@ const RECS = {
       name: 'All-in-One Tower (Outdoor) or HydroCulture Jumbo Tower (Indoor)',
       tagline: 'Mid-size tower for outdoors or indoors',
       price: '$109 - $380',
-      shopping_total: '$220.40 outdoor / $491.50 indoor',
       grows: 'Herbs, leafy greens, strawberries, Asian greens',
       shop: 'Outdoor: <a href="https://amzn.asia/d/0i87QrGy">All-in-one tower</a> ($108.90) - Indoor: <a href="https://happyhydroponics.com.au/products/hydroculture-jumbo-vertical-tower-with-led-full-spectrum-35l-reservoir">HydroCulture Jumbo Tower + LED</a> ($380) - <a href="https://www.amazon.com.au/Hydroponic-Nutrients-Plant-Grow-Bloom/dp/B0CX4MHXDM/">Nutrients A+B</a> ($34.50) - <a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469">pH Up/Down</a> ($36.95) - <a href="https://www.amazon.com.au/Salinity-Backlight-Waterproof-Accuracy-Hydroponics/dp/B0DLK6N2HN/">EC/pH tester</a> - <a href="https://www.amazon.com.au/BESPORTBLE-Rock-Wool-Starter-Plugs-Hydroponics/dp/B0D1GF5ZPT/">Rockwool plugs</a> - <a href="https://growkings.com.au/products/hydro-bitz-measuring-syringe-20ml?variant=43252743962677">Syringe</a> ($6.20) - <a href="https://www.happyvalleyseeds.com.au/">Seeds</a> - <a href="https://www.bigw.com.au/product/oznala-digital-timer-switch-socket-electric-programmable-power-240v-au-plug-clock/p/9901205333">Timer</a> ($19.99)',
       why: 'Two options depending on where you\'re growing. The outdoor tower is a great value all-in-one. The indoor HydroCulture tower includes a full-spectrum LED for year-round production.',
@@ -851,31 +855,15 @@ const SYSTEM_NAMES = {
 const SIZE_LABELS_V2 = { small:'Compact', medium:'Mid-size', large:'Full-size', vertical:'Wall-mounted' };
 function getSizeLabel(size){ return SIZE_LABELS_V2[size] || size; }
 
-const SYSTEM_SIZES = {
-  microgreens:['small','medium','large'],
-  mini_garden:['small','medium','large'],
-  dwc_bucket:['small','medium','large'],
-  tower:['small','medium','large'],
-  salad_table:['small','large'],
-  grow_shelf:['small','large'],
-};
-const APPROX_PRICE = {
-  'microgreens:small':129,'microgreens:medium':185,'microgreens:large':400,
-  'mini_garden:small':74,'mini_garden:medium':137,'mini_garden:large':279,
-  'dwc_bucket:small':130,'dwc_bucket:medium':200,'dwc_bucket:large':290,
-  'tower:small':128,'tower:medium':245,'tower:large':315,
-  'salad_table:small':88,'salad_table:large':330,'salad_table:vertical':495,
-  'grow_shelf:small':440,'grow_shelf:large':1299,
-};
 const BUDGET_MAX = { low:150, mid:350, high:Infinity };
 const BUDGET_TEXT = { low:'under $150', mid:'$150-$350', high:'$350+' };
 
 const A = { crops:[], location:null, harvest:null, confidence:null, budget:null, motivations:[], email:'' };
 
-const QUIZ_VERSION = 'growacrop_quiz_v2';
-const QUIZ_ATTEMPT_KEY = 'growacrop_quiz_attempt_id_v2';
-const QUIZ_STARTED_AT_KEY = 'growacrop_quiz_started_at_v2';
-const QUIZ_COMPLETED_KEY = 'growacrop_quiz_completed_v2';
+const QUIZ_VERSION = 'growacrop_quiz_v3';
+const QUIZ_ATTEMPT_KEY = 'growacrop_quiz_attempt_id_v3';
+const QUIZ_STARTED_AT_KEY = 'growacrop_quiz_started_at_v3';
+const QUIZ_COMPLETED_KEY = 'growacrop_quiz_completed_v3';
 let quizAttemptId = sessionStorage.getItem(QUIZ_ATTEMPT_KEY);
 let quizStartedAt = Number(sessionStorage.getItem(QUIZ_STARTED_AT_KEY));
 let quizCompletedTracked = false;
@@ -1128,7 +1116,7 @@ function updateProgress(step) {
 /* ---------------- DERIVATION ENGINE ---------------- */
 function deriveMatch() {
   const cr = A.crops, l = A.location, h = A.harvest;
-  const flags = { budget: false, stretch: false, confidence: false };
+  const flags = { budget: false, stretch: false, farOver: false, confidence: false, essentialTotal: 0, budgetOver: 0, budgetAlternative: null };
   let sys;
   if (cr.includes('microgreens')) sys = 'microgreens';
   else if (cr.includes('fruiting')) sys = 'dwc_bucket';
@@ -1143,20 +1131,20 @@ function deriveMatch() {
   else if (sys === 'grow_shelf') size = (h === 'serious') ? 'large' : 'small';
   else size = h === 'taste' ? 'small' : (h === 'weekly' ? 'medium' : 'large');
 
-  // Budget cap: step down while over budget
-  if (size !== 'vertical') {
-    const order = SYSTEM_SIZES[sys];
-    let idx = order.indexOf(size);
-    while (idx > 0 && APPROX_PRICE[sys + ':' + order[idx]] > BUDGET_MAX[A.budget]) {
-      idx--; flags.budget = true;
-    }
-    size = order[idx];
-  }
-  if (APPROX_PRICE[sys + ':' + size] > BUDGET_MAX[A.budget]) flags.stretch = true;
-
   // Confidence guard: beginners don't start on the biggest pump-driven systems
   if ((A.confidence === 'none' || A.confidence === 'killer') && size === 'large' && (sys === 'dwc_bucket' || sys === 'tower')) {
     size = 'medium'; flags.confidence = true;
+  }
+
+  // Budget is a soft preference. Keep the best functional match, then compare
+  // its true essential start-up cost with the visitor's selected range.
+  flags.essentialTotal = getEssentialTotalValue(RECS[sys][size]);
+  const budgetMax = BUDGET_MAX[A.budget];
+  if (Number.isFinite(budgetMax) && flags.essentialTotal > budgetMax) {
+    flags.stretch = true;
+    flags.budgetOver = flags.essentialTotal - budgetMax;
+    flags.farOver = flags.budgetOver > budgetMax * 0.25;
+    flags.budgetAlternative = findBudgetAlternative(sys, size, budgetMax);
   }
   return { sys: sys, size: size, flags: flags };
 }
@@ -1203,11 +1191,11 @@ function buildReasons(sys, size, flags) {
     items.push("You said you're new to this - this setup is forgiving, and the beginner guide walks you through week by week.");
   }
   if (flags.stretch) {
-    items.push('Heads up: this system costs more than your ' + BUDGET_TEXT[A.budget] + ' budget - it is the most affordable way to do what you asked for. The alternatives below are cheaper but compromise on it.');
-  } else if (flags.budget) {
-    items.push('We kept the setup inside your ' + BUDGET_TEXT[A.budget] + ' budget. The bigger version is below for when you are ready.');
+    items.push('We kept the best match for your crops and space instead of replacing it purely because of price.');
+  } else if (A.budget === 'high') {
+    items.push('Its essential start-up estimate is ' + formatCurrency(flags.essentialTotal) + ', leaving room in your $350+ budget for recommended tools or future refills.');
   } else {
-    items.push('It fits your ' + BUDGET_TEXT[A.budget] + ' budget, shopping list included.');
+    items.push('Its essential start-up estimate is ' + formatCurrency(flags.essentialTotal) + ', within your ' + BUDGET_TEXT[A.budget] + ' range.');
   }
   return items;
 }
@@ -1281,6 +1269,10 @@ function showResult() {
       derived_size: match.size,
       budget_capped: match.flags.budget,
       stretch: match.flags.stretch,
+      budget_fit: match.flags.stretch ? (match.flags.farOver ? 'far_over' : 'slightly_over') : 'within',
+      budget_model: 'soft_essentials_v1',
+      essential_starting_total: Number(match.flags.essentialTotal.toFixed(2)),
+      budget_over: Number(match.flags.budgetOver.toFixed(2)),
       confidence_adjusted: match.flags.confidence,
       duration_seconds: Math.max(0, Math.round((Date.now() - quizStartedAt) / 1000))
     });
@@ -1319,9 +1311,27 @@ function needsGrowLight() {
   return A.location === 'bench' || A.location === 'indoor_floor';
 }
 
+function shopItemPlainText(item) {
+  return item.replace(/<[^>]*>/g, ' ');
+}
+
+function isWaterCareRecommendation(item) {
+  const text = shopItemPlainText(item);
+  return /pH Up\/Down/i.test(text) || /(?:pH|TDS|EC).*?(?:tester|test kit)/i.test(text);
+}
+
+function isConvenienceItem(item) {
+  const text = shopItemPlainText(item);
+  return /Syringe|Trimmers?|Spray bottle|Powerboard/i.test(text) || (/Timer/i.test(text) && !/\[LIGHT\]/.test(item));
+}
+
 function shopItemState(item) {
+  const text = shopItemPlainText(item);
+  if (/^\s*Outdoor:/i.test(item)) return needsGrowLight() ? 'skip' : 'include';
+  if (/^\s*Indoor:/i.test(item)) return needsGrowLight() ? 'include' : 'skip';
   if (/\[LIGHT\]/.test(item)) return needsGrowLight() ? 'include' : 'skip';
-  if (/optional/i.test(item) || isSeedStartingRefill(item)) return 'exclude';
+  if (isWaterCareRecommendation(item)) return 'recommended';
+  if (/optional/i.test(text) || isSeedStartingRefill(item) || isConvenienceItem(item)) return 'exclude';
   return 'include';
 }
 
@@ -1330,7 +1340,35 @@ function cleanShopItem(item) {
 }
 
 function isSeedStartingRefill(item) {
-  return /Easy plug|Rockwool|Sponge/i.test(item);
+  return /Easy plug|Rockwool|Sponge/i.test(shopItemPlainText(item));
+}
+
+function getEssentialTotalValue(rec) {
+  return splitShopItems(rec.shop).reduce(function(sum, item) {
+    if (shopItemState(item) !== 'include') return sum;
+    const match = item.match(/\$([\d,]+(?:\.\d+)?)/);
+    if (!match) return sum;
+    let price = Number(match[1].replace(/,/g, ''));
+    if (/recommend 3/i.test(item)) price *= 3;
+    return sum + price;
+  }, 0);
+}
+
+function formatCurrency(value) {
+  return value.toLocaleString('en-AU', { style: 'currency', currency: 'AUD', minimumFractionDigits: 2 });
+}
+
+function findBudgetAlternative(sys, currentSize, budgetMax) {
+  const candidates = Object.keys(RECS[sys]).filter(function(size) {
+    return size !== currentSize;
+  }).map(function(size) {
+    return { size: size, name: RECS[sys][size].name, total: getEssentialTotalValue(RECS[sys][size]) };
+  }).filter(function(option) {
+    return option.total <= budgetMax;
+  }).sort(function(a, b) {
+    return b.total - a.total;
+  });
+  return candidates[0] || null;
 }
 
 function getShopItemNeedLabel(item, index) {
@@ -1377,9 +1415,9 @@ function classifyShopItem(item, index) {
 function buildShoppingSections(shopItems, needLabels) {
   const sections = [
     { key: 'system', title: 'Your grow system', note: 'The main setup everything else supports.', items: [] },
-    { key: 'start', title: 'Everything needed to start growing', note: 'Seeds, growing media and refill supplies for germination.', items: [] },
-    { key: 'health', title: 'Keep your plants healthy', note: 'Use these to feed the plants and keep the water balanced.', items: [] },
-    { key: 'indoors', title: 'Only needed indoors', note: 'Skip these when your setup receives enough natural sunlight.', items: [] },
+    { key: 'start', title: 'Everything needed to start growing', note: 'Seeds and any growing media the system needs to operate.', items: [] },
+    { key: 'health', title: 'Feed your plants', note: 'The essential nutrients required to begin growing.', items: [] },
+    { key: 'indoors', title: 'Required for this indoor setup', note: 'Lighting and timing equipment needed when natural sunlight is not available.', items: [] },
     { key: 'optional', title: 'Optional extras', note: 'Helpful for convenience, but not required to begin.', items: [] }
   ];
 
@@ -1398,17 +1436,17 @@ function buildShoppingSections(shopItems, needLabels) {
   }).join('') + '</div>';
 }
 
+function buildRecommendedSection(items) {
+  if (!items.length) return '';
+  return '<div class="shop-sections"><section class="shop-section"><div class="shop-section-title">Recommended for reliable results</div>' +
+    '<div class="shop-section-note">Helpful for monitoring and correcting the water, but not included in your essential starting total.</div><ul class="shop-list">' +
+    items.map(function(item, index) {
+      return renderShopListItem(item, index, getShopItemNeedLabel(item, -1));
+    }).join('') + '</ul></section></div>';
+}
+
 function getShoppingTotal(rec) {
-  if (rec.shopping_total) return rec.shopping_total;
-  const total = splitShopItems(rec.shop).reduce(function(sum, item) {
-    if (shopItemState(item) !== 'include') return sum;
-    const match = item.match(/\$([\d,]+(?:\.\d+)?)/);
-    if (!match) return sum;
-    let price = Number(match[1].replace(/,/g, ''));
-    if (/recommend 3/i.test(item)) price *= 3;
-    return sum + price;
-  }, 0);
-  return total.toLocaleString('en-AU', { style: 'currency', currency: 'AUD', minimumFractionDigits: 2 });
+  return formatCurrency(getEssentialTotalValue(rec));
 }
 
 function renderRecommendation(sys, size, flags) {
@@ -1430,6 +1468,21 @@ function renderRecommendation(sys, size, flags) {
   document.getElementById('r-tagline').textContent = rec.tagline;
   document.getElementById('r-grows').innerHTML = '<strong>Grows:</strong> ' + rec.grows;
 
+  const budgetNote = document.getElementById('r-budget-note');
+  budgetNote.className = 'budget-fit-note';
+  budgetNote.innerHTML = '';
+  if (isMatched && flags.stretch) {
+    budgetNote.classList.add(flags.farOver ? 'is-far-over' : 'is-slightly-over');
+    let budgetMessage = '<strong>' + (flags.farOver ? 'Best functional match, but above your range' : 'Slightly above your range') + '</strong>' +
+      'The essential start-up estimate is ' + formatCurrency(flags.essentialTotal) + ', approximately ' + formatCurrency(flags.budgetOver) + ' above your selected range.';
+    if (flags.budgetAlternative) {
+      budgetMessage += ' The closest option in this system family within budget is the ' + flags.budgetAlternative.name + ' at approximately ' + formatCurrency(flags.budgetAlternative.total) + '. It is shown first below.';
+    } else {
+      budgetMessage += ' No version in this system family currently falls inside your selected range.';
+    }
+    budgetNote.innerHTML = budgetMessage;
+  }
+
   const reasonsEl = document.getElementById('r-reasons');
   if (isMatched) {
     reasonsEl.style.display = 'block';
@@ -1448,11 +1501,14 @@ function renderRecommendation(sys, size, flags) {
   }
 
   const shopItems = splitShopItems(rec.shop);
-  const needLabels = shopItems.map(getShopItemNeedLabel);
-  const shoppingListHTML = buildShoppingSections(shopItems, needLabels);
-  const shopHTML = '<strong>Shopping list:</strong>' + shoppingListHTML +
+  const essentialItems = shopItems.filter(function(item) { return shopItemState(item) === 'include'; });
+  const recommendedItems = shopItems.filter(function(item) { return shopItemState(item) === 'recommended'; });
+  const needLabels = essentialItems.map(getShopItemNeedLabel);
+  const shoppingListHTML = buildShoppingSections(essentialItems, needLabels);
+  const recommendedHTML = buildRecommendedSection(recommendedItems);
+  const shopHTML = '<strong>Essential shopping list:</strong>' + shoppingListHTML +
     '<div class="shop-total"><span>Estimated total (priced essentials)</span><span>' + getShoppingTotal(rec) + '</span></div>' +
-    '<div class="shop-total-note">Optional, refill and unpriced items are not included.</div>';
+    '<div class="shop-total-note">Convenience extras, refills and unpriced necessities such as seeds are not included.</div>' + recommendedHTML;
   document.getElementById('r-shop').innerHTML = shopHTML;
   document.getElementById('r-why').textContent = rec.why;
 
@@ -1474,7 +1530,16 @@ function renderRecommendation(sys, size, flags) {
 
   // Other sizes in this system
   const otherSizes = Object.keys(RECS[sys]).filter(function(s){ return s !== size; });
-  document.getElementById('r-others-title').textContent = 'Other ' + sysName + ' options';
+  if (isMatched && flags.budgetAlternative) {
+    otherSizes.sort(function(a, b) {
+      if (a === flags.budgetAlternative.size) return -1;
+      if (b === flags.budgetAlternative.size) return 1;
+      return getEssentialTotalValue(RECS[sys][a]) - getEssentialTotalValue(RECS[sys][b]);
+    });
+  }
+  document.getElementById('r-others-title').textContent = isMatched && flags.budgetAlternative
+    ? 'Lower-cost and other ' + sysName + ' options'
+    : 'Other ' + sysName + ' options';
   const othersGrid = document.getElementById('r-others');
   othersGrid.innerHTML = '';
   otherSizes.forEach(function(s) {
