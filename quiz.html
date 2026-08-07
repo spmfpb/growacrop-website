@@ -111,6 +111,7 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 .shop-item-need{font-size:12px;font-weight:700;color:#1e3a22;line-height:1.4}
 .shop-item-suggestion{font-size:11px;color:#777;line-height:1.45;margin-top:2px}
 .shop-item-suggestion-label{color:#999}
+.shop-item-refill-note{font-size:10px;color:#667a64;line-height:1.4;margin-top:3px}
 .shop-sections{display:grid;gap:10px;margin-top:8px}
 .shop-section{background:rgba(255,255,255,.72);border:1px solid #e4ddcd;border-radius:9px;padding:10px 12px}
 .shop-section-title{font-size:13px;font-weight:800;color:#1e3a22;margin-bottom:1px}
@@ -186,7 +187,7 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 <body>
 
 <!-- NAV -->
-<nav class="nav">
+<nav class="nav home-nav">
   <a href="/" class="nav-logo">
     <div class="nav-logo-mark"><img src="images/branding/growacrop-logo.png" alt=""></div>
     <span class="nav-logo-text">GrowACrop</span>
@@ -1208,12 +1209,16 @@ function needsGrowLight() {
 
 function shopItemState(item) {
   if (/\[LIGHT\]/.test(item)) return needsGrowLight() ? 'include' : 'skip';
-  if (/optional/i.test(item)) return 'exclude';
+  if (/optional/i.test(item) || isSeedStartingRefill(item)) return 'exclude';
   return 'include';
 }
 
 function cleanShopItem(item) {
   return item.replace(/\s*\[LIGHT\]/, needsGrowLight() ? '' : ' (only needed indoors)');
+}
+
+function isSeedStartingRefill(item) {
+  return /Easy plug|Rockwool|Sponge/i.test(item);
 }
 
 function getShopItemNeedLabel(item, index) {
@@ -1228,8 +1233,8 @@ function getShopItemNeedLabel(item, index) {
   if (/pH Up\/Down/i.test(item)) return 'pH adjustment solution';
   if (/(?:pH|TDS|EC).*?(?:tester|test kit)/i.test(item)) return 'Water testing meter';
   if (/Syringe/i.test(item)) return 'Measuring syringe';
-  if (/Easy plug|Rockwool/i.test(item)) return 'Seed-starting plugs';
-  if (/Clay pebbles|Sponge|Coco coir|growing medium/i.test(item)) return 'Growing medium';
+  if (isSeedStartingRefill(item)) return 'Seed-starting sponges or plugs (refill)';
+  if (/Clay pebbles|Coco coir|growing medium/i.test(item)) return 'Growing medium';
   if (/Seeds?/i.test(item)) return 'Seeds';
   if (/Spray bottle/i.test(item)) return 'Spray bottle';
   if (/Trimmers?/i.test(item)) return 'Harvesting scissors';
@@ -1238,8 +1243,13 @@ function getShopItemNeedLabel(item, index) {
 
 function renderShopListItem(item, index, needLabel) {
   const linkedItem = cleanShopItem(item).replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" ');
+  const isRefill = isSeedStartingRefill(item);
+  const suggestionLabel = isRefill ? 'Suggested refill:' : 'Suggested product:';
+  const refillNote = isRefill
+    ? '<div class="shop-item-refill-note">Check what your system includes first. Buy this when the supplied starter sponges or plugs run out.</div>'
+    : '';
   const itemContent = needLabel
-    ? '<div class="shop-item-need">' + needLabel + '</div><div class="shop-item-suggestion"><span class="shop-item-suggestion-label">Suggested product:</span> ' + linkedItem + '</div>'
+    ? '<div class="shop-item-need">' + needLabel + '</div><div class="shop-item-suggestion"><span class="shop-item-suggestion-label">' + suggestionLabel + '</span> ' + linkedItem + '</div>' + refillNote
     : linkedItem;
   return '<li class="shop-item"><input type="checkbox" aria-label="Mark ' + (needLabel || 'shopping item ' + (index + 1)) + ' complete" onchange="this.parentElement.classList.toggle(\'checked\', this.checked)"><div class="shop-item-content">' + itemContent + '</div></li>';
 }
@@ -1255,7 +1265,7 @@ function classifyShopItem(item, index) {
 function buildShoppingSections(shopItems, needLabels) {
   const sections = [
     { key: 'system', title: 'Your grow system', note: 'The main setup everything else supports.', items: [] },
-    { key: 'start', title: 'Everything needed to start growing', note: 'The planting supplies that hold your seeds and support the roots.', items: [] },
+    { key: 'start', title: 'Everything needed to start growing', note: 'Seeds, growing media and refill supplies for germination.', items: [] },
     { key: 'health', title: 'Keep your plants healthy', note: 'Use these to feed the plants and keep the water balanced.', items: [] },
     { key: 'indoors', title: 'Only needed indoors', note: 'Skip these when your setup receives enough natural sunlight.', items: [] },
     { key: 'optional', title: 'Optional extras', note: 'Helpful for convenience, but not required to begin.', items: [] }
@@ -1330,7 +1340,7 @@ function renderRecommendation(sys, size, flags) {
   const shoppingListHTML = buildShoppingSections(shopItems, needLabels);
   const shopHTML = '<strong>Shopping list:</strong>' + shoppingListHTML +
     '<div class="shop-total"><span>Estimated total (priced essentials)</span><span>' + getShoppingTotal(rec) + '</span></div>' +
-    '<div class="shop-total-note">Optional and unpriced items are not included.</div>';
+    '<div class="shop-total-note">Optional, refill and unpriced items are not included.</div>';
   document.getElementById('r-shop').innerHTML = shopHTML;
   document.getElementById('r-why').textContent = rec.why;
 
