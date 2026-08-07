@@ -9,11 +9,6 @@
 <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/favicon-192.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="style.css?v=seamless-intro-20260807">
-<script>
-if (new URLSearchParams(window.location.search).get('from') === 'home') {
-  document.documentElement.classList.add('quiz-from-home');
-}
-</script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-height:100vh}
@@ -164,13 +159,8 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 .quiz-growth-plants.is-active{opacity:1}
 .quiz-growth-plants-mobile{display:none}
 .growth-plant{transform-box:fill-box;transform-origin:center;transform:rotate(var(--plant-angle,0deg)) scale(var(--plant-scale,1))}
-.quiz-intro-transition{display:none;position:absolute;inset:0;z-index:2;align-items:center;justify-content:center;opacity:1;pointer-events:none;transition:opacity .36s ease;font-family:var(--sans)}
-.quiz-from-home .quiz-intro-transition{display:flex}
-.quiz-from-home #screen-1{opacity:0;transition:opacity .36s ease}
-.quiz-from-home.quiz-intro-leaving .quiz-intro-transition{opacity:0}
-.quiz-from-home.quiz-intro-leaving #screen-1{opacity:1}
 .screen,.result-screen{position:relative;z-index:1}
-@media(prefers-reduced-motion:reduce){.quiz-growth-plants,.quiz-intro-transition,.quiz-from-home #screen-1{transition:none}}
+@media(prefers-reduced-motion:reduce){.quiz-growth-plants{transition:none}}
 .nav-quiz-link[aria-current="page"]{background:var(--green-ghost);color:var(--green-deep)}
 @media(max-width:760px){
   .quiz-page-main{min-height:688px}
@@ -265,22 +255,6 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
     <image class="growth-plant" data-plant="basil" data-medium="rockwool" href="images/backgrounds/quiz-growth/basil-2.webp" x="137" y="1125" width="112" height="112"/>
     <image class="growth-plant" data-plant="cos" data-medium="rockwool" href="images/backgrounds/quiz-growth/cos-2.webp" x="173" y="1169" width="112" height="112"/>
   </svg>
-</div>
-
-<div class="quiz-intro-transition" id="quiz-intro-transition" aria-hidden="true">
-  <section class="home-hero launch-hero">
-    <div class="home-hero-copy">
-      <div class="hero-label">Are you ready to</div>
-      <h1>Find your hydroponic setup?</h1>
-      <p class="hero-desc">Answer 7 quick questions and get matched with the right system for your space, budget, and what you want to grow.</p>
-      <div class="hero-ctas">
-        <span class="hero-cta-primary">
-          Start
-          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </span>
-      </div>
-    </div>
-  </section>
 </div>
 
 <style>
@@ -1554,28 +1528,6 @@ function restart() {
   trackStepViewed(1);
   window.scrollTo(0, 0);
 }
-
-(function transitionFromHomepage() {
-  if (!document.documentElement.classList.contains('quiz-from-home')) return;
-
-  function beginTransition() {
-    requestAnimationFrame(function() {
-      requestAnimationFrame(function() {
-        document.documentElement.classList.add('quiz-intro-leaving');
-        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        setTimeout(function() {
-          document.documentElement.classList.remove('quiz-from-home', 'quiz-intro-leaving');
-          const cleanUrl = new URL(window.location.href);
-          cleanUrl.searchParams.delete('from');
-          window.history.replaceState(window.history.state, '', cleanUrl.pathname + cleanUrl.search + cleanUrl.hash);
-        }, reduceMotion ? 0 : 380);
-      });
-    });
-  }
-
-  if (document.readyState === 'complete') beginTransition();
-  else window.addEventListener('load', beginTransition, { once: true });
-})();
 
 </script>
 </body>
