@@ -8,7 +8,12 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/favicon-192.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=seamless-intro-20260807">
+<script>
+if (new URLSearchParams(window.location.search).get('from') === 'home') {
+  document.documentElement.classList.add('quiz-from-home');
+}
+</script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-height:100vh}
@@ -159,8 +164,13 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
 .quiz-growth-plants.is-active{opacity:1}
 .quiz-growth-plants-mobile{display:none}
 .growth-plant{transform-box:fill-box;transform-origin:center;transform:rotate(var(--plant-angle,0deg)) scale(var(--plant-scale,1))}
+.quiz-intro-transition{display:none;position:absolute;inset:0;z-index:2;align-items:center;justify-content:center;opacity:1;pointer-events:none;transition:opacity .36s ease;font-family:var(--sans)}
+.quiz-from-home .quiz-intro-transition{display:flex}
+.quiz-from-home #screen-1{opacity:0;transition:opacity .36s ease}
+.quiz-from-home.quiz-intro-leaving .quiz-intro-transition{opacity:0}
+.quiz-from-home.quiz-intro-leaving #screen-1{opacity:1}
 .screen,.result-screen{position:relative;z-index:1}
-@media(prefers-reduced-motion:reduce){.quiz-growth-plants{transition:none}}
+@media(prefers-reduced-motion:reduce){.quiz-growth-plants,.quiz-intro-transition,.quiz-from-home #screen-1{transition:none}}
 .nav-quiz-link[aria-current="page"]{background:var(--green-ghost);color:var(--green-deep)}
 @media(max-width:760px){
   .quiz-page-main{min-height:auto}
@@ -257,6 +267,22 @@ body{font-family:system-ui,sans-serif;background:#f5f2ea;color:#1a2a16;min-heigh
   </svg>
 </div>
 
+<div class="quiz-intro-transition" id="quiz-intro-transition" aria-hidden="true">
+  <section class="home-hero launch-hero">
+    <div class="home-hero-copy">
+      <div class="hero-label">Are you ready to</div>
+      <h1>Find your hydroponic setup?</h1>
+      <p class="hero-desc">Answer 7 quick questions and get matched with the right system for your space, budget, and what you want to grow.</p>
+      <div class="hero-ctas">
+        <span class="hero-cta-primary">
+          Start
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </span>
+      </div>
+    </div>
+  </section>
+</div>
+
 <style>
 .match-reasons{background:#f5f9ec;border-radius:8px;padding:12px 14px;font-size:12.5px;color:#3a4a36;margin-bottom:12px;line-height:1.7}
 .match-reasons strong{color:#1e3a22}
@@ -274,8 +300,10 @@ body{background:#f7f7f5}
 .screen{max-width:780px;padding:56px 24px 80px;text-align:center}
 .q-eyebrow{font-size:13px;font-weight:400;letter-spacing:0;text-transform:none;color:#8b8b83;margin-bottom:14px}
 .q-title{font-size:29px;font-weight:700;color:#12321f;line-height:1.25;margin-bottom:14px;letter-spacing:-.01em}
-.q-sub{font-size:15px;color:#77776f;max-width:580px;margin:0 auto 8px;line-height:1.6}
-.q-why{font-size:12.5px;color:#a5a49b;margin:0 auto 36px;max-width:540px}
+.q-sub{font-size:15px;color:#77776f;max-width:580px;margin:0 auto 34px;line-height:1.6}
+.q-why{font-size:12.5px;color:#a5a49b;margin:0 auto 34px;max-width:540px}
+.q-note{font-size:12.5px;color:#8a6d2f;margin:-26px auto 26px;max-width:540px;line-height:1.5}
+.q-note[hidden]{display:none}
 .motivation-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-bottom:36px}
 .motivation-card{display:grid;grid-template-columns:16px 1fr;column-gap:12px;row-gap:3px;align-content:start;background:#fff;border:1px solid #e4e2da;border-radius:8px;padding:16px 20px;min-width:196px;max-width:252px;text-align:left;transition:border-color .15s,box-shadow .15s}
 .motivation-card::before{content:'';grid-column:1;grid-row:1;width:16px;height:16px;border-radius:50%;border:1.5px solid #cbc9c0;margin-top:2px;box-sizing:border-box}
@@ -337,6 +365,8 @@ body{background:#f7f7f5}
   .q-title{font-size:18px;line-height:1.2;margin-bottom:6px;max-width:440px}
   .q-sub{font-size:11px;line-height:1.35;margin:0 auto 11px;max-width:440px}
   .q-why{display:none}
+  .q-sub{margin-bottom:11px}
+  .q-note{font-size:10px;margin:-6px auto 8px;max-width:440px}
   .motivation-grid,
   #screen-1 .motivation-grid,
   #screen-2 .motivation-grid,
@@ -424,8 +454,8 @@ body{background:#f7f7f5}
 <div class="screen active" id="screen-1">
   <div class="q-eyebrow">1 of 7</div>
   <h1 class="q-title">What do you want to grow?</h1>
-  <p class="q-sub">Pick as many as you like. Microgreens grow in their own compact system, so that one's exclusive of the rest.</p>
-  <p class="q-why">Why we ask: this decides which system families suit you.</p>
+  <p class="q-sub">Pick as many as you like.</p>
+  <p class="q-note" id="crop-note" hidden>Microgreens grow on their own &mdash; other crops need a different system.</p>
   <div class="motivation-grid">
     <div class="motivation-card" data-val="herbs" onclick="toggleCrop(this)">
       <img class="crop-option-img" src="images/quiz-crops/fresh-herbs-v2.png" alt="Fresh basil and coriander bound with a rubber band">
@@ -457,16 +487,13 @@ body{background:#f7f7f5}
 <div class="screen" id="screen-2">
   <div class="q-eyebrow">2 of 7</div>
   <h1 class="q-title">Where would your setup live?</h1>
-  <p class="q-sub">Outdoor spots want roughly 6+ hours of sun. Indoors is fine too &mdash; we'll add a grow light to your list where needed.</p>
-  <p class="q-why">Why we ask: this decides indoor vs outdoor and whether you need lighting.</p>
+  <p class="q-sub">Outdoor spots want roughly 6+ hours of sun.<br>Indoors is fine too, we'll add a grow light to your list where needed.</p>
   <div class="motivation-grid">
     <div class="motivation-card" data-val="bench" onclick="pickAnswer(this,'location')">
       <div class="motivation-label">Kitchen bench</div>
-      <div class="option-sub">A countertop spot indoors</div>
     </div>
     <div class="motivation-card" data-val="indoor_floor" onclick="pickAnswer(this,'location')">
       <div class="motivation-label">Indoor floor space</div>
-      <div class="option-sub">A corner or spare spot inside</div>
     </div>
     <div class="motivation-card" data-val="balcony" onclick="pickAnswer(this,'location')">
       <div class="motivation-label">Balcony or courtyard</div>
@@ -478,7 +505,6 @@ body{background:#f7f7f5}
     </div>
     <div class="motivation-card" data-val="wall" onclick="pickAnswer(this,'location')">
       <div class="motivation-label">Garden wall or fence</div>
-      <div class="option-sub">Vertical outdoor space</div>
     </div>
   </div>
   <div class="btn-row"><button class="back-btn" onclick="goBack()">&larr; Back</button><button class="next-btn" id="next-2" disabled onclick="goTo(3)">
@@ -491,7 +517,6 @@ body{background:#f7f7f5}
   <div class="q-eyebrow">3 of 7</div>
   <h1 class="q-title">How much do you want to harvest?</h1>
   <p class="q-sub">Be honest &mdash; bigger isn't better if it becomes a chore.</p>
-  <p class="q-why">Why we ask: this sizes the system to what you'll actually use.</p>
   <div class="motivation-grid">
     <div class="motivation-card" data-val="taste" onclick="pickAnswer(this,'harvest')">
       <div class="motivation-label">A steady taste</div>
@@ -515,12 +540,10 @@ body{background:#f7f7f5}
 <div class="screen" id="screen-4">
   <div class="q-eyebrow">4 of 7</div>
   <h1 class="q-title">How are you with plants?</h1>
-  <p class="q-sub">No judgement &mdash; honest answers get better matches.</p>
-  <p class="q-why">Why we ask: if you're new, we'll pick something forgiving.</p>
+  <p class="q-sub"></p>
   <div class="motivation-grid">
     <div class="motivation-card" data-val="none" onclick="pickAnswer(this,'confidence')">
       <div class="motivation-label">Never grown anything</div>
-      <div class="option-sub">Complete beginner</div>
     </div>
     <div class="motivation-card" data-val="killer" onclick="pickAnswer(this,'confidence')">
       <div class="motivation-label">I kill every plant I touch</div>
@@ -544,8 +567,7 @@ body{background:#f7f7f5}
 <div class="screen" id="screen-5">
   <div class="q-eyebrow">5 of 7</div>
   <h1 class="q-title">What's your starting budget?</h1>
-  <p class="q-sub">Full setups below span roughly $80 to $500+.</p>
-  <p class="q-why">Why we ask: so the recommendation is one you can actually buy this week.</p>
+  <p class="q-sub">This is the all-in cost &mdash; system, nutrients, seeds and testing kit. Most setups land between $150 and $650.</p>
   <div class="motivation-grid">
     <div class="motivation-card" data-val="low" onclick="pickAnswer(this,'budget')">
       <div class="motivation-label">Under $150</div>
@@ -970,6 +992,8 @@ function toggleCrop(el) {
     trackAnswer(1, val, el.querySelector('.motivation-label').textContent.trim());
   }
   updateCropAvailability();
+  const note = document.getElementById('crop-note');
+  if (note) note.hidden = !A.crops.includes('microgreens');
 }
 
 function toggleMotivation(el) {
@@ -1515,6 +1539,8 @@ function restart() {
   currentQuizStep = 1;
   A.crops = []; A.location = null; A.harvest = null; A.confidence = null; A.budget = null; A.motivations = []; A.email = '';
   document.querySelectorAll('.motivation-card').forEach(function(c){ c.classList.remove('selected'); c.classList.remove('disabled'); });
+  const cropNote = document.getElementById('crop-note');
+  if (cropNote) cropNote.hidden = true;
   document.getElementById('email-input').value = '';
   for (let i = 1; i <= 6; i++) document.getElementById('next-' + i).disabled = true;
   document.getElementById('next-7').disabled = false;
@@ -1528,6 +1554,28 @@ function restart() {
   trackStepViewed(1);
   window.scrollTo(0, 0);
 }
+
+(function transitionFromHomepage() {
+  if (!document.documentElement.classList.contains('quiz-from-home')) return;
+
+  function beginTransition() {
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        document.documentElement.classList.add('quiz-intro-leaving');
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        setTimeout(function() {
+          document.documentElement.classList.remove('quiz-from-home', 'quiz-intro-leaving');
+          const cleanUrl = new URL(window.location.href);
+          cleanUrl.searchParams.delete('from');
+          window.history.replaceState(window.history.state, '', cleanUrl.pathname + cleanUrl.search + cleanUrl.hash);
+        }, reduceMotion ? 0 : 380);
+      });
+    });
+  }
+
+  if (document.readyState === 'complete') beginTransition();
+  else window.addEventListener('load', beginTransition, { once: true });
+})();
 
 </script>
 </body>
