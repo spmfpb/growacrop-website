@@ -1329,7 +1329,7 @@ function shopItemState(item) {
   const text = shopItemPlainText(item);
   if (/^\s*Outdoor:/i.test(item)) return needsGrowLight() ? 'skip' : 'include';
   if (/^\s*Indoor:/i.test(item)) return needsGrowLight() ? 'include' : 'skip';
-  if (/\[LIGHT\]/.test(item)) return needsGrowLight() ? 'include' : 'skip';
+  if (/\[LIGHT\]/.test(item)) return needsGrowLight() ? 'optional' : 'skip';
   if (isWaterCareRecommendation(item)) return 'recommended';
   if (/optional/i.test(text) || isSeedStartingRefill(item) || isConvenienceItem(item)) return 'exclude';
   return 'include';
@@ -1417,7 +1417,7 @@ function buildShoppingSections(shopItems, needLabels) {
     { key: 'system', title: 'Your grow system', note: 'The main setup everything else supports.', items: [] },
     { key: 'start', title: 'Everything needed to start growing', note: 'Seeds and any growing media the system needs to operate.', items: [] },
     { key: 'health', title: 'Feed your plants', note: 'The essential nutrients required to begin growing.', items: [] },
-    { key: 'indoors', title: 'Required for this indoor setup', note: 'Lighting and timing equipment needed when natural sunlight is not available.', items: [] },
+    { key: 'indoors', title: 'Optional indoor lighting', note: 'You can leave the setup next to a bright window. Add a grow light only if it does not receive enough natural sunlight.', items: [] },
     { key: 'optional', title: 'Optional extras', note: 'Helpful for convenience, but not required to begin.', items: [] }
   ];
 
@@ -1501,14 +1501,17 @@ function renderRecommendation(sys, size, flags) {
   }
 
   const shopItems = splitShopItems(rec.shop);
-  const essentialItems = shopItems.filter(function(item) { return shopItemState(item) === 'include'; });
+  const essentialItems = shopItems.filter(function(item) {
+    const state = shopItemState(item);
+    return state === 'include' || state === 'optional';
+  });
   const recommendedItems = shopItems.filter(function(item) { return shopItemState(item) === 'recommended'; });
   const needLabels = essentialItems.map(getShopItemNeedLabel);
   const shoppingListHTML = buildShoppingSections(essentialItems, needLabels);
   const recommendedHTML = buildRecommendedSection(recommendedItems);
   const shopHTML = '<strong>Essential shopping list:</strong>' + shoppingListHTML +
     '<div class="shop-total"><span>Estimated total (priced essentials)</span><span>' + getShoppingTotal(rec) + '</span></div>' +
-    '<div class="shop-total-note">Convenience extras, refills and unpriced necessities such as seeds are not included.</div>' + recommendedHTML;
+    '<div class="shop-total-note">Optional lighting, convenience extras, refills and unpriced necessities such as seeds are not included.</div>' + recommendedHTML;
   document.getElementById('r-shop').innerHTML = shopHTML;
   document.getElementById('r-why').textContent = rec.why;
 
