@@ -302,6 +302,13 @@ body{background:var(--cream)}
 .q-why{font-size:12.5px;color:#a5a49b;margin:0 auto 34px;max-width:540px}
 .q-note{font-size:12.5px;color:#8a6d2f;margin:-26px auto 26px;max-width:540px;line-height:1.5}
 .q-note[hidden]{display:none}
+.preference-grid{max-width:680px;margin:0 auto 28px}
+.preference-card{appearance:none;font:inherit;color:inherit;padding:0;width:100%;text-align:inherit}
+.preference-card .system-img{height:190px;background:#edf2e8}
+.preference-card .system-info{padding:15px 16px 17px}
+.preference-card .system-name{font-size:16px;margin-bottom:7px}
+.preference-card .system-desc{font-size:13px;color:#77776f;line-height:1.5}
+.preference-card:focus-visible{outline:3px solid rgba(18,50,31,.25);outline-offset:3px}
 .motivation-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-bottom:36px}
 .motivation-card{display:grid;grid-template-columns:16px 1fr;column-gap:12px;row-gap:3px;align-content:start;background:#fff;border:1px solid #e4e2da;border-radius:8px;padding:16px 20px;min-width:196px;max-width:252px;text-align:left;transition:border-color .15s,box-shadow .15s}
 .motivation-card::before{content:'';grid-column:1;grid-row:1;width:16px;height:16px;border-radius:50%;border:1.5px solid #cbc9c0;margin-top:2px;box-sizing:border-box}
@@ -353,7 +360,7 @@ body{background:var(--cream)}
 @media(min-width:1025px){
   .screen{padding-top:calc(56px + 2cm)}
   .screen > .q-sub{min-height:48px}
-  #screen-6 > .q-sub,#screen-7 > .q-sub{margin-bottom:63px}
+  #screen-6 > .q-sub,#screen-8 > .q-sub{margin-bottom:63px}
 }
 @media(max-width:700px){
   .quiz-page-main{min-height:calc(100svh - 148px);margin-top:0}
@@ -406,6 +413,11 @@ body{background:var(--cream)}
   .btn-row{justify-content:center;margin-top:0}
   .email-wrap{width:100%;max-width:440px}
   .email-note{margin-bottom:14px}
+  .preference-grid{width:100%;gap:8px;margin-bottom:12px}
+  .preference-card .system-img{height:112px;padding:5px}
+  .preference-card .system-info{padding:9px 8px 10px}
+  .preference-card .system-name{font-size:11px;line-height:1.25;margin-bottom:4px}
+  .preference-card .system-desc{font-size:9px;line-height:1.35}
 }
 @media(max-width:360px){
   .screen{padding-left:10px;padding-right:10px}
@@ -444,13 +456,14 @@ body{background:var(--cream)}
     <div class="step" id="step5"></div>
     <div class="step" id="step6"></div>
     <div class="step" id="step7"></div>
+    <div class="step" id="step8" hidden></div>
   </div>
   <div class="progress-label" id="progress-label">Step 1 of 7 - What you'll grow</div>
 </div>
 
 <!-- Q1: CROP -->
 <div class="screen active" id="screen-1">
-  <div class="q-eyebrow">1 of 7</div>
+  <div class="q-eyebrow" data-step-count="1">1 of 7</div>
   <h1 class="q-title">What do you want to grow?</h1>
   <p class="q-sub">Pick as many as you like.</p>
   <p class="q-note" id="crop-note" hidden>Microgreens grow on their own &mdash; other crops need a different system.</p>
@@ -483,7 +496,7 @@ body{background:var(--cream)}
 
 <!-- Q2: LOCATION -->
 <div class="screen" id="screen-2">
-  <div class="q-eyebrow">2 of 7</div>
+  <div class="q-eyebrow" data-step-count="2">2 of 7</div>
   <h1 class="q-title">Where would your setup live?</h1>
   <p class="q-sub">Outdoor spots want roughly 6+ hours of sun.<br>Indoors is fine too, we'll add a grow light to your list where needed.</p>
   <div class="motivation-grid">
@@ -512,9 +525,9 @@ body{background:var(--cream)}
 
 <!-- Q3: HARVEST -->
 <div class="screen" id="screen-3">
-  <div class="q-eyebrow">3 of 7</div>
+  <div class="q-eyebrow" data-step-count="3">3 of 7</div>
   <h1 class="q-title">How much do you want to harvest?</h1>
-  <p class="q-sub">Be honest &mdash; bigger isn't better if it becomes a chore.</p>
+  <p class="q-sub">Bigger isn't better if it becomes a chore.</p>
   <div class="motivation-grid">
     <div class="motivation-card" data-val="taste" onclick="pickAnswer(this,'harvest')">
       <div class="motivation-label">A steady taste</div>
@@ -536,7 +549,7 @@ body{background:var(--cream)}
 
 <!-- Q4: CONFIDENCE -->
 <div class="screen" id="screen-4">
-  <div class="q-eyebrow">4 of 7</div>
+  <div class="q-eyebrow" data-step-count="4">4 of 7</div>
   <h1 class="q-title">How are you with plants?</h1>
   <p class="q-sub"></p>
   <div class="motivation-grid">
@@ -563,7 +576,7 @@ body{background:var(--cream)}
 
 <!-- Q5: BUDGET -->
 <div class="screen" id="screen-5">
-  <div class="q-eyebrow">5 of 7</div>
+  <div class="q-eyebrow" data-step-count="5">5 of 7</div>
   <h1 class="q-title">What's your starting budget?</h1>
   <p class="q-sub">Just the essentials to get started, most setups land between $110 and $500.<br>Testing tools, lights and extras are listed separately.</p>
   <div class="motivation-grid">
@@ -591,7 +604,7 @@ body{background:var(--cream)}
 
 <!-- Q6: MOTIVATION (multi) -->
 <div class="screen" id="screen-6">
-  <div class="q-eyebrow">6 of 7</div>
+  <div class="q-eyebrow" data-step-count="6">6 of 7</div>
   <h1 class="q-title">Why do you want to grow at home?</h1>
   <p class="q-sub">Pick as many as you like &mdash; this shapes the tips we send you.</p>
   <div class="motivation-grid">
@@ -616,20 +629,31 @@ body{background:var(--cream)}
       <div class="motivation-label">I've always wanted to</div>
     </div>
   </div>
-  <div class="btn-row"><button class="back-btn" onclick="goBack()">&larr; Back</button><button class="next-btn" id="next-6" disabled onclick="goTo(7)">
+  <div class="btn-row"><button class="back-btn" onclick="goBack()">&larr; Back</button><button class="next-btn" id="next-6" disabled onclick="continueFromMotivation()">
     Next <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
   </button></div>
 </div>
 
-<!-- Q7: EMAIL -->
+<!-- CONDITIONAL SYSTEM PREFERENCE -->
 <div class="screen" id="screen-7">
-  <div class="q-eyebrow">7 of 7</div>
+  <div class="q-eyebrow" data-step-count="7">7 of 8</div>
+  <h1 class="q-title" id="preference-title">Which setup appeals to you more?</h1>
+  <p class="q-sub" id="preference-subtitle">Both options suit your answers. Choose the trade-off you prefer.</p>
+  <div class="system-grid preference-grid" id="preference-options"></div>
+  <div class="btn-row"><button class="back-btn" onclick="goBack()">&larr; Back</button><button class="next-btn" id="next-7" disabled onclick="goTo(8)">
+    Next <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </button></div>
+</div>
+
+<!-- EMAIL -->
+<div class="screen" id="screen-8">
+  <div class="q-eyebrow" data-step-count="8">8 of 8</div>
   <h1 class="q-title">Want your plan emailed?</h1>
   <p class="q-sub">We'll send your shopping list plus a week-by-week beginner guide for your exact setup.</p>
   <div class="email-wrap">
     <input class="email-input" type="email" id="email-input" placeholder="you@example.com" oninput="checkEmail()">
     <p class="email-note"><span>Email is optional. Leave it blank to view your result now.</span></p>
-    <div class="btn-row"><button class="back-btn" onclick="goBack()">&larr; Back</button><button class="next-btn" id="next-7" onclick="showResult()">
+    <div class="btn-row"><button class="back-btn" onclick="goBack()">&larr; Back</button><button class="next-btn" id="next-8" onclick="showResult()">
       See my match <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </button></div>
   </div>
@@ -873,17 +897,19 @@ function getSizeLabel(size){ return SIZE_LABELS_V2[size] || size; }
 const BUDGET_MAX = { low:150, mid:350, high:800, premium:Infinity };
 const BUDGET_TEXT = { low:'under $150', mid:'$150-$350', high:'$350+', premium:'$800+' };
 
-const A = { crops:[], location:null, harvest:null, confidence:null, budget:null, motivations:[], email:'' };
+const A = { crops:[], location:null, harvest:null, confidence:null, budget:null, motivations:[], systemPreference:null, email:'' };
 
-const QUIZ_VERSION = 'growacrop_quiz_v3';
-const QUIZ_ATTEMPT_KEY = 'growacrop_quiz_attempt_id_v3';
-const QUIZ_STARTED_AT_KEY = 'growacrop_quiz_started_at_v3';
-const QUIZ_COMPLETED_KEY = 'growacrop_quiz_completed_v3';
+const QUIZ_VERSION = 'growacrop_quiz_v4';
+const QUIZ_ATTEMPT_KEY = 'growacrop_quiz_attempt_id_v4';
+const QUIZ_STARTED_AT_KEY = 'growacrop_quiz_started_at_v4';
+const QUIZ_COMPLETED_KEY = 'growacrop_quiz_completed_v4';
 let quizAttemptId = sessionStorage.getItem(QUIZ_ATTEMPT_KEY);
 let quizStartedAt = Number(sessionStorage.getItem(QUIZ_STARTED_AT_KEY));
 let quizCompletedTracked = false;
 let emailSubmissionStarted = false;
 let currentQuizStep = 1;
+let currentPreferenceScenario = null;
+let lastTrackedPreferenceScenario = null;
 
 function createQuizAttempt() {
   quizAttemptId = crypto.randomUUID();
@@ -904,9 +930,10 @@ function captureQuizEvent(eventName, properties) {
   }, properties || {}));
 }
 
-const QUESTION_IDS = {1:'crop',2:'placement',3:'harvest_amount',4:'confidence',5:'budget',6:'motivation',7:'email_opt_in'};
+const QUESTION_IDS = {1:'crop',2:'placement',3:'harvest_amount',4:'confidence',5:'budget',6:'motivation',7:'system_preference',8:'email_opt_in'};
 function getQuestionDetails(step) {
-  return { question_id: QUESTION_IDS[step] || 'unknown', question_number: step };
+  const logicalStep = step === 8 && !currentPreferenceScenario ? 7 : step;
+  return { question_id: QUESTION_IDS[step] || 'unknown', question_number: logicalStep };
 }
 function trackQuizStarted() {
   const startedKey = 'growacrop_quiz_started_' + quizAttemptId;
@@ -984,8 +1011,162 @@ function toggleMotivation(el) {
 function checkEmail() {
   const val = document.getElementById('email-input').value.trim();
   const valid = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(val);
-  document.getElementById('next-7').disabled = val !== '' && !valid;
+  document.getElementById('next-8').disabled = val !== '' && !valid;
   A.email = val;
+}
+
+const SYSTEM_PREFERENCE_IMAGES = {
+  mini_garden: 'images/quiz/quiz-product-02.png',
+  dwc_bucket: 'images/quiz/quiz-product-03.png',
+  tower: 'images/quiz/quiz-product-04.png',
+  salad_table: 'images/quiz/quiz-product-05.png',
+  grow_shelf: 'images/quiz/quiz-product-06.png',
+};
+
+const PREFERENCE_SCENARIOS = {
+  bench_fruiting_conflict: {
+    id: 'bench_fruiting_conflict',
+    title: 'Which matters more: the bench or fruiting crops?',
+    subtitle: 'Large fruiting plants need more root space than a kitchen-bench system can provide.',
+    options: [
+      { system:'mini_garden', name:'Keep it on the kitchen bench', desc:'Choose a compact indoor garden for herbs and leafy greens. Large fruiting crops will need a different space.', resultReason:'You chose to keep the setup on your kitchen bench, so we prioritised a compact garden for herbs and greens over a bucket system for larger fruiting crops.' },
+      { system:'dwc_bucket', name:'Prioritise tomatoes and chillies', desc:'Choose a bucket system with the root space fruiting crops need. It must sit on the floor or outdoors.', resultReason:'You chose to prioritise tomatoes and chillies and accepted that a bucket system needs floor or outdoor space instead of the kitchen bench.' },
+    ],
+  },
+  wall_fruiting_conflict: {
+    id: 'wall_fruiting_conflict',
+    title: 'Which matters more: the wall or fruiting crops?',
+    subtitle: 'Wall systems suit herbs and greens, while tomatoes and chillies need a deeper floor-based container.',
+    options: [
+      { system:'salad_table', name:'Keep the wall placement', desc:'Use a wall-mounted system for herbs and leafy greens, with no floor space needed.', resultReason:'You chose to keep the wall placement, so we prioritised a wall-mounted system for herbs and greens over a floor-based fruiting system.' },
+      { system:'dwc_bucket', name:'Prioritise tomatoes and chillies', desc:'Use a bucket system for fruiting crops and place it on the floor or outdoors.', resultReason:'You chose to prioritise tomatoes and chillies and accepted that the system needs floor or outdoor space instead of the wall.' },
+    ],
+  },
+  mixed_fruiting_outdoor: {
+    id: 'mixed_fruiting_outdoor',
+    title: 'What would you rather prioritise?',
+    subtitle: 'Both systems suit your outdoor space, but they are strongest at different jobs.',
+    options: [
+      { system:'dwc_bucket', name:'Larger tomatoes and chillies', desc:'Give a few fruiting plants more root space for stronger growth and heavier crops.', resultReason:'You chose to prioritise larger fruiting plants, so we matched you with the deeper root space of a bucket system.' },
+      { system:'tower', name:'A wider variety in less space', desc:'Grow more herbs and greens vertically, with room for some smaller fruiting crops.', resultReason:'You chose crop variety and a smaller footprint, so we matched you with a vertical tower instead of fruiting-focused buckets.' },
+    ],
+  },
+  outdoor_greens_style: {
+    id: 'outdoor_greens_style',
+    title: 'Which growing style sounds better?',
+    subtitle: 'Both suit your crops, outdoor space and budget. Choose the trade-off you prefer.',
+    options: [
+      { system:'tower', name:'Vertical tower', desc:'Fit a wider mix of herbs and greens into a smaller floor footprint.', resultReason:'You preferred a compact vertical layout and wider crop variety, so we matched you with a tower garden.' },
+      { system:'salad_table', name:'Flat salad system', desc:'Make planting and harvesting easier, with stronger leafy-green output.', resultReason:'You preferred easy access and stronger leafy-green output, so we matched you with a flat salad system.' },
+    ],
+  },
+  indoor_premium_style: {
+    id: 'indoor_premium_style',
+    title: 'Which indoor setup suits you better?',
+    subtitle: 'Both fit your crops and premium budget. The main difference is footprint and growing capacity.',
+    options: [
+      { system:'tower', name:'Compact indoor tower', desc:'Use less floor space and grow a varied mix vertically under dedicated lighting.', resultReason:'You preferred a compact indoor footprint and vertical crop variety, so we matched you with a tower garden.' },
+      { system:'grow_shelf', name:'High-capacity grow shelf', desc:'Use a wider furniture-style setup for easier access and higher indoor volume.', resultReason:'You preferred easier access and higher indoor capacity, so we matched you with a grow shelf.' },
+    ],
+  },
+};
+
+function getPreferenceScenario() {
+  const hasMicrogreens = A.crops.includes('microgreens');
+  const hasFruiting = A.crops.includes('fruiting');
+  const hasGreens = A.crops.includes('herbs') || A.crops.includes('salad');
+  const isOutdoor = A.location === 'balcony' || A.location === 'backyard';
+  const wantsMoreThanTaste = A.harvest === 'weekly' || A.harvest === 'serious';
+  const hasFlexibleBudget = A.budget !== 'low';
+  const outdoorGreensOptionsFit = (A.harvest === 'weekly' && hasFlexibleBudget) || (A.harvest === 'serious' && A.budget === 'high');
+
+  if (hasMicrogreens) return null;
+  if (hasFruiting && A.location === 'bench') return PREFERENCE_SCENARIOS.bench_fruiting_conflict;
+  if (hasFruiting && A.location === 'wall') return PREFERENCE_SCENARIOS.wall_fruiting_conflict;
+  if (hasFruiting && hasGreens && isOutdoor && wantsMoreThanTaste && hasFlexibleBudget) return PREFERENCE_SCENARIOS.mixed_fruiting_outdoor;
+  if (!hasFruiting && hasGreens && isOutdoor && outdoorGreensOptionsFit) return PREFERENCE_SCENARIOS.outdoor_greens_style;
+  if (!hasFruiting && hasGreens && A.location === 'indoor_floor' && A.budget === 'premium' && A.harvest === 'weekly') return PREFERENCE_SCENARIOS.indoor_premium_style;
+  return null;
+}
+
+function updateStepCounts() {
+  const total = currentPreferenceScenario ? 8 : 7;
+  document.querySelectorAll('[data-step-count]').forEach(function(el) {
+    const screenStep = Number(el.dataset.stepCount);
+    const logicalStep = screenStep === 8 && !currentPreferenceScenario ? 7 : screenStep;
+    el.textContent = logicalStep + ' of ' + total;
+  });
+}
+
+function renderPreferenceScenario(scenario) {
+  const scenarioChanged = !currentPreferenceScenario || currentPreferenceScenario.id !== scenario.id;
+  currentPreferenceScenario = scenario;
+  if (scenarioChanged) A.systemPreference = null;
+
+  document.getElementById('preference-title').textContent = scenario.title;
+  document.getElementById('preference-subtitle').textContent = scenario.subtitle;
+  const options = document.getElementById('preference-options');
+  options.innerHTML = '';
+
+  scenario.options.forEach(function(option) {
+    const card = document.createElement('button');
+    card.type = 'button';
+    card.className = 'system-card preference-card' + (A.systemPreference === option.system ? ' selected' : '');
+    card.dataset.system = option.system;
+    card.setAttribute('aria-pressed', A.systemPreference === option.system ? 'true' : 'false');
+    card.innerHTML =
+      '<img class="system-img" src="' + SYSTEM_PREFERENCE_IMAGES[option.system] + '" alt="">' +
+      '<div class="system-info"><div class="system-name">' + option.name +
+      '<span class="system-check" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span></div>' +
+      '<div class="system-desc">' + option.desc + '</div></div>';
+    card.addEventListener('click', function() { pickSystemPreference(option.system); });
+    options.appendChild(card);
+  });
+
+  document.getElementById('next-7').disabled = !A.systemPreference;
+  updateStepCounts();
+  if (lastTrackedPreferenceScenario !== scenario.id) {
+    lastTrackedPreferenceScenario = scenario.id;
+    captureQuizEvent('quiz_preference_presented', {
+      preference_scenario: scenario.id,
+      option_systems: scenario.options.map(function(option) { return option.system; }),
+    });
+  }
+}
+
+function pickSystemPreference(system) {
+  if (!currentPreferenceScenario) return;
+  const option = currentPreferenceScenario.options.find(function(candidate) { return candidate.system === system; });
+  if (!option) return;
+  const isRepeated = A.systemPreference === system;
+  A.systemPreference = system;
+  document.querySelectorAll('#preference-options .preference-card').forEach(function(card) {
+    const selected = card.dataset.system === system;
+    card.classList.toggle('selected', selected);
+    card.setAttribute('aria-pressed', selected ? 'true' : 'false');
+  });
+  document.getElementById('next-7').disabled = false;
+  if (!isRepeated) {
+    trackAnswer(7, system, option.name);
+    captureQuizEvent('quiz_preference_selected', {
+      preference_scenario: currentPreferenceScenario.id,
+      selected_system: system,
+    });
+  }
+}
+
+function continueFromMotivation() {
+  const scenario = getPreferenceScenario();
+  if (scenario) {
+    renderPreferenceScenario(scenario);
+    goTo(7);
+    return;
+  }
+  currentPreferenceScenario = null;
+  A.systemPreference = null;
+  document.getElementById('next-7').disabled = true;
+  updateStepCounts();
+  goTo(8);
 }
 
 const GROWTH_PLANT_IMAGES = {
@@ -1078,7 +1259,8 @@ function setGrowthStage(step) {
   Promise.all(nextSources.map(preloadGrowthImage)).then(function() {
     if (request !== growthStageRequest || requestedGrowthStage !== stage) return;
     nextPlants.forEach(function(plant,index) { plant.setAttribute('href', nextSources[index]); });
-    bg.style.setProperty('--growth-stage-scale', stage === 7 ? '1.3' : '1');
+    const growthScale = stage >= 5 ? 1 + ((stage - 4) * .1) : 1;
+    bg.style.setProperty('--growth-stage-scale', String(growthScale));
     bg.dataset.stage = String(stage);
     requestAnimationFrame(function() {
       if (request !== growthStageRequest || requestedGrowthStage !== stage) return;
@@ -1093,16 +1275,18 @@ function setGrowthStage(step) {
 
 function goBack() {
   if (currentQuizStep <= 1) return;
+  const destinationStep = currentQuizStep === 8 && !currentPreferenceScenario ? 6 : currentQuizStep - 1;
   captureQuizEvent('quiz_back_clicked', Object.assign(
     getQuestionDetails(currentQuizStep),
-    { destination_step: currentQuizStep - 1 }
+    { destination_step: getQuestionDetails(destinationStep).question_number }
   ));
-  goTo(currentQuizStep - 1);
+  goTo(destinationStep);
 }
 
 function goTo(step) {
   if (step === currentQuizStep) return;
   if (step === 5) syncBudgetOptions();
+  updateStepCounts();
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + step).classList.add('active');
   setGrowthStage(step);
@@ -1126,28 +1310,33 @@ function syncBudgetOptions() {
 }
 
 function updateProgress(step) {
+  const hasPreference = !!currentPreferenceScenario;
+  const total = hasPreference ? 8 : 7;
+  const logicalStep = step === 8 && !hasPreference ? 7 : step;
   const labels = {
-    1: "Step 1 of 7 - What you'll grow",
-    2: 'Step 2 of 7 - Your space',
-    3: 'Step 3 of 7 - Harvest size',
-    4: 'Step 4 of 7 - Your experience',
-    5: 'Step 5 of 7 - Budget',
-    6: 'Step 6 of 7 - Why grow',
-    7: 'Step 7 of 7 - Your plan',
+    1: "What you'll grow",
+    2: 'Your space',
+    3: 'Harvest size',
+    4: 'Your experience',
+    5: 'Budget',
+    6: 'Why grow',
+    7: hasPreference ? 'Your preference' : 'Your plan',
+    8: 'Your plan',
   };
-  for (let i = 1; i <= 7; i++) {
+  for (let i = 1; i <= 8; i++) {
     const el = document.getElementById('step' + i);
+    el.hidden = !hasPreference && i === 8;
     el.className = 'step';
-    if (i < step) el.classList.add('done');
-    else if (i === step) el.classList.add('active');
+    if (i < logicalStep) el.classList.add('done');
+    else if (i === logicalStep) el.classList.add('active');
   }
-  document.getElementById('progress-label').textContent = labels[step] || '';
+  document.getElementById('progress-label').textContent = 'Step ' + logicalStep + ' of ' + total + ' - ' + (labels[step] || '');
 }
 
 /* ---------------- DERIVATION ENGINE ---------------- */
 function deriveMatch() {
   const cr = A.crops, l = A.location, h = A.harvest;
-  const flags = { budget: false, stretch: false, farOver: false, confidence: false, essentialTotal: 0, budgetOver: 0, budgetAlternative: null };
+  const flags = { budget: false, stretch: false, farOver: false, confidence: false, essentialTotal: 0, budgetOver: 0, budgetAlternative: null, preferenceScenario: null, preferenceReason: null };
   let sys;
   if (cr.includes('microgreens')) sys = 'microgreens';
   else if (cr.includes('fruiting')) sys = 'dwc_bucket';
@@ -1162,6 +1351,17 @@ function deriveMatch() {
   }
   else if (cr.includes('salad')) sys = 'salad_table';
   else sys = 'tower';
+
+  if (currentPreferenceScenario && A.systemPreference) {
+    const selectedPreference = currentPreferenceScenario.options.find(function(option) {
+      return option.system === A.systemPreference;
+    });
+    if (selectedPreference) {
+      sys = selectedPreference.system;
+      flags.preferenceScenario = currentPreferenceScenario.id;
+      flags.preferenceReason = selectedPreference.resultReason;
+    }
+  }
 
   let size;
   if (sys === 'salad_table') size = (l === 'wall') ? 'vertical' : (h === 'serious' ? 'large' : 'small');
@@ -1223,8 +1423,12 @@ function cropText() {
 
 function buildReasons(sys, size, flags) {
   const items = [];
-  items.push('You want to grow ' + cropText() + ', and ' + SYS_CROP_REASON[sys] + '.');
-  items.push(LOC_REASON[A.location]);
+  if (flags.preferenceReason) {
+    items.push(flags.preferenceReason);
+  } else {
+    items.push('You want to grow ' + cropText() + ', and ' + SYS_CROP_REASON[sys] + '.');
+    items.push(LOC_REASON[A.location]);
+  }
   items.push(HARVEST_REASON[A.harvest]);
   if (flags.confidence) {
     items.push("You told us you're new to growing, so we stepped down from the biggest version - fewer plants to keep alive while you learn. It's below if you want it anyway.");
@@ -1315,6 +1519,9 @@ function showResult() {
       essential_starting_total: Number(match.flags.essentialTotal.toFixed(2)),
       budget_over: Number(match.flags.budgetOver.toFixed(2)),
       confidence_adjusted: match.flags.confidence,
+      preference_used: !!match.flags.preferenceScenario,
+      preference_scenario: match.flags.preferenceScenario,
+      selected_system_preference: A.systemPreference,
       duration_seconds: Math.max(0, Math.round((Date.now() - quizStartedAt) / 1000))
     });
   }
@@ -1324,7 +1531,7 @@ function showResult() {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('result-screen').classList.add('active');
   document.querySelector('.quiz-page-main').classList.add('recommendation-mode');
-  for (let i = 1; i <= 7; i++) document.getElementById('step' + i).className = 'step done';
+  for (let i = 1; i <= 8; i++) document.getElementById('step' + i).className = 'step done';
   document.getElementById('progress-label').textContent = 'Complete';
   window.scrollTo(0, 0);
 }
@@ -1635,18 +1842,21 @@ function restart() {
   quizCompletedTracked = false;
   emailSubmissionStarted = false;
   currentQuizStep = 1;
-  A.crops = []; A.location = null; A.harvest = null; A.confidence = null; A.budget = null; A.motivations = []; A.email = '';
+  currentPreferenceScenario = null;
+  lastTrackedPreferenceScenario = null;
+  A.crops = []; A.location = null; A.harvest = null; A.confidence = null; A.budget = null; A.motivations = []; A.systemPreference = null; A.email = '';
   document.querySelectorAll('.motivation-card').forEach(function(c){ c.classList.remove('selected'); c.classList.remove('disabled'); });
   const cropNote = document.getElementById('crop-note');
   if (cropNote) cropNote.hidden = true;
   document.getElementById('email-input').value = '';
-  for (let i = 1; i <= 6; i++) document.getElementById('next-' + i).disabled = true;
-  document.getElementById('next-7').disabled = false;
+  for (let i = 1; i <= 7; i++) document.getElementById('next-' + i).disabled = true;
+  document.getElementById('next-8').disabled = false;
   document.getElementById('result-screen').classList.remove('active');
   document.querySelector('.quiz-page-main').classList.remove('recommendation-mode');
   document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
   document.getElementById('screen-1').classList.add('active');
   setGrowthStage(1);
+  updateStepCounts();
   updateProgress(1);
   trackQuizStarted();
   trackStepViewed(1);
