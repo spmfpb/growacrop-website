@@ -348,11 +348,11 @@ body{background:var(--cream)}
 }
 .screen{max-width:920px}
 #screen-2 .motivation-grid{max-width:760px;margin-left:auto;margin-right:auto}
-#screen-1 .motivation-grid,#screen-3 .motivation-grid,#screen-4 .motivation-grid,#screen-5 .motivation-grid,#screen-6 .motivation-grid{flex-wrap:nowrap;align-items:stretch}
-#screen-1 .motivation-card,#screen-3 .motivation-card,#screen-4 .motivation-card,#screen-5 .motivation-card,#screen-6 .motivation-card{flex:1 1 0;min-width:0;max-width:none;padding:16px 16px}
+#screen-1 .motivation-grid,#screen-3 .motivation-grid,#screen-4 .motivation-grid,#screen-5 .motivation-grid,#screen-7 .motivation-grid{flex-wrap:nowrap;align-items:stretch}
+#screen-1 .motivation-card,#screen-3 .motivation-card,#screen-4 .motivation-card,#screen-5 .motivation-card,#screen-7 .motivation-card{flex:1 1 0;min-width:0;max-width:none;padding:16px 16px}
 @media(max-width:700px){
-#screen-1 .motivation-grid,#screen-3 .motivation-grid,#screen-4 .motivation-grid,#screen-5 .motivation-grid,#screen-6 .motivation-grid{flex-wrap:wrap}
-#screen-1 .motivation-card,#screen-3 .motivation-card,#screen-4 .motivation-card,#screen-5 .motivation-card,#screen-6 .motivation-card{flex:1 1 100%;width:100%}
+#screen-1 .motivation-grid,#screen-3 .motivation-grid,#screen-4 .motivation-grid,#screen-5 .motivation-grid,#screen-7 .motivation-grid{flex-wrap:wrap}
+#screen-1 .motivation-card,#screen-3 .motivation-card,#screen-4 .motivation-card,#screen-5 .motivation-card,#screen-7 .motivation-card{flex:1 1 100%;width:100%}
 }
 .back-btn{background:none;border:none;color:#4a4a4a;font-size:13px;font-weight:700;cursor:pointer;padding:13px 18px;letter-spacing:.04em;display:inline-flex;align-items:center;gap:6px}
 .back-btn:hover{color:#1e3a22}
@@ -360,7 +360,7 @@ body{background:var(--cream)}
 @media(min-width:1025px){
   .screen{padding-top:calc(56px + 2cm)}
   .screen > .q-sub{min-height:48px}
-  #screen-6 > .q-sub,#screen-8 > .q-sub{margin-bottom:63px}
+  #screen-7 > .q-sub,#screen-8 > .q-sub{margin-bottom:63px}
 }
 @media(max-width:700px){
   .quiz-page-main{min-height:calc(100svh - 148px);margin-top:0}
@@ -378,7 +378,7 @@ body{background:var(--cream)}
   #screen-3 .motivation-grid,
   #screen-4 .motivation-grid,
   #screen-5 .motivation-grid,
-  #screen-6 .motivation-grid{
+  #screen-7 .motivation-grid{
     display:grid;
     grid-template-columns:repeat(2,minmax(0,1fr));
     gap:6px;
@@ -391,7 +391,7 @@ body{background:var(--cream)}
   #screen-3 .motivation-card,
   #screen-4 .motivation-card,
   #screen-5 .motivation-card,
-  #screen-6 .motivation-card{
+  #screen-7 .motivation-card{
     width:auto;
     min-width:0;
     max-width:none;
@@ -404,11 +404,11 @@ body{background:var(--cream)}
   .motivation-card::before{width:12px;height:12px;margin-top:1px}
   .motivation-label{font-size:11px;line-height:1.25}
   .option-sub{font-size:9px;line-height:1.3}
-  #screen-6 .motivation-card{min-height:42px;align-content:center}
+  #screen-7 .motivation-card{min-height:42px;align-content:center}
   #screen-2 .motivation-card:last-child:nth-child(odd),
   #screen-3 .motivation-card:last-child:nth-child(odd),
   #screen-5 .motivation-card:last-child:nth-child(odd),
-  #screen-6 .motivation-card:last-child:nth-child(odd){grid-column:1 / -1;width:calc(50% - 4px);justify-self:center}
+  #screen-7 .motivation-card:last-child:nth-child(odd){grid-column:1 / -1;width:calc(50% - 4px);justify-self:center}
   .next-btn,.back-btn{font-size:10px;padding:7px 9px}
   .btn-row{justify-content:center;margin-top:0}
   .email-wrap{width:100%;max-width:440px}
@@ -428,7 +428,7 @@ body{background:var(--cream)}
   #screen-3 .motivation-grid,
   #screen-4 .motivation-grid,
   #screen-5 .motivation-grid,
-  #screen-6 .motivation-grid{gap:6px}
+  #screen-7 .motivation-grid{gap:6px}
   #screen-1 .motivation-card{grid-template-rows:58px auto auto}
   #screen-1 .crop-option-img{height:58px}
 }
@@ -443,7 +443,7 @@ body{background:var(--cream)}
   #screen-3 .motivation-grid,
   #screen-4 .motivation-grid,
   #screen-5 .motivation-grid,
-  #screen-6 .motivation-grid{margin-bottom:10px}
+  #screen-7 .motivation-grid{margin-bottom:10px}
 }
 </style>
 
@@ -597,14 +597,14 @@ body{background:var(--cream)}
       <div class="option-sub">Premium indoor setups</div>
     </div>
   </div>
-  <div class="btn-row"><button class="back-btn" onclick="goBack()">&larr; Back</button><button class="next-btn" id="next-5" disabled onclick="goTo(6)">
+  <div class="btn-row"><button class="back-btn" onclick="goBack()">&larr; Back</button><button class="next-btn" id="next-5" disabled onclick="continueFromBudget()">
     Next <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
   </button></div>
 </div>
 
-<!-- Q6: MOTIVATION (multi) -->
-<div class="screen" id="screen-6">
-  <div class="q-eyebrow" data-step-count="6">6 of 7</div>
+<!-- MOTIVATION (multi) -->
+<div class="screen" id="screen-7">
+  <div class="q-eyebrow" data-step-count="7">6 of 7</div>
   <h1 class="q-title">Why do you want to grow at home?</h1>
   <p class="q-sub">Pick as many as you like &mdash; this shapes the tips we send you.</p>
   <div class="motivation-grid">
@@ -629,18 +629,18 @@ body{background:var(--cream)}
       <div class="motivation-label">I've always wanted to</div>
     </div>
   </div>
-  <div class="btn-row"><button class="back-btn" onclick="goBack()">&larr; Back</button><button class="next-btn" id="next-6" disabled onclick="continueFromMotivation()">
+  <div class="btn-row"><button class="back-btn" onclick="goBack()">&larr; Back</button><button class="next-btn" id="next-7" disabled onclick="goTo(8)">
     Next <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
   </button></div>
 </div>
 
 <!-- CONDITIONAL SYSTEM PREFERENCE -->
-<div class="screen" id="screen-7">
-  <div class="q-eyebrow" data-step-count="7">7 of 8</div>
+<div class="screen" id="screen-6">
+  <div class="q-eyebrow" data-step-count="6">6 of 8</div>
   <h1 class="q-title" id="preference-title">Which setup appeals to you more?</h1>
   <p class="q-sub" id="preference-subtitle">Both options suit your answers. Choose the trade-off you prefer.</p>
   <div class="system-grid preference-grid" id="preference-options"></div>
-  <div class="btn-row"><button class="back-btn" onclick="goBack()">&larr; Back</button><button class="next-btn" id="next-7" disabled onclick="goTo(8)">
+  <div class="btn-row"><button class="back-btn" onclick="goBack()">&larr; Back</button><button class="next-btn" id="next-6" disabled onclick="goTo(7)">
     Next <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
   </button></div>
 </div>
@@ -930,9 +930,9 @@ function captureQuizEvent(eventName, properties) {
   }, properties || {}));
 }
 
-const QUESTION_IDS = {1:'crop',2:'placement',3:'harvest_amount',4:'confidence',5:'budget',6:'motivation',7:'system_preference',8:'email_opt_in'};
+const QUESTION_IDS = {1:'crop',2:'placement',3:'harvest_amount',4:'confidence',5:'budget',6:'system_preference',7:'motivation',8:'email_opt_in'};
 function getQuestionDetails(step) {
-  const logicalStep = step === 8 && !currentPreferenceScenario ? 7 : step;
+  const logicalStep = !currentPreferenceScenario && step >= 7 ? step - 1 : step;
   return { question_id: QUESTION_IDS[step] || 'unknown', question_number: logicalStep };
 }
 function trackQuizStarted() {
@@ -1004,8 +1004,8 @@ function toggleMotivation(el) {
   const val = el.dataset.val;
   const idx = A.motivations.indexOf(val);
   if (idx >= 0) { A.motivations.splice(idx, 1); el.classList.remove('selected'); }
-  else { A.motivations.push(val); el.classList.add('selected'); trackAnswer(6, val, el.querySelector('.motivation-label').textContent.trim()); }
-  document.getElementById('next-6').disabled = A.motivations.length === 0;
+  else { A.motivations.push(val); el.classList.add('selected'); trackAnswer(7, val, el.querySelector('.motivation-label').textContent.trim()); }
+  document.getElementById('next-7').disabled = A.motivations.length === 0;
 }
 
 function checkEmail() {
@@ -1093,7 +1093,7 @@ function updateStepCounts() {
   const total = currentPreferenceScenario ? 8 : 7;
   document.querySelectorAll('[data-step-count]').forEach(function(el) {
     const screenStep = Number(el.dataset.stepCount);
-    const logicalStep = screenStep === 8 && !currentPreferenceScenario ? 7 : screenStep;
+    const logicalStep = !currentPreferenceScenario && screenStep >= 7 ? screenStep - 1 : screenStep;
     el.textContent = logicalStep + ' of ' + total;
   });
 }
@@ -1123,7 +1123,7 @@ function renderPreferenceScenario(scenario) {
     options.appendChild(card);
   });
 
-  document.getElementById('next-7').disabled = !A.systemPreference;
+  document.getElementById('next-6').disabled = !A.systemPreference;
   updateStepCounts();
   if (lastTrackedPreferenceScenario !== scenario.id) {
     lastTrackedPreferenceScenario = scenario.id;
@@ -1145,9 +1145,9 @@ function pickSystemPreference(system) {
     card.classList.toggle('selected', selected);
     card.setAttribute('aria-pressed', selected ? 'true' : 'false');
   });
-  document.getElementById('next-7').disabled = false;
+  document.getElementById('next-6').disabled = false;
   if (!isRepeated) {
-    trackAnswer(7, system, option.name);
+    trackAnswer(6, system, option.name);
     captureQuizEvent('quiz_preference_selected', {
       preference_scenario: currentPreferenceScenario.id,
       selected_system: system,
@@ -1155,18 +1155,18 @@ function pickSystemPreference(system) {
   }
 }
 
-function continueFromMotivation() {
+function continueFromBudget() {
   const scenario = getPreferenceScenario();
   if (scenario) {
     renderPreferenceScenario(scenario);
-    goTo(7);
+    goTo(6);
     return;
   }
   currentPreferenceScenario = null;
   A.systemPreference = null;
-  document.getElementById('next-7').disabled = true;
+  document.getElementById('next-6').disabled = true;
   updateStepCounts();
-  goTo(8);
+  goTo(7);
 }
 
 const GROWTH_PLANT_IMAGES = {
@@ -1275,7 +1275,7 @@ function setGrowthStage(step) {
 
 function goBack() {
   if (currentQuizStep <= 1) return;
-  const destinationStep = currentQuizStep === 8 && !currentPreferenceScenario ? 6 : currentQuizStep - 1;
+  const destinationStep = currentQuizStep === 7 && !currentPreferenceScenario ? 5 : currentQuizStep - 1;
   captureQuizEvent('quiz_back_clicked', Object.assign(
     getQuestionDetails(currentQuizStep),
     { destination_step: getQuestionDetails(destinationStep).question_number }
@@ -1289,7 +1289,8 @@ function goTo(step) {
   updateStepCounts();
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-' + step).classList.add('active');
-  setGrowthStage(step);
+  const growthStep = !currentPreferenceScenario && step >= 7 ? step - 1 : Math.min(step, 7);
+  setGrowthStage(growthStep);
   updateProgress(step);
   currentQuizStep = step;
   trackStepViewed(step);
@@ -1312,15 +1313,15 @@ function syncBudgetOptions() {
 function updateProgress(step) {
   const hasPreference = !!currentPreferenceScenario;
   const total = hasPreference ? 8 : 7;
-  const logicalStep = step === 8 && !hasPreference ? 7 : step;
+  const logicalStep = !hasPreference && step >= 7 ? step - 1 : step;
   const labels = {
     1: "What you'll grow",
     2: 'Your space',
     3: 'Harvest size',
     4: 'Your experience',
     5: 'Budget',
-    6: 'Why grow',
-    7: hasPreference ? 'Your preference' : 'Your plan',
+    6: 'Your preference',
+    7: 'Why grow',
     8: 'Your plan',
   };
   for (let i = 1; i <= 8; i++) {
