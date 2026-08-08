@@ -3,7 +3,7 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@700&amp;display=swap');
     .wordmark {
-      fill: #1a3d1a;
+      fill: #1e3a22;
       font-family: 'Fraunces', Georgia, serif;
       font-weight: 700;
       letter-spacing: -0.01em;

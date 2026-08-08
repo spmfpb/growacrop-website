@@ -649,7 +649,7 @@ body{background:var(--cream)}
 <div class="screen" id="screen-8">
   <div class="q-eyebrow" data-step-count="8">8 of 8</div>
   <h1 class="q-title">Want your plan emailed?</h1>
-  <p class="q-sub">We'll send your shopping list plus a week-by-week beginner guide for your exact setup.</p>
+  <p class="q-sub">We'll email you a link to your setup and shopping list, so you can come back to it whenever you're ready to buy.</p>
   <div class="email-wrap">
     <input class="email-input" type="email" id="email-input" placeholder="you@example.com" oninput="checkEmail()">
     <p class="email-note"><span>Email is optional. Leave it blank to view your result now.</span></p>
@@ -1446,7 +1446,7 @@ function buildReasons(sys, size, flags) {
   if (flags.confidence) {
     items.push("You told us you're new to growing, so we stepped down from the biggest version - fewer plants to keep alive while you learn. It's below if you want it anyway.");
   } else if (A.confidence === 'none' || A.confidence === 'killer') {
-    items.push("You said you're new to this - this setup is forgiving, and the beginner guide walks you through week by week.");
+    items.push("You said you're new to this - this setup is forgiving, so an off week or a missed top-up will not cost you the crop.");
   }
   if (flags.stretch) {
     items.push('We kept the best match for your crops and space instead of replacing it purely because of price.');
