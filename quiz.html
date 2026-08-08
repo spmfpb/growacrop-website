@@ -903,6 +903,12 @@ const BUDGET_TEXT = { low:'under $150', mid:'$150-$350', high:'$350+', premium:'
 
 const A = { crops:[], location:null, harvest:null, confidence:null, budget:null, motivations:[], systemPreference:null, email:'' };
 
+/* Answers can be encoded into the URL so a saved/emailed link reopens the same
+   recommendation. Detected up front so start-of-quiz analytics don't fire on a
+   revisit. Restoration itself runs at the bottom, once helpers are defined. */
+const RESULT_LINK_BASE = 'https://growacrop.com.au/quiz.html';
+const IS_RESTORED_RESULT = new URLSearchParams(location.search).has('loc');
+
 const QUIZ_VERSION = 'growacrop_quiz_v4';
 const QUIZ_ATTEMPT_KEY = 'growacrop_quiz_attempt_id_v4';
 const QUIZ_STARTED_AT_KEY = 'growacrop_quiz_started_at_v4';
@@ -953,8 +959,10 @@ function trackAnswer(questionNumber, answerId, answerLabel) {
   ));
 }
 
-trackQuizStarted();
-trackStepViewed(1);
+if (!IS_RESTORED_RESULT) {
+  trackQuizStarted();
+  trackStepViewed(1);
+}
 
 function pickAnswer(el, key) {
   const isRepeated = A[key] === el.dataset.val;
@@ -1493,6 +1501,7 @@ function submitToKit(email, recommendedSetup) {
   if (A.confidence) formData.append('fields[confidence]', A.confidence);
   if (A.budget) formData.append('fields[budget]', A.budget);
   formData.append('fields[system]', recommendedSetup);
+  formData.append('fields[result_url]', buildResultUrl());
   fetch('https://app.kit.com/forms/9647335/subscriptions', {
     method: 'POST',
     body: formData,
@@ -1866,6 +1875,90 @@ function restart() {
   trackQuizStarted();
   trackStepViewed(1);
   window.scrollTo(0, 0);
+}
+
+/* ---------------- SHAREABLE RESULT LINK ---------------- */
+/* Answers are written into the URL so an emailed link reopens the exact same
+   recommendation without the visitor retaking the quiz. Every value is checked
+   against the allowed set on the way back in - a hand-edited or truncated link
+   falls back to the normal quiz rather than rendering a broken result. */
+const LINK_VALUES = {
+  crops: ['herbs', 'salad', 'fruiting', 'microgreens'],
+  location: ['bench', 'indoor_floor', 'balcony', 'backyard', 'wall'],
+  harvest: ['taste', 'weekly', 'serious'],
+  confidence: ['none', 'killer', 'somewhat', 'very'],
+  budget: ['low', 'mid', 'high', 'premium'],
+  motivations: ['save_money', 'fresher_food', 'sustainability', 'hobby', 'always_wanted'],
+  systems: ['microgreens', 'mini_garden', 'dwc_bucket', 'tower', 'salad_table', 'grow_shelf'],
+};
+
+function buildResultUrl() {
+  const params = new URLSearchParams();
+  params.set('crops', A.crops.join('.'));
+  params.set('loc', A.location || '');
+  params.set('harvest', A.harvest || '');
+  if (A.confidence) params.set('conf', A.confidence);
+  params.set('budget', A.budget || '');
+  if (A.motivations.length) params.set('mot', A.motivations.join('.'));
+  if (A.systemPreference) params.set('pref', A.systemPreference);
+  // Always point at the live site so preview/local runs don't store a dead link.
+  const base = location.hostname === 'growacrop.com.au' || location.hostname === 'www.growacrop.com.au'
+    ? location.origin + location.pathname
+    : RESULT_LINK_BASE;
+  return base + '?' + params.toString();
+}
+
+function restoreAnswersFromUrl() {
+  const params = new URLSearchParams(location.search);
+  const one = function(key, allowed) {
+    const value = params.get(key);
+    return allowed.indexOf(value) !== -1 ? value : null;
+  };
+  const many = function(key, allowed) {
+    return (params.get(key) || '').split('.').filter(function(value) {
+      return allowed.indexOf(value) !== -1;
+    });
+  };
+
+  const crops = many('crops', LINK_VALUES.crops);
+  const location_ = one('loc', LINK_VALUES.location);
+  const harvest = one('harvest', LINK_VALUES.harvest);
+  const budget = one('budget', LINK_VALUES.budget);
+  if (!crops.length || !location_ || !harvest || !budget) return false;
+  // Microgreens is exclusive in the quiz, and premium budget is only offered
+  // for indoor floor space - reject links that contradict those rules.
+  if (crops.indexOf('microgreens') !== -1 && crops.length > 1) return false;
+  if (budget === 'premium' && location_ !== 'indoor_floor') return false;
+
+  A.crops = crops;
+  A.location = location_;
+  A.harvest = harvest;
+  A.budget = budget;
+  A.confidence = one('conf', LINK_VALUES.confidence);
+  A.motivations = many('mot', LINK_VALUES.motivations);
+
+  currentPreferenceScenario = getPreferenceScenario();
+  const preference = one('pref', LINK_VALUES.systems);
+  const preferenceOffered = !!currentPreferenceScenario && !!preference &&
+    currentPreferenceScenario.options.some(function(option) { return option.system === preference; });
+  A.systemPreference = preferenceOffered ? preference : null;
+  return true;
+}
+
+if (IS_RESTORED_RESULT && restoreAnswersFromUrl()) {
+  // No email on a restored view, so showResult() will not re-submit to Kit.
+  // Suppress the completion event too - this visit is a revisit, not a new quiz.
+  quizCompletedTracked = true;
+  emailSubmissionStarted = true;
+  showResult();
+  captureQuizEvent('quiz_result_revisited', {
+    derived_system: deriveMatch().sys,
+    preference_scenario: currentPreferenceScenario ? currentPreferenceScenario.id : null,
+  });
+} else if (IS_RESTORED_RESULT) {
+  // Link was malformed or tampered with - fall back to a clean quiz start.
+  trackQuizStarted();
+  trackStepViewed(1);
 }
 
 </script>

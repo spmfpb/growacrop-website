@@ -1,14 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="160" viewBox="0 0 600 160" role="img" aria-labelledby="title">
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="160" viewBox="0 0 720 160" role="img" aria-labelledby="title">
   <title id="title">GrowACrop</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@700&amp;display=swap');
     .wordmark {
       fill: #1a3d1a;
       font-family: 'Fraunces', Georgia, serif;
-      font-size: 88px;
       font-weight: 700;
       letter-spacing: -0.01em;
     }
+    .capital { font-size: 88px; }
+    .lowercase { font-size: 112px; }
   </style>
-  <text class="wordmark" x="300" y="110" text-anchor="middle">GrowACrop</text>
+  <text class="wordmark" x="360" y="110" text-anchor="middle"><tspan class="capital">G</tspan><tspan class="lowercase">row</tspan><tspan class="capital">AC</tspan><tspan class="lowercase">rop</tspan></text>
 </svg>
