@@ -718,6 +718,10 @@ body{background:var(--cream)}
   </div>
 </footer>
 
+<div hidden aria-hidden="true">
+  <script async data-uid="e241aea50e" src="https://growacrop.kit.com/e241aea50e/index.js"></script>
+</div>
+
 <script>
 const RECS = {
   'microgreens': {
@@ -1029,7 +1033,7 @@ const PREFERENCE_SCENARIOS = {
     title: 'Which matters more: the bench or fruiting crops?',
     subtitle: 'Large fruiting plants need more root space than a kitchen-bench system can provide.',
     options: [
-      { system:'mini_garden', name:'Keep it on the kitchen bench', desc:'Choose a compact indoor garden for herbs and leafy greens. Large fruiting crops will need a different space.', resultReason:'You chose to keep the setup on your kitchen bench, so we prioritised a compact garden for herbs and greens over a bucket system for larger fruiting crops.' },
+      { system:'mini_garden', name:'Tabletop herb garden', desc:'Choose a compact indoor garden for herbs and leafy greens. Large fruiting crops will need a different space.', resultReason:'You chose to keep the setup on your kitchen bench, so we prioritised a compact garden for herbs and greens over a bucket system for larger fruiting crops.' },
       { system:'dwc_bucket', name:'Prioritise tomatoes and chillies', desc:'Choose a bucket system with the root space fruiting crops need. It must sit on the floor or outdoors.', resultReason:'You chose to prioritise tomatoes and chillies and accepted that a bucket system needs floor or outdoor space instead of the kitchen bench.' },
     ],
   },
@@ -1489,7 +1493,7 @@ function submitToKit(email, recommendedSetup) {
   if (A.confidence) formData.append('fields[confidence]', A.confidence);
   if (A.budget) formData.append('fields[budget]', A.budget);
   formData.append('fields[system]', recommendedSetup);
-  fetch('https://app.kit.com/forms/9690777/subscriptions', {
+  fetch('https://app.kit.com/forms/9647335/subscriptions', {
     method: 'POST',
     body: formData,
     headers: { 'Accept': 'application/json' }
