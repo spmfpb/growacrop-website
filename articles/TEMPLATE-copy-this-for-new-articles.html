@@ -15,19 +15,24 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32.png">
   <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/favicon-192.png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <link rel="stylesheet" href="../style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap"></noscript>
+  <link rel="stylesheet" href="../style.css?v=performance-20260808">
 </head>
 <body>
 
 <!-- NAV -->
 <nav class="nav home-nav">
   <a href="/" class="nav-logo">
-    <div class="nav-logo-mark"><img src="../images/branding/growacrop-logo.png" alt=""></div>
+    <div class="nav-logo-mark"><img src="../images/branding/growacrop-logo-header.webp" alt="" width="82" height="44" decoding="async"></div>
     <span class="nav-logo-text">GrowACrop</span>
   </a>
   <ul class="nav-links">
     <li><a href="/blog.html">Guides</a></li>
-    <li><a href="/#signup">Get Free Guide</a></li>
+    <li><a href="/quiz.html" class="nav-quiz-link">Take the quiz</a></li>
   </ul>
 </nav>
 
@@ -51,19 +56,8 @@
 
   <!-- ARTICLE BODY — write your content below -->
   <!-- Use <h2> for main sections, <h3> for sub-sections -->
-  <!-- Use <div class="article-callout"> for important tips -->
-  <div class="article-body">
-
-    <p>Your opening paragraph goes here. This should hook the reader immediately — address the question or problem they came here with. Keep it conversational and direct.</p>
-
-    <h2>Your first main section heading</h2>
-
-    <p>Your content goes here. Write in a warm, conversational tone — like you're explaining something to a friend who knows nothing about hydroponics but is genuinely interested.</p>
-
-    <p>Keep paragraphs short — two to four sentences maximum. White space is your friend.</p>
-
-    <div class="article-callout">
-      💡 <strong>Quick tip:</strong> Use callout boxes like this one for the most important things a beginner needs to remember. They break up the page and make key points impossible to miss.
+  <!-- Use <div class="article-callout">
+      🌱 <strong>Ready to start growing?</strong> The quiz matches you with a setup for your space, crops and budget. <a href="/quiz.html">Take the quiz &rarr;</a>
     </div>
 
     <h2>Your second main section</h2>
@@ -85,7 +79,7 @@
     <p>End every article with a clear next step. What should the reader do right now? Link to another relevant article or to the email signup.</p>
 
     <div class="article-callout">
-      🌱 <strong>Ready to start growing?</strong> Download our free 7-day starter guide — it walks you through your very first grow, day by day. <a href="/#signup">Get it free here →</a>
+      🌱 <strong>Ready to start growing?</strong> The quiz matches you with a setup for your space, crops and budget. <a href="/quiz.html">Take the quiz &rarr;</a>
     </div>
 
   </div>
@@ -106,7 +100,7 @@
           <div class="card-meta"><span>6 min read</span></div>
         </div>
       </a>
-      <a href="/articles/easiest-plants-hydroponics.html" class="article-card">
+      <a href="/blog.html" class="article-card">
         <div class="card-thumb" style="background:var(--green-pale)"></div>
         <div class="card-body">
           <span class="card-tag">Grow Guides</span>
@@ -131,12 +125,9 @@
 <!-- EMAIL SIGNUP -->
 <section class="signup-section">
   <div class="signup-inner">
-    <h2>Get your free 7-day starter guide</h2>
-    <p>Everything you need to grow your first crop — day by day. We'll email it to you right now, free.</p>
-    <form class="signup-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-      <input type="email" name="email" placeholder="your@email.com" required>
-      <button type="submit">Send it free →</button>
-    </form>
+    <h2>Not sure what to buy first?</h2>
+    <p>Answer a few questions about your space, crops and budget, and we'll match you with a setup and a shopping list.</p>
+    <p style="margin-top:20px"><a class="hero-cta" href="/quiz.html">Take the quiz &rarr;</a></p>
     <p class="signup-note">No spam. Unsubscribe any time.</p>
   </div>
 </section>

@@ -14,7 +14,12 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32.png">
   <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/favicon-192.png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <link rel="stylesheet" href="../style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap"></noscript>
+  <link rel="stylesheet" href="../style.css?v=performance-20260808">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -36,12 +41,12 @@
 <!-- NAV -->
 <nav class="nav home-nav">
   <a href="/" class="nav-logo">
-    <div class="nav-logo-mark"><img src="../images/branding/growacrop-logo.png" alt=""></div>
+    <div class="nav-logo-mark"><img src="../images/branding/growacrop-logo-header.webp" alt="" width="82" height="44" decoding="async"></div>
     <span class="nav-logo-text">GrowACrop</span>
   </a>
   <ul class="nav-links">
     <li><a href="/blog.html">Guides</a></li>
-    <li><a href="/#signup">Get Free Guide</a></li>
+    <li><a href="/quiz.html" class="nav-quiz-link">Take the quiz</a></li>
   </ul>
 </nav>
 
@@ -133,7 +138,7 @@
 
     <p>The ongoing cost is mainly nutrients — a good beginner nutrient solution costs around $20–30 and lasts several months for a small home setup.</p>
 
-    <p>We've written a full cost breakdown guide with Australian prices if you want the specifics: <a href="/articles/how-much-does-hydroponics-cost.html">How much does it cost to start hydroponics in Australia?</a></p>
+    <p>If you want specifics for your own space and budget, the quiz builds you a shopping list with current Australian prices.</p>
 
     <h2>So — should I try it?</h2>
 
@@ -142,55 +147,19 @@
     <p>The learning curve is real but it's not steep. Your first grow will teach you more than any guide can, and the satisfaction of eating something you grew yourself in water on your kitchen bench is genuinely hard to describe until you've done it.</p>
 
     <div class="article-callout">
-      🎯 <strong>Ready to start?</strong> Download our free 7-day starter guide — it walks you through exactly what to buy, how to set it up, and what to expect every day of your first grow. <a href="/#signup">Get it free here →</a>
+      🎯 <strong>Ready to start?</strong> The quiz matches you with a setup for your space, crops and budget, and gives you the shopping list to go with it. <a href="/quiz.html">Take the quiz &rarr;</a>
     </div>
 
   </div>
 
 </article>
 
-<!-- RELATED ARTICLES -->
-<div style="background:var(--green-ghost);border-top:1px solid var(--border);padding:56px 48px">
-  <div style="max-width:1100px;margin:0 auto">
-    <h2 style="font-family:var(--serif);font-size:22px;font-weight:600;margin-bottom:28px;color:var(--ink)">Keep reading</h2>
-    <div class="article-grid">
-      <a href="/articles/is-hydroponics-hard.html" class="article-card">
-        <div class="card-thumb" style="background:var(--green-pale)"></div>
-        <div class="card-body">
-          <span class="card-tag">Getting Started</span>
-          <div class="card-title">Is hydroponics hard? The honest truth for complete beginners</div>
-          <div class="card-meta"><span>5 min read</span></div>
-        </div>
-      </a>
-      <a href="/articles/easiest-plants-hydroponics.html" class="article-card">
-        <div class="card-thumb" style="background:var(--green-pale)"></div>
-        <div class="card-body">
-          <span class="card-tag">Grow Guides</span>
-          <div class="card-title">The 8 easiest plants to grow hydroponically for beginners</div>
-          <div class="card-meta"><span>7 min read</span></div>
-        </div>
-      </a>
-      <a href="/articles/how-much-does-hydroponics-cost.html" class="article-card">
-        <div class="card-thumb" style="background:var(--green-pale)"></div>
-        <div class="card-body">
-          <span class="card-tag">Getting Started</span>
-          <div class="card-title">How much does it cost to start hydroponics in Australia?</div>
-          <div class="card-meta"><span>4 min read</span></div>
-        </div>
-      </a>
-    </div>
-  </div>
-</div>
-
 <!-- EMAIL SIGNUP -->
 <section class="signup-section">
   <div class="signup-inner">
-    <h2>Get your free 7-day starter guide</h2>
-    <p>Everything you need to grow your first crop — day by day. We'll email it to you right now, free.</p>
-    <form class="signup-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-      <input type="email" name="email" placeholder="your@email.com" required>
-      <button type="submit">Send it free →</button>
-    </form>
+    <h2>Not sure what to buy first?</h2>
+    <p>Answer a few questions about your space, crops and budget, and we'll match you with a setup and a shopping list.</p>
+    <p style="margin-top:20px"><a class="hero-cta" href="/quiz.html">Take the quiz &rarr;</a></p>
     <p class="signup-note">No spam. Unsubscribe any time.</p>
   </div>
 </section>

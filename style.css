@@ -3,8 +3,6 @@
    Fresh greens & creams — clean, natural, approachable
    ============================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap');
-
 /* ── Tokens ─────────────────────────────────────────────── */
 :root {
   --cream:        #f7f4ee;
@@ -16,6 +14,8 @@
   --green-pale:   #eef7ea;
   --green-ghost:  #f6fbf4;
   --accent:       #b5863a;
+  --accent-on-light: #856025;
+  --accent-on-dark:  #d7b56d;
   --white:        #ffffff;
   --ink:          #1a1a1a;
   --ink-mid:      #4a4a4a;
@@ -200,7 +200,7 @@ a { color: inherit; text-decoration: none; }
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: var(--accent);
+  color: var(--accent-on-light);
   margin-bottom: 20px;
 }
 .hero h1 {
@@ -907,7 +907,7 @@ a { color: inherit; text-decoration: none; }
   font-family: var(--serif);
   font-size: 22px;
   font-weight: 700;
-  color: var(--accent);
+  color: var(--accent-on-dark);
   margin-bottom: 12px;
 }
 .footer-brand p {
@@ -925,7 +925,7 @@ a { color: inherit; text-decoration: none; }
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--accent);
+  color: var(--accent-on-dark);
   margin-bottom: 16px;
 }
 .footer-links { list-style: none; }

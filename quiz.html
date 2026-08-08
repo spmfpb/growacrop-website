@@ -8,7 +8,12 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/favicon-192.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="style.css?v=seamless-layout-20260808b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap"></noscript>
+<link rel="stylesheet" href="style.css?v=performance-20260808">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--sans);background:var(--cream);color:var(--ink);min-height:100vh}
@@ -200,14 +205,22 @@ body{font-family:var(--sans);background:var(--cream);color:var(--ink);min-height
             history.replaceState(null, '', location.pathname + (posthogOwnerParams.toString() ? '?' + posthogOwnerParams : '') + location.hash);
         }
     } catch (e) {}
-    posthog.init('phc_wdgnbETqxfAdeM6DH8ojGGPrV6swhrZk4KjzQctLQQot', {
-        api_host: 'https://eu.i.posthog.com',
-        defaults: '2026-05-30',
-        person_profiles: 'identified_only', // or 'always' to create profiles for anonymous users as well
-        opt_out_capturing_by_default: posthogOwnerOptedOut,
-    })
-    if (posthogOwnerSetting === 'on' && !posthogLocalPreview) posthog.opt_in_capturing();
-    else if (posthogOwnerOptedOut) posthog.opt_out_capturing();
+    function initPostHogAfterLoad() {
+        posthog.init('phc_wdgnbETqxfAdeM6DH8ojGGPrV6swhrZk4KjzQctLQQot', {
+            api_host: 'https://eu.i.posthog.com',
+            defaults: '2026-05-30',
+            person_profiles: 'identified_only',
+            opt_out_capturing_by_default: posthogOwnerOptedOut,
+        });
+        if (posthogOwnerSetting === 'on' && !posthogLocalPreview) posthog.opt_in_capturing();
+        else if (posthogOwnerOptedOut) posthog.opt_out_capturing();
+    }
+    function schedulePostHog() {
+        if ('requestIdleCallback' in window) requestIdleCallback(initPostHogAfterLoad, { timeout: 3000 });
+        else setTimeout(initPostHogAfterLoad, 0);
+    }
+    if (document.readyState === 'complete') schedulePostHog();
+    else window.addEventListener('load', schedulePostHog, { once: true });
 </script> 
 </head>
 <body>
@@ -215,7 +228,7 @@ body{font-family:var(--sans);background:var(--cream);color:var(--ink);min-height
 <!-- NAV -->
 <nav class="nav home-nav">
   <a href="/" class="nav-logo">
-    <div class="nav-logo-mark"><img src="images/branding/growacrop-logo.png" alt=""></div>
+    <div class="nav-logo-mark"><img src="images/branding/growacrop-logo-header.webp" alt="" width="82" height="44" decoding="async"></div>
     <span class="nav-logo-text">GrowACrop</span>
   </a>
   <ul class="nav-links">
