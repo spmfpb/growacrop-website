@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Compare GrowACrop's beginner-friendly hydroponic system recommendations for Australian homes.">
+  <title>All Hydroponic Recommendations | GrowACrop</title>
+  <link rel="icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body{background:#f7f4ee;color:#17331f}
+    .recommendations-main{position:relative;min-height:70vh;padding:0 0 96px;overflow:hidden;background-color:#f7f4ee;background-image:linear-gradient(rgba(30,58,34,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(30,58,34,.045) 1px,transparent 1px);background-size:32px 32px;background-position:center;background-repeat:repeat}
+    .pipe-decoration{position:fixed;top:112px;z-index:0;width:150px;height:calc(100vh - 132px);min-height:620px;opacity:.16;pointer-events:none;color:#315e3d}
+    .pipe-decoration-left{left:-34px}
+    .pipe-decoration-right{right:-34px;transform:scaleX(-1)}
+    .pipe-decoration .pipe{fill:none;stroke:currentColor;stroke-width:15;stroke-linecap:round;stroke-linejoin:round}
+    .pipe-decoration .pipe-highlight{fill:none;stroke:rgba(255,255,255,.8);stroke-width:3;stroke-linecap:round}
+    .pipe-decoration .cup{fill:#f7f4ee;stroke:currentColor;stroke-width:6}
+    .pipe-decoration .leaf{fill:currentColor;stroke:none}
+    .recommendations-hero,.category-nav,.systems,.page-note{position:relative;z-index:1}
+    .recommendations-hero{position:relative;max-width:none;margin:0;padding:90px 24px 78px;text-align:center;background:transparent;border-bottom:1px solid rgba(30,58,34,.1)}
+    .recommendations-kicker{margin:0 0 12px;color:#8b754c;font-size:12px;font-weight:700;letter-spacing:.13em;text-transform:uppercase}
+    .recommendations-hero h1{margin:0 0 18px;font-family:var(--serif);font-size:clamp(40px,6vw,68px);font-weight:800;line-height:1;letter-spacing:-.045em}
+    .recommendations-hero p{max-width:650px;margin:0 auto 28px;color:#667067;font-size:17px;line-height:1.65}
+    .hero-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+    .primary-link,.secondary-link{display:inline-flex;align-items:center;justify-content:center;padding:14px 23px;border-radius:999px;font-size:13px;font-weight:700;text-decoration:none;transition:transform .2s ease,box-shadow .2s ease,background .2s ease}
+    .primary-link{background:#183d28;color:white;box-shadow:0 8px 22px rgba(24,61,40,.16)}
+    .secondary-link{border:1px solid #d9d8cf;background:rgba(255,255,255,.75);color:#183d28}
+    .primary-link:hover,.secondary-link:hover{transform:translateY(-2px)}
+    .category-nav{position:relative;z-index:3;display:flex;max-width:1100px;margin:-24px auto 76px;padding:8px;gap:5px;overflow-x:auto;border:1px solid #dfddd3;border-radius:16px;background:rgba(255,255,255,.94);box-shadow:0 14px 40px rgba(25,54,34,.10);scrollbar-width:none}
+    .category-nav::-webkit-scrollbar{display:none}
+    .category-nav a{flex:1 0 auto;padding:11px 14px;border-radius:10px;color:#5d695f;font-size:12px;font-weight:700;text-align:center;text-decoration:none;white-space:nowrap;transition:background .2s,color .2s}
+    .category-nav a:hover{background:#edf2e8;color:#183d28}
+    .systems{max-width:1180px;margin:0 auto;padding:76px 24px 0;display:grid;gap:82px}
+    .system-section{scroll-margin-top:30px}
+    .system-heading{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:24px;padding-bottom:17px;border-bottom:1px solid #d8d7ce}
+    .system-heading h2{position:relative;margin:0;padding-left:17px;font-size:clamp(26px,3vw,36px);letter-spacing:-.035em}
+    .system-heading h2::before{content:"";position:absolute;left:0;top:10%;width:5px;height:82%;border-radius:5px;background:#98b77f}
+    .system-heading p{max-width:560px;margin:0;color:#73776f;font-size:14px;line-height:1.5;text-align:right}
+    .recommendation-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+    .recommendation-card{position:relative;display:flex;flex-direction:column;overflow:hidden;border:1px solid #dfddd3;border-radius:20px;background:#fff;box-shadow:0 10px 32px rgba(24,61,40,.055);transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+    .recommendation-card:hover{transform:translateY(-6px);border-color:#cbd5c4;box-shadow:0 22px 48px rgba(24,61,40,.12)}
+    .card-image-wrap{position:relative;height:260px;padding:22px;background:linear-gradient(145deg,#edf2e8,#faf9f5)}
+    .card-image-wrap::after{content:"";position:absolute;inset:auto 10% 14px;height:18px;background:rgba(31,52,37,.09);filter:blur(12px);border-radius:50%}
+    .card-image{position:relative;z-index:1;width:100%;height:100%;object-fit:contain;display:block;transition:transform .3s ease}
+    .recommendation-card:hover .card-image{transform:scale(1.035)}
+    .card-body{display:flex;flex:1;flex-direction:column;padding:24px}
+    .size-label{align-self:flex-start;margin-bottom:11px;padding:5px 9px;border-radius:999px;background:#f1eadc;color:#826329;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+    .card-body h3{margin:0 0 8px;font-size:20px;line-height:1.28;letter-spacing:-.015em}
+    .tagline{min-height:40px;margin:0 0 17px;color:#777b74;font-size:14px;line-height:1.45}
+    .card-meta{display:grid;grid-template-columns:minmax(90px,.65fr) 1.35fr;gap:16px;margin-top:auto;padding-top:18px;border-top:1px solid #eeece5;font-size:13px;line-height:1.45}
+    .card-meta strong{display:block;margin-bottom:2px;color:#244832;font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+    .price{font-size:18px;font-weight:800;color:#183d28;white-space:nowrap}
+    .page-note{max-width:760px;margin:68px auto 0;padding:22px;border:1px solid #deddd4;border-radius:14px;background:#fff;color:#696e67;font-size:13px;line-height:1.6;text-align:center}
+    @media(max-width:1000px){.pipe-decoration{opacity:.1}}
+    @media(max-width:850px){.recommendation-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.system-heading{align-items:start;flex-direction:column}.system-heading p{text-align:left}.category-nav{margin-left:18px;margin-right:18px}.pipe-decoration{display:none}}
+    @media(max-width:560px){.recommendations-main{padding-bottom:72px}.recommendations-hero{padding:64px 18px 62px}.recommendation-grid{grid-template-columns:1fr}.card-image-wrap{height:230px}.systems{gap:56px;padding:54px 14px 0}.card-meta{grid-template-columns:1fr 1.4fr}.system-heading h2{padding-left:14px}}
+  </style>
+</head>
+<body>
+  <nav class="nav home-nav">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-mark"><img src="images/branding/growacrop-logo-header.webp" alt="" width="82" height="44"></div>
+      <span class="nav-logo-text">GrowACrop</span>
+    </a>
+    <ul class="nav-links"><li><a href="/quiz.html" class="nav-quiz-link">Take the quiz</a></li></ul>
+  </nav>
+
+  <main class="recommendations-main">
+    <svg class="pipe-decoration pipe-decoration-left" viewBox="0 0 150 920" aria-hidden="true">
+      <path class="pipe" d="M46 20v850c0 19 15 34 34 34h46"/>
+      <path class="pipe-highlight" d="M41 28v835"/>
+      <path class="pipe" d="M46 165h68M46 350h68M46 535h68M46 720h68"/>
+      <circle class="cup" cx="105" cy="165" r="16"/><circle class="cup" cx="105" cy="350" r="16"/><circle class="cup" cx="105" cy="535" r="16"/><circle class="cup" cx="105" cy="720" r="16"/>
+      <g class="leaf"><ellipse cx="98" cy="139" rx="8" ry="20" transform="rotate(-28 98 139)"/><ellipse cx="115" cy="140" rx="8" ry="20" transform="rotate(30 115 140)"/><ellipse cx="105" cy="132" rx="7" ry="22"/></g>
+      <g class="leaf"><ellipse cx="98" cy="324" rx="8" ry="20" transform="rotate(-28 98 324)"/><ellipse cx="115" cy="325" rx="8" ry="20" transform="rotate(30 115 325)"/><ellipse cx="105" cy="317" rx="7" ry="22"/></g>
+      <g class="leaf"><ellipse cx="98" cy="509" rx="8" ry="20" transform="rotate(-28 98 509)"/><ellipse cx="115" cy="510" rx="8" ry="20" transform="rotate(30 115 510)"/><ellipse cx="105" cy="502" rx="7" ry="22"/></g>
+      <g class="leaf"><ellipse cx="98" cy="694" rx="8" ry="20" transform="rotate(-28 98 694)"/><ellipse cx="115" cy="695" rx="8" ry="20" transform="rotate(30 115 695)"/><ellipse cx="105" cy="687" rx="7" ry="22"/></g>
+    </svg>
+    <svg class="pipe-decoration pipe-decoration-right" viewBox="0 0 150 920" aria-hidden="true">
+      <path class="pipe" d="M46 20v850c0 19 15 34 34 34h46"/>
+      <path class="pipe-highlight" d="M41 28v835"/>
+      <path class="pipe" d="M46 165h68M46 350h68M46 535h68M46 720h68"/>
+      <circle class="cup" cx="105" cy="165" r="16"/><circle class="cup" cx="105" cy="350" r="16"/><circle class="cup" cx="105" cy="535" r="16"/><circle class="cup" cx="105" cy="720" r="16"/>
+      <g class="leaf"><ellipse cx="98" cy="139" rx="8" ry="20" transform="rotate(-28 98 139)"/><ellipse cx="115" cy="140" rx="8" ry="20" transform="rotate(30 115 140)"/><ellipse cx="105" cy="132" rx="7" ry="22"/></g>
+      <g class="leaf"><ellipse cx="98" cy="324" rx="8" ry="20" transform="rotate(-28 98 324)"/><ellipse cx="115" cy="325" rx="8" ry="20" transform="rotate(30 115 325)"/><ellipse cx="105" cy="317" rx="7" ry="22"/></g>
+      <g class="leaf"><ellipse cx="98" cy="509" rx="8" ry="20" transform="rotate(-28 98 509)"/><ellipse cx="115" cy="510" rx="8" ry="20" transform="rotate(30 115 510)"/><ellipse cx="105" cy="502" rx="7" ry="22"/></g>
+      <g class="leaf"><ellipse cx="98" cy="694" rx="8" ry="20" transform="rotate(-28 98 694)"/><ellipse cx="115" cy="695" rx="8" ry="20" transform="rotate(30 115 695)"/><ellipse cx="105" cy="687" rx="7" ry="22"/></g>
+    </svg>
+    <header class="recommendations-hero">
+      <h1>All recommendations</h1>
+      <p>Explore every setup in the GrowACrop guide. Not sure which one fits? The quiz compares your crops, space and budget.</p>
+      <div class="hero-actions">
+        <a class="primary-link" href="/quiz.html">Use The Quiz</a>
+      </div>
+    </header>
+
+    <div class="systems" id="systems"></div>
+    <p class="page-note">Prices are indicative and may change at the retailer. Seeds, refills and optional accessories may not be included. Use the quiz for a personalised setup and complete shopping list.</p>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner footer-inner-simple">
+      <div class="footer-brand"><div class="footer-logo">GrowACrop</div><p>Helping Australians choose a beginner-friendly hydroponic setup for growing food at home.</p></div>
+      <div class="footer-links-group footer-links-simple"><div class="footer-col"><div class="footer-col-label">Start</div><ul class="footer-links"><li><a href="/quiz.html">Take the quiz</a></li></ul></div></div>
+    </div>
+  </footer>
+
+  <script>
+    const SYSTEMS = [
+      {id:'bench-mini-garden',name:'Bench Mini Garden',description:'Self-contained, lit systems for herbs and leafy greens on a kitchen bench.',items:[
+        ['Compact','images/quiz/quiz-product-10-transparent.png','Maxkon 12-Pod Hydroponic Garden','Compact benchtop garden, easy to run','$74','Herbs, leafy greens, small flowers'],
+        ['Mid-size','images/quiz/quiz-product-11-transparent.png','Vevine LED Hydroponics System','Mid-range system, solid output','$137','Herbs, leafy greens, microgreens']
+      ]},
+      {id:'microgreen-station',name:'Microgreen Station',description:'Fast harvests and compact growing for nutrient-dense shoots.',items:[
+        ['Compact','images/quiz/quiz-product-07-transparent.png','LaNiTex Smart Microgreen Kit','Seeds to plate in 7–14 days','$129','Microgreens'],
+        ['Mid-size','images/quiz/quiz-product-08-transparent.png','MicroPod Continuous Grow Kit + LED','Year-round harvests with LED lighting','$129 + $55','Microgreens'],
+        ['Full-size','images/quiz/quiz-product-09-transparent.png','Multi-Shelf Microgreen Rack','Restaurant-level output from your home','$350–$450','Microgreens']
+      ]},
+      {id:'bucket-garden',name:'Bucket & Tote Garden',description:'Deep root space for larger fruiting crops and hands-on nutrient control.',items:[
+        ['Compact','images/quiz/quiz-product-13-transparent.png','GrowKings Single DWC Pot System','One bucket, full nutrient control','$115–$150','Herbs, chillies, cherry tomatoes, leafy greens'],
+        ['Mid-size','images/quiz/quiz-product-14-transparent.png','Spider Farmer 2-Bucket DWC System','Two plants, professional results','$150–$250','Herbs, leafy greens, chillies, cherry tomatoes'],
+        ['Full-size','images/quiz/quiz-product-15-transparent.png','VEVOR RDWC 4-Bucket System','Recirculating deep water culture, serious volume','$249–$330','Herbs, greens, chillies, cucumber, cherry tomatoes']
+      ]},
+      {id:'tower-garden',name:'Tower Garden',description:'Vertical growing for more variety in a smaller floor footprint.',items:[
+        ['Compact','images/quiz/quiz-product-16-transparent.png','Hydroland 5-Tier Modular Tower','Pump, timer and power supply included','$128','Herbs, leafy greens, strawberries'],
+        ['Mid-size','images/quiz/quiz-product-17-transparent.png','All-in-One or HydroCulture Jumbo Tower','A tower option for outdoors or indoors','$109–$380','Herbs, leafy greens, strawberries, Asian greens'],
+        ['Full-size','images/quiz/quiz-product-18-transparent.png','Pineapple 10-Layer Vertical Tower','Ten layers, serious capacity','$315','Herbs, leafy greens, strawberries, Asian greens, cherry tomatoes']
+      ]},
+      {id:'salad-garden',name:'Salad Garden',description:'High-output leafy-green systems in compact, wall-mounted and table formats.',items:[
+        ['Compact','images/quiz/quiz-product-19-transparent.png','Angled Pipe NFT System','Simple passive flow, compact footprint','$88','Lettuce, leafy greens, herbs'],
+        ['Wall-mounted','images/quiz/quiz-product-20-transparent.png','Hydroland 35-Hole Wall-Mounted System','35 plant sites with no bench space needed','$495','Lettuce, herbs, leafy greens, Asian greens'],
+        ['Full-size','images/quiz/quiz-product-21-transparent.png','TheSaladTable 60-Plant NFT System','Australian-made NFT table, 60 sites','$583.20','Leafy greens, herbs, lettuce, cherry tomatoes']
+      ]},
+      {id:'grow-shelf',name:'Grow Shelf',description:'Furniture-style indoor growing with integrated lighting and high capacity.',items:[
+        ['Compact','images/quiz/quiz-product-22-transparent.png','Gathera Sun Shelf + Heirloom Basins','Shelf, LED and passive Kratky basins in one kit','$849','Herbs, leafy greens, microgreens'],
+        ['Full-size','images/quiz/quiz-product-23-transparent.png','Farmtek HydroTower 120-Plant System','120 plant sites, vertical indoor farm','$1,299','Herbs, leafy greens and microgreens in serious volume']
+      ]}
+    ];
+
+    document.getElementById('systems').innerHTML = SYSTEMS.map(system => `
+      <section class="system-section" id="${system.id}">
+        <div class="system-heading"><h2>${system.name}</h2><p>${system.description}</p></div>
+        <div class="recommendation-grid">${system.items.map(item => `
+          <article class="recommendation-card">
+            <div class="card-image-wrap"><img class="card-image" src="${item[1]}" alt="${item[2]}" loading="lazy"></div>
+            <div class="card-body">
+              <h3>${item[2]}</h3><p class="tagline">${item[3]}</p>
+              <div class="card-meta"><div><strong>Typical price</strong><span class="price">${item[4]}</span></div><div><strong>Best for growing</strong>${item[5]}</div></div>
+            </div>
+          </article>`).join('')}</div>
+      </section>`).join('');
+  </script>
+</body>
+</html>

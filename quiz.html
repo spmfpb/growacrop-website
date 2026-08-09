@@ -10,10 +10,10 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap"></noscript>
-<link rel="stylesheet" href="style.css?v=performance-20260808">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fraunces:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fraunces:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fraunces:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap"></noscript>
+<link rel="stylesheet" href="style.css?v=result-recommendations-tab-20260809">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--sans);background:var(--cream);color:var(--ink);min-height:100vh}
@@ -231,6 +231,7 @@ body{font-family:var(--sans);background:var(--cream);color:var(--ink);min-height
     <div class="nav-logo-mark"><img src="images/branding/growacrop-logo-header.webp" alt="" width="82" height="44" decoding="async"></div>
     <span class="nav-logo-text">GrowACrop</span>
   </a>
+  <a href="/recommendations.html" class="recommendations-drop-link result-nav-recommendations-link">All recommendations</a>
   <ul class="nav-links">
     <li><a href="/quiz.html" class="nav-quiz-link" aria-current="page">Take the quiz</a></li>
   </ul>
@@ -350,6 +351,8 @@ body{background:var(--cream)}
 .result-eyebrow,.result-title,.result-sub{text-align:center}
 .result-title{font-size:29px;font-weight:700;color:#12321f}
 .result-eyebrow{font-size:13px;font-weight:400;letter-spacing:0;text-transform:none;color:#8b8b83}
+.result-nav-recommendations-link{display:none}
+.result-nav-recommendations-link.is-visible{display:inline-flex}
 .primary-card{border:1px solid #e4e2da;border-radius:12px;box-shadow:none}
 .other-card,.ruled-card{border-radius:10px}
 .other-card{border:1px solid #e4e2da}
@@ -700,7 +703,6 @@ body{background:var(--cream)}
   <div class="others-grid" id="r-others"></div>
 
   <button class="restart-btn" onclick="restart()">Start again</button>
-  <button type="button" class="restart-btn" id="browse-all-recommendations">Browse all recommendations</button>
 </div>
 
 </main>
@@ -900,7 +902,7 @@ const RECS = {
 
 const SYSTEM_NAMES = {
   mini_garden: 'Bench Mini Garden',
-  salad_table: 'Salad Table',
+  salad_table: 'Salad Garden',
   dwc_bucket: 'Bucket & Tote Garden',
   tower: 'Tower Garden',
   microgreens: 'Microgreen Station',
@@ -1558,6 +1560,7 @@ function showResult() {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('result-screen').classList.add('active');
   document.querySelector('.quiz-page-main').classList.add('recommendation-mode');
+  document.querySelector('.result-nav-recommendations-link').classList.add('is-visible');
   for (let i = 1; i <= 8; i++) document.getElementById('step' + i).className = 'step done';
   document.getElementById('progress-label').textContent = 'Complete';
   window.scrollTo(0, 0);
@@ -1880,6 +1883,7 @@ function restart() {
   document.getElementById('next-8').disabled = false;
   document.getElementById('result-screen').classList.remove('active');
   document.querySelector('.quiz-page-main').classList.remove('recommendation-mode');
+  document.querySelector('.result-nav-recommendations-link').classList.remove('is-visible');
   document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
   document.getElementById('screen-1').classList.add('active');
   setGrowthStage(1);
