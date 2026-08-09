@@ -21,16 +21,13 @@
     .detail-bg-shelf{right:-95px;top:1830px;transform:rotate(-5deg)}
     .back-link{display:inline-flex;align-items:center;gap:7px;margin-bottom:38px;color:#526459;font-size:13px;font-weight:700;text-decoration:none}
     .back-link:hover{color:#1e3a22}
-    .detail-eyebrow{margin-bottom:10px;color:#96743f;font-size:11px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
     .detail-title{max-width:780px;margin:0 0 12px;font-family:var(--serif);font-size:clamp(36px,5vw,58px);font-weight:800;line-height:1.06;letter-spacing:-.04em}
     .detail-lead{max-width:650px;margin:0 0 38px;color:#657068;font-size:16px;line-height:1.65}
     .setup-overview{display:grid;grid-template-columns:1.15fr .85fr;overflow:hidden;margin-bottom:46px;border:1px solid #dddcd3;border-radius:22px;background:#fff;box-shadow:0 16px 45px rgba(30,58,34,.08)}
     .setup-image-wrap{min-height:390px;padding:36px;background:linear-gradient(145deg,#edf2e8,#faf9f5)}
     .setup-image{width:100%;height:100%;max-height:360px;object-fit:contain}
     .setup-summary{display:flex;flex-direction:column;justify-content:center;padding:38px}
-    .featured-label{margin-bottom:9px;color:#8a6b35;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
-    .setup-summary h2{margin:0 0 8px;font-size:25px;line-height:1.25}
-    .setup-tagline{margin:0 0 25px;color:#747b75;font-size:14px}
+    .setup-summary h2{margin:0 0 25px;font-size:25px;line-height:1.25}
     .quick-facts{display:grid;gap:0;border-top:1px solid #ebe9e1}
     .quick-fact{padding:14px 0;border-bottom:1px solid #ebe9e1;color:#4f5c53;font-size:13px;line-height:1.45}
     .quick-fact strong{display:block;margin-bottom:3px;color:#8a6b35;font-size:10px;letter-spacing:.08em;text-transform:uppercase}
@@ -58,36 +55,35 @@
     .total-label strong{display:block;margin-bottom:3px;font-size:14px}
     .total-label span{color:#747c75;font-size:11px}
     .total-price{font-size:22px;font-weight:800}
-    .connected-subsection{margin:34px -30px -30px;padding:32px 30px 30px;border-top:1px solid #d9ddd4;border-radius:0 0 18px 18px;background:#f5f7f1}
+    #optional-sections{margin:34px -30px -30px}
+    .connected-subsection{padding:32px 30px 30px;border-top:1px solid #d9ddd4;background:#f5f7f1}
+    .connected-subsection:nth-child(even){background:#fafbf8}
+    .connected-subsection:last-child{border-radius:0 0 18px 18px}
     .addon-header{display:flex;align-items:flex-start;justify-content:space-between;gap:28px;margin-bottom:22px}
     .addon-kicker{display:block;margin-bottom:7px;color:#8a6b35;font-size:9px;font-weight:800;letter-spacing:.11em;text-transform:uppercase}
     .addon-header h2{margin:0 0 7px;font-family:var(--serif);font-size:25px;letter-spacing:-.025em}
     .addon-header p{max-width:560px;margin:0;color:#69736b;font-size:12px;line-height:1.55}
-    .addon-cost{flex:0 0 auto;min-width:108px;padding:10px 13px;border-radius:11px;background:#e7ede1;text-align:right}
+    .addon-cost{flex:0 0 auto;min-width:190px;padding:10px 13px;border-radius:11px;background:#e7ede1;text-align:right}
     .addon-cost span{display:block;margin-bottom:2px;color:#69736b;font-size:9px;font-weight:800;letter-spacing:.07em;text-transform:uppercase}
-    .addon-cost strong{font-size:18px}
-    .addon-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .addon-cost strong{font-size:17px;white-space:nowrap}
+    .addon-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
     .addon-card{display:flex;min-width:0;flex-direction:column;padding:19px;border:1px solid #d9ded3;border-radius:13px;background:#fff}
     .addon-card h3{margin:0 0 6px;color:#1e3a22;font-size:14px}
     .addon-card p{margin:0 0 16px;color:#737b75;font-size:11px;line-height:1.5}
     .addon-product{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-top:auto;padding-top:13px;border-top:1px solid #ebe9e1}
     .addon-product a{color:#315f3c;font-size:11px;font-weight:800;line-height:1.4;text-decoration:underline;text-underline-offset:3px}
     .addon-product strong{flex:0 0 auto;font-size:13px}
-    .addon-summary{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:16px;padding:15px 17px;border-radius:11px;background:#1e3a22;color:#f7f4ee}
-    .addon-summary span{font-size:11px;font-weight:700}
-    .addon-summary strong{font-size:20px}
     .optional-badge{display:inline-flex;margin-left:7px;padding:3px 7px;border-radius:999px;background:#f0eadf;color:#826329;font-size:9px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;vertical-align:middle}
     .guide-intro{max-width:720px;margin:-8px 0 20px;color:#667168;font-size:13px;line-height:1.6}
     .guide-section{border:2px solid #9caf94;background:linear-gradient(135deg,#f5f8f1,#fff);box-shadow:0 14px 38px rgba(30,58,34,.09)}
     .guide-section .section-heading h2::before{content:"Start here";display:inline-flex;margin-right:11px;padding:5px 8px;border-radius:999px;background:#1e3a22;color:#f7f4ee;font-family:var(--sans);font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;vertical-align:middle}
-    .guide-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .guide-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
     .guide-link{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:19px;border:1px solid #deddd5;border-radius:13px;background:#fafbf8;color:#1e3a22;text-decoration:none;transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
     .guide-link:hover{transform:translateY(-2px);border-color:#b9c7b3;box-shadow:0 9px 22px rgba(30,58,34,.08)}
     .guide-source{display:block;margin-bottom:4px;color:#8a6b35;font-size:9px;font-weight:800;letter-spacing:.09em;text-transform:uppercase}
     .guide-title{display:block;margin-bottom:4px;font-size:14px;font-weight:800;line-height:1.35}
     .guide-desc{display:block;color:#717a73;font-size:11px;line-height:1.45}
     .guide-arrow{flex:0 0 auto;font-size:20px}
-    .guide-note{margin:15px 0 0;padding:11px 13px;border-radius:9px;background:#f3efe5;color:#71654d;font-size:11px;line-height:1.5}
     .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
     .why-panel{padding:24px;border:1px solid #dfded5;border-radius:15px;background:#fff}
     .why-panel h2{margin:0 0 13px;font-family:var(--serif);font-size:22px}
@@ -98,7 +94,7 @@
     .quiz-callout p{margin:0;color:rgba(247,244,238,.72);font-size:13px;line-height:1.5}
     .quiz-link{flex:0 0 auto;padding:13px 20px;border-radius:999px;background:#f7f4ee;color:#1e3a22;font-size:13px;font-weight:800;text-decoration:none}
     @media(max-width:1150px){.detail-bg-system{display:none}}
-    @media(max-width:720px){.detail-main{padding:34px 14px 70px}.setup-overview{grid-template-columns:1fr}.setup-image-wrap{min-height:280px}.setup-summary{padding:25px}.section-card{padding:22px 17px}.need-group{grid-template-columns:1fr;gap:14px}.connected-subsection{margin:28px -17px -22px;padding:24px 17px 22px}.addon-header{flex-direction:column;gap:14px}.addon-cost{align-self:flex-start;text-align:left}.addon-grid{grid-template-columns:1fr}.addon-summary{align-items:flex-start;flex-direction:column;gap:6px}.shopping-item{grid-template-columns:20px 1fr}.guide-grid,.why-grid{grid-template-columns:1fr}.quiz-callout{align-items:flex-start;flex-direction:column}.detail-title{font-size:36px}}
+    @media(max-width:720px){.detail-main{padding:34px 14px 70px}.setup-overview{grid-template-columns:1fr}.setup-image-wrap{min-height:280px}.setup-summary{padding:25px}.section-card{padding:22px 17px}.need-group{grid-template-columns:1fr;gap:14px}#optional-sections{margin:28px -17px -22px}.connected-subsection{padding:24px 17px 22px}.addon-header{flex-direction:column;gap:14px}.addon-cost{align-self:flex-start;text-align:left}.addon-grid{grid-template-columns:1fr}.shopping-item{grid-template-columns:20px 1fr}.guide-grid,.why-grid{grid-template-columns:1fr}.quiz-callout{align-items:flex-start;flex-direction:column}.detail-title{font-size:36px}}
   </style>
 </head>
 <body>
@@ -116,97 +112,105 @@
     <img class="detail-bg-system detail-bg-shelf" src="images/quiz/quiz-product-22-transparent.png" alt="" aria-hidden="true">
     <div class="detail-wrap">
       <a class="back-link" href="/recommendations.html">&larr; Back to all recommendations</a>
-      <div class="detail-eyebrow">Complete setup recommendation</div>
-      <h1 class="detail-title">Maxkon 12-Pod Benchtop Setup</h1>
-      <p class="detail-lead">An approachable first hydroponic setup for growing herbs and leafy greens indoors. The recommendation combines the featured grow system with the essential supplies needed to begin.</p>
+      <h1 class="detail-title" id="detail-title">Hydroponic setup recommendation</h1>
+      <p class="detail-lead" id="detail-lead"></p>
 
       <section class="setup-overview">
-        <div class="setup-image-wrap"><img class="setup-image" src="images/quiz/quiz-product-10-transparent.png" alt="Maxkon 12-Pod Hydroponic Garden"></div>
+        <div class="setup-image-wrap"><img class="setup-image" id="setup-image" src="images/quiz/quiz-product-10-transparent.png" alt=""></div>
         <div class="setup-summary">
-          <div class="featured-label">Featured grow system</div>
-          <h2>Maxkon 12-Pod Hydroponic Garden</h2>
-          <p class="setup-tagline">Compact benchtop garden with built-in lighting.</p>
-          <div class="quick-facts">
-            <div class="quick-fact"><strong>Good for</strong>First-time indoor growers</div>
-            <div class="quick-fact"><strong>Space needed</strong>Kitchen bench</div>
-            <div class="quick-fact"><strong>Best crops</strong>Herbs and leafy greens</div>
-            <div class="quick-fact"><strong>Maintenance</strong>Low</div>
-          </div>
+          <h2 id="setup-name"></h2>
+          <div class="quick-facts" id="quick-facts"></div>
         </div>
       </section>
 
       <section class="section-card guide-section">
-        <div class="section-heading"><h2>External setup guides</h2></div>
-        <p class="guide-intro">Use these resources to understand assembly, planting and the system controls before working through the shopping list.</p>
-        <div class="guide-grid">
-          <a class="guide-link" href="https://m.media-amazon.com/images/I/91L3EyUTrvL.pdf" target="_blank" rel="noopener noreferrer">
-            <span><span class="guide-source">PDF user guide</span><span class="guide-title">How to start a 12-pod indoor garden</span><span class="guide-desc">Assembly, filling, preparing pods, planting and light height.</span></span><span class="guide-arrow">&nearr;</span>
-          </a>
-          <a class="guide-link" href="https://www.harveynorman.com.au/maxkon-12-pods-hydroponics-growing-system-indoor-herb-garden-kit.html" target="_blank" rel="noopener noreferrer">
-            <span><span class="guide-source">Maxkon model reference</span><span class="guide-title">Controls and specifications</span><span class="guide-desc">Light timing modes, reservoir size, pump and electrical details.</span></span><span class="guide-arrow">&nearr;</span>
-          </a>
-        </div>
-        <p class="guide-note"><strong>Compatibility note:</strong> The PDF covers a similar 12-pod indoor garden, not this exact Maxkon model. Use it for the general growing process and follow the Maxkon product information for model-specific controls.</p>
+        <div class="section-heading"><h2>Guide for this system</h2></div>
+        <p class="guide-intro">Use these resources to understand assembly, planting and the system controls before working through the recommendation.</p>
+        <div class="guide-grid" id="guide-grid"></div>
       </section>
 
       <section class="section-card">
-        <div class="section-heading"><h2>What you need to get started</h2><div class="item-count">3 essentials</div></div>
+        <div class="section-heading"><h2>What you need to get started</h2><div class="item-count" id="essential-count"></div></div>
         <!-- Standard needs-first order used by every individual recommendation page. -->
-        <div class="need-sections">
-          <section class="need-group">
-            <div class="need-group-heading"><h3>Your grow system</h3><p>The main setup everything else supports.</p></div>
-            <ul class="shopping-list"><li class="shopping-item">
-              <span class="check-box" aria-hidden="true"></span>
-              <div><div class="item-name">A benchtop hydroponic garden</div><div class="item-note">Look for a compact reservoir, circulating pump, planting pods and a built-in grow light.</div><div class="suggested-product"><strong>Suggested product:</strong> <a class="product-link" href="https://www.harveynorman.com.au/maxkon-12-pods-hydroponics-growing-system-indoor-herb-garden-kit.html" target="_blank" rel="noopener">Maxkon 12-Pod Hydroponic Garden</a><span class="suggested-price">&mdash; $74.00</span></div></div>
-            </li></ul>
-          </section>
-          <section class="need-group">
-            <div class="need-group-heading"><h3>Everything needed to start growing</h3><p>Seeds and any growing media the system needs.</p></div>
-            <ul class="shopping-list"><li class="shopping-item">
-              <span class="check-box" aria-hidden="true"></span>
-              <div><div class="item-name">Seeds suited to a compact garden</div><div class="item-note">Choose herbs or leafy greens such as basil, coriander, parsley, lettuce or rocket.</div><div class="suggested-product"><strong>Suggested source:</strong> <a class="product-link" href="https://www.happyvalleyseeds.com.au/collections/pot-container-vegetable-seeds" target="_blank" rel="noopener">Happy Valley Seeds</a><span class="suggested-price">&mdash; Price varies</span></div></div>
-            </li></ul>
-          </section>
-          <section class="need-group">
-            <div class="need-group-heading"><h3>Feed your plants</h3><p>The essential nutrients required to begin growing.</p></div>
-            <ul class="shopping-list"><li class="shopping-item">
-              <span class="check-box" aria-hidden="true"></span>
-              <div><div class="item-name">Hydroponic nutrients</div><div class="item-note">Choose a complete A+B nutrient made for leafy growth so the water contains the minerals plants would normally obtain from soil.</div><div class="suggested-product"><strong>Suggested product:</strong> <a class="product-link" href="https://growkings.com.au/products/bloom-euro-a-b?variant=42095612330037" target="_blank" rel="noopener">Bloom Euro A+B Hydroponic Nutrients</a><span class="suggested-price">&mdash; $35.49</span></div></div>
-            </li></ul>
-          </section>
-        </div>
-        <div class="checklist-total"><div class="total-label"><strong>Estimated total using necessary items</strong><span>Priced essentials above; seeds not included</span></div><div class="total-price">$109.49</div></div>
-
-        <div class="connected-subsection">
-          <div class="addon-header">
-            <div><span class="addon-kicker">Optional add-ons</span><h2>For more reliable results</h2><p>You can begin without these. Add them when you want closer control over the water and fewer nutrient problems.</p></div>
-            <div class="addon-cost"><span>Both add-ons</span><strong>+$56.94</strong></div>
-          </div>
-          <div class="addon-grid">
-            <article class="addon-card">
-              <h3>A way to test water pH</h3>
-              <p>Confirms that nutrients remain available to the plants.</p>
-              <div class="addon-product"><a href="https://www.ebay.com.au/itm/196876073047" target="_blank" rel="noopener">Basic pH test kit</a><strong>$19.99</strong></div>
-            </article>
-            <article class="addon-card">
-              <h3>pH adjustment solution</h3>
-              <p>Only needed if testing shows that the water pH needs correcting.</p>
-              <div class="addon-product"><a href="https://growkings.com.au/products/flairform-ph-up-down-calibration-kit-250ml?variant=42321736892469" target="_blank" rel="noopener">Flairform pH Up/Down kit</a><strong>$36.95</strong></div>
-            </article>
-          </div>
-          <div class="addon-summary"><span>Estimated setup total with both optional add-ons</span><strong>$166.43</strong></div>
-        </div>
+        <div class="need-sections" id="need-sections"></div>
+        <div class="checklist-total"><div class="total-label"><strong>Estimated total using necessary items</strong><span id="total-note">Priced essentials above; unpriced seeds not included</span></div><div class="total-price" id="necessary-total"></div></div>
+        <div id="optional-sections"></div>
       </section>
 
       <div class="why-grid">
-        <section class="why-panel"><h2>Why this setup works</h2><ul><li>Built-in lighting makes indoor growing straightforward.</li><li>Twelve pod sites provide room for a useful mix of herbs and greens.</li><li>The compact reservoir and pump require little assembly.</li></ul></section>
-        <section class="why-panel"><h2>Not ideal for</h2><p>Full-sized tomatoes, cucumbers, chillies or other large fruiting crops. These need deeper root space and stronger structural support.</p></section>
+        <section class="why-panel"><h2>Why this setup works</h2><ul id="why-list"></ul></section>
+        <section class="why-panel"><h2>Not ideal for</h2><p id="not-ideal"></p></section>
       </div>
 
-      <section class="quiz-callout"><div><h2>Not sure this setup is right?</h2><p>Use the quiz to match a setup to your crops, available space and budget.</p></div><a class="quiz-link" href="/quiz.html">Use The Quiz</a></section>
+      <section class="quiz-callout"><div><h2>Not sure this setup is right?</h2></div><a class="quiz-link" href="/quiz.html">Use The Quiz</a></section>
     </div>
   </main>
 
   <footer class="footer"><div class="footer-inner footer-inner-simple"><div class="footer-brand"><div class="footer-logo">GrowACrop</div><p>Helping Australians choose a beginner-friendly hydroponic setup for growing food at home.</p></div></div></footer>
+  <script src="recommendation-data.js"></script>
+  <script>
+    (function () {
+      const details = window.RECOMMENDATION_DETAILS || {};
+      const requested = new URLSearchParams(window.location.search).get('system');
+      const slug = details[requested] ? requested : 'maxkon-12-pod';
+      const detail = details[slug];
+      if (!detail) return;
+
+      const escapeHTML = value => String(value == null ? '' : value).replace(/[&<>"]/g, character => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' })[character]);
+      const itemMarkup = recommendation => `
+        <li class="shopping-item">
+          <span class="check-box" aria-hidden="true"></span>
+          <div>
+            <div class="item-name">${escapeHTML(recommendation.need)}</div>
+            <div class="item-note">${escapeHTML(recommendation.note)}</div>
+            <div class="suggested-product"><strong>${escapeHTML(recommendation.label || 'Suggested product')}:</strong> <a class="product-link" href="${escapeHTML(recommendation.url)}" target="_blank" rel="noopener noreferrer">${escapeHTML(recommendation.product)}</a><span class="suggested-price">&mdash; ${escapeHTML(recommendation.price)}</span></div>
+          </div>
+        </li>`;
+      const groupMarkup = (title, note, items) => items && items.length ? `
+        <section class="need-group">
+          <div class="need-group-heading"><h3>${escapeHTML(title)}</h3><p>${escapeHTML(note)}</p></div>
+          <ul class="shopping-list">${items.map(itemMarkup).join('')}</ul>
+        </section>` : '';
+      const optionalMarkup = section => `
+        <div class="connected-subsection">
+          <div class="addon-header">
+            <div><span class="addon-kicker">${escapeHTML(section.kicker)}</span><h2>${escapeHTML(section.title)}</h2><p>${escapeHTML(section.intro)}</p></div>
+            <div class="addon-cost"><span>${escapeHTML(section.label)}</span><strong>${escapeHTML(section.equation)}</strong></div>
+          </div>
+          <div class="addon-grid">${section.items.map(recommendation => `
+            <article class="addon-card">
+              <h3>${escapeHTML(recommendation.need)}</h3>
+              <p>${escapeHTML(recommendation.note)}</p>
+              <div class="addon-product"><a href="${escapeHTML(recommendation.url)}" target="_blank" rel="noopener noreferrer">${escapeHTML(recommendation.product)}</a><strong>${escapeHTML(recommendation.price)}</strong></div>
+            </article>`).join('')}</div>
+        </div>`;
+
+      document.title = detail.title + ' | GrowACrop';
+      const description = document.querySelector('meta[name="description"]');
+      if (description) description.content = detail.lead;
+      document.body.dataset.system = slug;
+      document.getElementById('detail-title').textContent = detail.title;
+      document.getElementById('detail-lead').textContent = detail.lead;
+      document.getElementById('setup-image').src = detail.image;
+      document.getElementById('setup-image').alt = detail.name;
+      document.getElementById('setup-name').textContent = detail.name;
+      document.getElementById('quick-facts').innerHTML = [
+        ['Good for', detail.goodFor], ['Space needed', detail.space], ['Best crops', detail.crops], ['Maintenance', detail.maintenance]
+      ].map(fact => `<div class="quick-fact"><strong>${escapeHTML(fact[0])}</strong>${escapeHTML(fact[1])}</div>`).join('');
+      document.getElementById('guide-grid').innerHTML = detail.guides.map(resource => `
+        <a class="guide-link" href="${escapeHTML(resource.url)}" target="_blank" rel="noopener noreferrer">
+          <span><span class="guide-source">${escapeHTML(resource.source)}</span><span class="guide-title">${escapeHTML(resource.title)}</span><span class="guide-desc">${escapeHTML(resource.desc)}</span></span><span class="guide-arrow">&nearr;</span>
+        </a>`).join('');
+      document.getElementById('essential-count').textContent = detail.count + (detail.count === 1 ? ' essential' : ' essentials');
+      document.getElementById('need-sections').innerHTML =
+        groupMarkup('Your grow system', 'The main setup everything else supports.', [detail.system]) +
+        groupMarkup('Everything needed to start growing', 'Seeds and any growing media the system needs.', detail.start) +
+        groupMarkup('Feed your plants', 'The essential nutrients required to begin growing.', detail.feed);
+      document.getElementById('necessary-total').textContent = detail.necessaryTotal;
+      document.getElementById('optional-sections').innerHTML = (detail.optional || []).map(optionalMarkup).join('');
+      document.getElementById('why-list').innerHTML = detail.why.map(reason => `<li>${escapeHTML(reason)}</li>`).join('');
+      document.getElementById('not-ideal').textContent = detail.notIdeal;
+    })();
+  </script>
 </body>
 </html>

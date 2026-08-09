@@ -52,24 +52,17 @@
     .system-fact + .system-fact{border-left:1px solid rgba(30,58,34,.1)}
     .system-fact strong{display:block;margin-bottom:3px;color:#8a6b35;font-size:10px;font-weight:800;letter-spacing:.09em;text-transform:uppercase}
     .recommendation-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
-    .recommendation-card{position:relative;display:flex;flex-direction:column;overflow:hidden;border:1px solid #dfddd3;border-radius:20px;background:#fff;box-shadow:0 10px 32px rgba(24,61,40,.055);transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
+    .recommendation-card{position:relative;display:flex;flex-direction:column;overflow:hidden;border:1px solid #dfddd3;border-radius:20px;background:#fff;color:inherit;text-decoration:none;box-shadow:0 10px 32px rgba(24,61,40,.055);transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease}
     .recommendation-card:hover{transform:translateY(-6px);border-color:#cbd5c4;box-shadow:0 22px 48px rgba(24,61,40,.12)}
     .card-image-wrap{position:relative;height:260px;padding:22px;background:linear-gradient(145deg,#edf2e8,#faf9f5)}
     .card-image-wrap::after{content:"";position:absolute;inset:auto 10% 14px;height:18px;background:rgba(31,52,37,.09);filter:blur(12px);border-radius:50%}
     .card-image{position:relative;z-index:1;width:100%;height:100%;object-fit:contain;display:block;transition:transform .3s ease}
     .recommendation-card:hover .card-image{transform:scale(1.035)}
     .card-body{display:flex;flex:1;flex-direction:column;padding:24px}
-    .featured-system-label{margin-bottom:7px;color:#8a6b35;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
     .size-label{align-self:flex-start;margin-bottom:11px;padding:5px 9px;border-radius:999px;background:#f1eadc;color:#826329;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
     .card-body h3{margin:0 0 8px;font-size:20px;line-height:1.28;letter-spacing:-.015em}
     .tagline{min-height:40px;margin:0 0 17px;color:#777b74;font-size:14px;line-height:1.45}
-    .mini-checklist{margin:2px 0 0;padding:14px 0;border-top:1px solid #e8e6de}
-    .mini-checklist-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
-    .mini-checklist-head strong{color:#1e3a22;font-size:13px}
-    .mini-checklist-head span{color:#8a6b35;font-size:9px;font-weight:800;letter-spacing:.09em;text-transform:uppercase}
-    .mini-checklist ul{display:grid;gap:7px;margin:0;padding:0;list-style:none}
-    .mini-checklist li{display:flex;align-items:center;gap:8px;color:#5d675f;font-size:12px;line-height:1.3}
-    .mini-checklist li::before{content:"";width:12px;height:12px;flex:0 0 12px;border:1.5px solid #78906f;border-radius:3px;background:#fff}
+    .beginner-description{margin:2px 0 0;padding:14px 0;border-top:1px solid #e8e6de;color:#5d675f;font-size:12px;line-height:1.6}
     .bundle-total{display:flex;align-items:baseline;gap:6px;padding:9px 0 13px;color:#536057;font-size:11px}
     .bundle-total span{font-weight:700}
     .bundle-total strong{color:#1e3a22;font-size:14px;white-space:nowrap}
@@ -186,6 +179,44 @@
       'Farmtek HydroTower 120-Plant System': {total:'$1,372.39',items:['120-plant HydroTower','Hydroponic nutrients','Sponge plugs','Timer','Seeds']}
     };
 
+    const BEGINNER_DESCRIPTIONS = {
+      'Maxkon 12-Pod Hydroponic Garden':'One of the easiest systems to start with. The light and pump are built in, so regular jobs are mainly topping up the water, adding nutrients and checking plant growth.',
+      'Vevine LED Hydroponics System':'A beginner-friendly all-in-one garden with more growing room than the smallest benchtop models. It needs a little more bench space but still handles the lighting and water circulation for you.',
+      'LaNiTex Smart Microgreen Kit':'A very simple way to get a first harvest, often within one to two weeks. It takes little space and has a short growing cycle, but it is designed only for microgreens.',
+      'MicroPod Continuous Grow Kit + LED':'Good for beginners who want microgreens regularly rather than as a one-off crop. Stagger the trays for repeat harvests and add the LED if a bright window is not available.',
+      'Multi-Shelf Microgreen Rack':'Provides much larger and more frequent microgreen harvests, but requires assembling the rack, positioning lights and checking several trays each day. Best once you know you will use the extra output.',
+      'GrowKings Single DWC Pot System':'A manageable introduction to deep-water culture for one larger plant. The air pump runs continuously and you will need to check the water level, nutrients and pH more closely than with a benchtop garden.',
+      'Spider Farmer 2-Bucket DWC System':'Lets you grow two larger plants at once, giving more output without becoming a full grow room. It needs floor space, continuous aeration and regular water checks for both buckets.',
+      'VEVOR RDWC 4-Bucket System':'A high-output system for four larger plants sharing one reservoir. The plumbing simplifies feeding, but setup, cleaning, leak checks and water management make it unsuitable as a first-ever hydroponic system.',
+      'Hydroland 5-Tier Modular Tower':'A space-saving vertical option with the pump and timer already included. Beginners should keep it level and regularly confirm that water reaches every tier evenly.',
+      'All-in-One or HydroCulture Jumbo Tower':'Choose the lower-cost outdoor version for a sunny area or the LED-equipped version for indoors. Towers save floor space but need stable positioning and regular checks of the pump and upper planting sites.',
+      'Pineapple 10-Layer Vertical Tower':'Offers many planting sites in a narrow footprint, making it useful for larger leafy harvests. Its height, water volume and number of cups mean more cleaning and monitoring than a smaller tower.',
+      'Angled Pipe NFT System':'Well suited to quick-growing lettuce and herbs. Because the roots depend on a thin, continuous water flow, the reservoir and pump need regular checking and a pump failure must be noticed quickly.',
+      'Hydroland 35-Hole Wall-Mounted System':'Uses a wall or fence instead of floor space and holds many leafy plants. Installation must be secure and level, so it is better for beginners comfortable with mounting and basic water-flow checks.',
+      'TheSaladTable 60-Plant NFT System':'Designed for households that genuinely want large, frequent salad harvests. It is easy to reach and plant, but needs a dedicated area, a larger budget and routine reservoir maintenance.',
+      'Gathera Sun Shelf + Heirloom Basins':'A quiet, premium indoor option with built-in lighting and no circulating pump. The passive basins are simple to maintain, although the shelf needs permanent indoor space and costs more than a basic kit.',
+      'Farmtek HydroTower 120-Plant System':'The highest-capacity option in the guide. It can produce serious indoor harvests, but the cost, crop planning, lighting and water management make it best for experienced growers rather than beginners.'
+    };
+
+    const DETAIL_SLUGS = {
+      'Maxkon 12-Pod Hydroponic Garden':'maxkon-12-pod',
+      'Vevine LED Hydroponics System':'vevine-led',
+      'LaNiTex Smart Microgreen Kit':'lanitex-microgreen',
+      'MicroPod Continuous Grow Kit + LED':'micropod-continuous',
+      'Multi-Shelf Microgreen Rack':'multi-shelf-microgreens',
+      'GrowKings Single DWC Pot System':'growkings-dwc',
+      'Spider Farmer 2-Bucket DWC System':'spider-farmer-dwc',
+      'VEVOR RDWC 4-Bucket System':'vevor-rdwc',
+      'Hydroland 5-Tier Modular Tower':'hydroland-5-tier',
+      'All-in-One or HydroCulture Jumbo Tower':'all-in-one-tower',
+      'Pineapple 10-Layer Vertical Tower':'pineapple-tower',
+      'Angled Pipe NFT System':'angled-pipe-nft',
+      'Hydroland 35-Hole Wall-Mounted System':'hydroland-wall',
+      'TheSaladTable 60-Plant NFT System':'salad-table-60',
+      'Gathera Sun Shelf + Heirloom Basins':'gathera-sun-shelf',
+      'Farmtek HydroTower 120-Plant System':'farmtek-hydrotower'
+    };
+
     document.getElementById('systems').innerHTML = SYSTEMS.map(system => `
       <section class="system-section" id="${system.id}">
         <div class="system-heading"><h2>${system.name}</h2><p>${system.description}</p></div>
@@ -196,19 +227,17 @@
         </div>
         <div class="recommendation-grid">${system.items.map(item => {
           const bundle = BUNDLES[item[2]];
+          const detailSlug = DETAIL_SLUGS[item[2]];
           return `
-          <article class="recommendation-card">
+          <a class="recommendation-card" href="/recommendation.html?system=${detailSlug}" aria-label="View the ${item[2]} setup recommendation">
             <div class="card-image-wrap"><img class="card-image" src="${item[1]}" alt="${item[2]}" loading="lazy"></div>
             <div class="card-body">
-              <div class="featured-system-label">Featured grow system</div><h3>${item[2]}</h3><p class="tagline">${item[3]}</p>
-              <div class="mini-checklist">
-                <div class="mini-checklist-head"><strong>${bundle.items.length} products to buy</strong><span>Checklist preview</span></div>
-                <ul>${bundle.items.slice(0,4).map(product => `<li>${product}</li>`).join('')}${bundle.items.length > 4 ? `<li>+ ${bundle.items.length - 4} more item${bundle.items.length - 4 > 1 ? 's' : ''}</li>` : ''}</ul>
-              </div>
+              <h3>${item[2]}</h3><p class="tagline">${item[3]}</p>
+              <p class="beginner-description">${BEGINNER_DESCRIPTIONS[item[2]]}</p>
               <div class="bundle-total"><span>Combined checklist total:</span><strong>${bundle.total}</strong></div>
               <div class="best-crops-line"><strong>Best for:</strong> ${item[5]}</div>
             </div>
-          </article>`;
+          </a>`;
         }).join('')}</div>
       </section>`).join('');
   </script>
