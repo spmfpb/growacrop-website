@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GrowACrop - Find Your Setup</title>
+<link rel="canonical" href="https://growacrop.com.au/quiz">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/favicon-192.png">
@@ -501,22 +502,22 @@ body{background:var(--cream)}
   <p class="q-note" id="crop-note" hidden>Microgreens grow on their own &mdash; other crops need a different system.</p>
   <div class="motivation-grid">
     <div class="motivation-card" data-val="herbs" onclick="toggleCrop(this)">
-      <img class="crop-option-img" src="images/quiz-crops/fresh-herbs-v2.png" alt="Fresh basil and coriander bound with a rubber band">
+      <img class="crop-option-img" src="images/quiz-crops/fresh-herbs-v2.webp" alt="Fresh basil and coriander bound with a rubber band" decoding="async">
       <div class="motivation-label">Fresh herbs</div>
       <div class="option-sub">Basil, mint, coriander for cooking</div>
     </div>
     <div class="motivation-card" data-val="salad" onclick="toggleCrop(this)">
-      <img class="crop-option-img" src="images/quiz-crops/salad-greens.png" alt="Cos lettuce">
+      <img class="crop-option-img" src="images/quiz-crops/salad-greens.webp" alt="Cos lettuce" decoding="async">
       <div class="motivation-label">Salad greens</div>
       <div class="option-sub">Lettuce, spinach, rocket</div>
     </div>
     <div class="motivation-card" data-val="fruiting" onclick="toggleCrop(this)">
-      <img class="crop-option-img" src="images/quiz-crops/fruiting-veg.png" alt="Red capsicum">
+      <img class="crop-option-img" src="images/quiz-crops/fruiting-veg.webp" alt="Red capsicum" decoding="async">
       <div class="motivation-label">Fruiting veg</div>
       <div class="option-sub">Tomatoes, chillies, cucumbers</div>
     </div>
     <div class="motivation-card" data-val="microgreens" onclick="toggleCrop(this)">
-      <img class="crop-option-img" src="images/quiz-crops/microgreens.png" alt="Fresh microgreens">
+      <img class="crop-option-img" src="images/quiz-crops/microgreens.webp" alt="Fresh microgreens" decoding="async">
       <div class="motivation-label">Microgreens</div>
       <div class="option-sub">Fast, nutrient-dense shoots</div>
     </div>
@@ -750,10 +751,6 @@ body{background:var(--cream)}
   <a href="/recommendations.html" class="recommendations-drop-link result-nav-recommendations-link">All recommendations</a>
 </footer>
 
-<div hidden aria-hidden="true">
-  <script async data-uid="e241aea50e" src="https://growacrop.kit.com/e241aea50e/index.js"></script>
-</div>
-
 <script>
 const RECS = {
   'microgreens': {
@@ -938,7 +935,7 @@ const A = { crops:[], location:null, harvest:null, confidence:null, budget:null,
 /* Answers can be encoded into the URL so a saved/emailed link reopens the same
    recommendation. Detected up front so start-of-quiz analytics don't fire on a
    revisit. Restoration itself runs at the bottom, once helpers are defined. */
-const RESULT_LINK_BASE = 'https://growacrop.com.au/quiz.html';
+const RESULT_LINK_BASE = 'https://growacrop.com.au/quiz';
 const IS_RESTORED_RESULT = new URLSearchParams(location.search).has('loc');
 
 const QUIZ_VERSION = 'growacrop_quiz_v4';
@@ -1060,11 +1057,11 @@ function checkEmail() {
 }
 
 const SYSTEM_PREFERENCE_IMAGES = {
-  mini_garden: 'images/quiz/quiz-product-02.png',
-  dwc_bucket: 'images/quiz/quiz-product-03-multi.png',
-  tower: 'images/quiz/quiz-product-04.png',
-  salad_table: 'images/quiz/quiz-product-05.png',
-  grow_shelf: 'images/quiz/quiz-product-06.png',
+  mini_garden: 'images/quiz/quiz-product-02.webp',
+  dwc_bucket: 'images/quiz/quiz-product-03-multi.webp',
+  tower: 'images/quiz/quiz-product-04.webp',
+  salad_table: 'images/quiz/quiz-product-05.webp',
+  grow_shelf: 'images/quiz/quiz-product-06.webp',
 };
 
 const PREFERENCE_SCENARIOS = {
@@ -1269,9 +1266,6 @@ function preloadGrowthImage(src) {
   return growthImageLoads.get(src);
 }
 
-Object.values(GROWTH_PLANT_IMAGES).forEach(function(cycle) {
-  Object.values(cycle).flat().forEach(preloadGrowthImage);
-});
 let activeGrowthLayer = 0;
 let requestedGrowthStage = 1;
 let growthStageRequest = 0;
