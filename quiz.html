@@ -192,7 +192,7 @@ body{font-family:var(--sans);background:var(--cream);color:var(--ink);min-height
 <script>
     !function(t,e){var o,n,p,r;e.__SV||(window.posthog && window.posthog.__loaded)||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="Ji Yi init fn mn Hr pn bn cn capture calculateEventProperties Sn register register_once register_for_session unregister unregister_for_session In getFeatureFlag getFeatureFlagPayload getFeatureFlagResult getAllFeatureFlags isFeatureEnabled reloadFeatureFlags updateFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey displaySurvey cancelPendingSurvey canRenderSurvey canRenderSurveyAsync Tn identify setPersonProperties unsetPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset shutdown setIdentity clearIdentity get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException addExceptionStep captureLog startExceptionAutocapture stopExceptionAutocapture loadToolbar get_property getSessionProperty Cn xn createPersonProfile setInternalOrTestUser Mn hn Pn opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing get_explicit_consent_status is_capturing clear_opt_in_out_capturing debug Ur wt getPageViewId captureTraceFeedback captureTraceMetric an".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
     var posthogOwnerOptOutKey = 'growacrop_posthog_owner_opt_out';
-    var posthogLocalPreview = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+    var posthogLocalPreview = location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:';
     var posthogOwnerOptedOut = posthogLocalPreview;
     try {
         var posthogOwnerParams = new URLSearchParams(location.search);
@@ -231,7 +231,6 @@ body{font-family:var(--sans);background:var(--cream);color:var(--ink);min-height
     <div class="nav-logo-mark"><img src="images/branding/growacrop-logo-header.webp" alt="" width="82" height="44" decoding="async"></div>
     <span class="nav-logo-text">GrowACrop</span>
   </a>
-  <a href="/recommendations.html" class="recommendations-drop-link result-nav-recommendations-link">All recommendations</a>
   <ul class="nav-links">
     <li><a href="/quiz.html" class="nav-quiz-link" aria-current="page">Take the quiz</a></li>
   </ul>
@@ -347,12 +346,18 @@ body{background:var(--cream)}
 .email-input:focus{border-color:#12321f}
 .email-note{background:none;color:#8b8b83;font-size:12.5px;padding:0;display:block;margin-bottom:26px}
 .email-note span{font-weight:400}
+#screen-8 .btn-row{justify-content:center}
+#screen-8 .next-btn{font-size:15px;padding:13px 30px}
 .result-screen{max-width:780px;padding:48px 24px 80px}
 .result-eyebrow,.result-title,.result-sub{text-align:center}
 .result-title{font-size:29px;font-weight:700;color:#12321f}
 .result-eyebrow{font-size:13px;font-weight:400;letter-spacing:0;text-transform:none;color:#8b8b83}
 .result-nav-recommendations-link{display:none}
 .result-nav-recommendations-link.is-visible{display:inline-flex}
+.footer{position:relative}
+.footer .result-nav-recommendations-link{position:absolute;top:auto;bottom:calc(100% - 1px);right:22px;z-index:5;width:196px;margin:0;border-radius:10px 10px 0 0;background:#1e3a22;color:#f5f2ea;box-shadow:0 -5px 12px rgba(25,54,34,.07)}
+.footer .result-nav-recommendations-link.is-visible{display:flex}
+.footer .result-nav-recommendations-link:hover{background:#244f32;color:#f5f2ea;transform:none;box-shadow:0 -8px 18px rgba(25,54,34,.12)}
 .primary-card{border:1px solid #e4e2da;border-radius:12px;box-shadow:none}
 .other-card,.ruled-card{border-radius:10px}
 .other-card{border:1px solid #e4e2da}
@@ -366,9 +371,14 @@ body{background:var(--cream)}
 #screen-2 .motivation-grid{max-width:760px;margin-left:auto;margin-right:auto}
 #screen-1 .motivation-grid,#screen-3 .motivation-grid,#screen-4 .motivation-grid,#screen-5 .motivation-grid,#screen-7 .motivation-grid{flex-wrap:nowrap;align-items:stretch}
 #screen-1 .motivation-card,#screen-3 .motivation-card,#screen-4 .motivation-card,#screen-5 .motivation-card,#screen-7 .motivation-card{flex:1 1 0;min-width:0;max-width:none;padding:16px 16px}
+#screen-7 .motivation-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));width:100%;max-width:800px;margin-left:auto;margin-right:auto}
+#screen-7 .motivation-card{grid-column:span 2}
+#screen-7 .motivation-card:nth-child(4){grid-column:2 / span 2}
+#screen-7 .motivation-card:nth-child(5){grid-column:4 / span 2}
 @media(max-width:700px){
 #screen-1 .motivation-grid,#screen-3 .motivation-grid,#screen-4 .motivation-grid,#screen-5 .motivation-grid,#screen-7 .motivation-grid{flex-wrap:wrap}
 #screen-1 .motivation-card,#screen-3 .motivation-card,#screen-4 .motivation-card,#screen-5 .motivation-card,#screen-7 .motivation-card{flex:1 1 100%;width:100%}
+#screen-7 .motivation-card:nth-child(4),#screen-7 .motivation-card:nth-child(5){grid-column:auto}
 }
 .back-btn{background:none;border:none;color:#4a4a4a;font-size:13px;font-weight:700;cursor:pointer;padding:13px 18px;letter-spacing:.04em;display:inline-flex;align-items:center;gap:6px}
 .back-btn:hover{color:#1e3a22}
@@ -669,8 +679,8 @@ body{background:var(--cream)}
   <div class="email-wrap">
     <input class="email-input" type="email" id="email-input" placeholder="you@example.com" oninput="checkEmail()">
     <p class="email-note"><span>Email is optional. Leave it blank to view your result now.</span></p>
-    <div class="btn-row"><button class="back-btn" onclick="goBack()">&larr; Back</button><button class="next-btn" id="next-8" onclick="showResult()">
-      See my match <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    <div class="btn-row"><button class="next-btn" id="next-8" onclick="showResult()">
+      Skip <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </button></div>
   </div>
 </div>
@@ -731,6 +741,7 @@ body{background:var(--cream)}
       </div>
     </div>
   </div>
+  <a href="/recommendations.html" class="recommendations-drop-link result-nav-recommendations-link">All recommendations</a>
 </footer>
 
 <div hidden aria-hidden="true">

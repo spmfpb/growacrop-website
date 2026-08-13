@@ -176,7 +176,7 @@
       const optionalMarkup = section => `
         <div class="connected-subsection">
           <div class="addon-header">
-            <div><span class="addon-kicker">${escapeHTML(section.kicker)}</span><h2>${escapeHTML(section.title)}</h2><p>${escapeHTML(section.intro)}</p></div>
+            <div><span class="addon-kicker">${escapeHTML(section.kicker)}</span><h2>${escapeHTML(section.title)}</h2>${section.intro ? `<p>${escapeHTML(section.intro)}</p>` : ''}</div>
             <div class="addon-cost"><span>${escapeHTML(section.label)}</span><strong>${escapeHTML(section.equation)}</strong></div>
           </div>
           <div class="addon-grid">${section.items.map(recommendation => `

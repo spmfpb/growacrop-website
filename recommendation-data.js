@@ -44,7 +44,7 @@
   const indoorLight = (price, total, url, name) => ({
     kicker: 'Optional indoor lighting',
     title: 'If natural light is limited',
-    intro: 'Outdoor growers can skip this. Indoors, add a grow light and timer if the system does not receive enough bright natural light.',
+    intro: '',
     label: 'Lighting = setup total',
     equation: '+' + price + ' = ' + total,
     items: [
