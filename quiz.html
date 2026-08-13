@@ -346,6 +346,10 @@ body{background:var(--cream)}
 .email-input:focus{border-color:#12321f}
 .email-note{background:none;color:#8b8b83;font-size:12.5px;padding:0;display:block;margin-bottom:26px}
 .email-note span{font-weight:400}
+#screen-8 .q-sub{max-width:650px;color:#4f5a52;font-size:17px;line-height:1.65}
+#screen-8 .email-input{font-size:16px}
+#screen-8 .email-note{max-width:520px;margin-left:auto;margin-right:auto;color:#526159;font-size:15px;line-height:1.6}
+#screen-8 .email-note span{font-weight:500}
 #screen-8 .btn-row{justify-content:center}
 #screen-8 .next-btn{font-size:15px;padding:13px 30px}
 .result-screen{max-width:780px;padding:48px 24px 80px}
@@ -439,6 +443,8 @@ body{background:var(--cream)}
   .btn-row{justify-content:center;margin-top:0}
   .email-wrap{width:100%;max-width:440px}
   .email-note{margin-bottom:14px}
+  #screen-8 .q-sub{font-size:14px;line-height:1.5}
+  #screen-8 .email-note{font-size:13px;line-height:1.5}
   .preference-grid{width:100%;gap:8px;margin-bottom:12px}
   .preference-card .system-img{height:112px;padding:5px}
   .preference-card .system-info{padding:9px 8px 10px}
@@ -674,11 +680,11 @@ body{background:var(--cream)}
 <!-- EMAIL -->
 <div class="screen" id="screen-8">
   <div class="q-eyebrow" data-step-count="8">8 of 8</div>
-  <h1 class="q-title">Want your plan emailed?</h1>
-  <p class="q-sub">We'll email you a link to your setup and shopping list, so you can come back to it whenever you're ready to buy.</p>
+  <h1 class="q-title">Want me to email your plan?</h1>
+  <p class="q-sub">I'll email you a link to your recommendation so you can come back to it anytime.</p>
   <div class="email-wrap">
-    <input class="email-input" type="email" id="email-input" placeholder="you@example.com" oninput="checkEmail()">
-    <p class="email-note"><span>Email is optional. Leave it blank to view your result now.</span></p>
+    <input class="email-input" type="email" id="email-input" placeholder="you@optional.com" oninput="checkEmail()">
+    <p class="email-note"><span>This won't sign you up to a mailing list. I may reach out once to ask what you thought.</span></p>
     <div class="btn-row"><button class="next-btn" id="next-8" onclick="showResult()">
       Skip <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </button></div>
