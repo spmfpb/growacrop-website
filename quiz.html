@@ -374,6 +374,11 @@ body{background:var(--cream)}
 }
 .screen{max-width:920px}
 #screen-2 .motivation-grid{max-width:760px;margin-left:auto;margin-right:auto}
+#screen-2 .motivation-grid[hidden]{display:none}
+#standard-location-options{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));width:100%}
+#standard-location-options .motivation-card{grid-column:span 2;max-width:none;min-width:0}
+#standard-location-options .motivation-card:nth-child(4){grid-column:2 / span 2}
+#standard-location-options .motivation-card:nth-child(5){grid-column:4 / span 2}
 #screen-1 .motivation-grid,#screen-3 .motivation-grid,#screen-4 .motivation-grid,#screen-5 .motivation-grid,#screen-7 .motivation-grid{flex-wrap:nowrap;align-items:stretch}
 #screen-1 .motivation-card,#screen-3 .motivation-card,#screen-4 .motivation-card,#screen-5 .motivation-card,#screen-7 .motivation-card{flex:1 1 0;min-width:0;max-width:none;padding:16px 16px}
 #screen-7 .motivation-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));width:100%;max-width:800px;margin-left:auto;margin-right:auto}
@@ -381,6 +386,9 @@ body{background:var(--cream)}
 #screen-7 .motivation-card:nth-child(4){grid-column:2 / span 2}
 #screen-7 .motivation-card:nth-child(5){grid-column:4 / span 2}
 @media(max-width:700px){
+#standard-location-options{grid-template-columns:repeat(2,minmax(0,1fr))}
+#standard-location-options .motivation-card,#standard-location-options .motivation-card:nth-child(4),#standard-location-options .motivation-card:nth-child(5){grid-column:auto}
+#standard-location-options .motivation-card:last-child{grid-column:1 / -1;width:calc(50% - 6px);justify-self:center}
 #screen-1 .motivation-grid,#screen-3 .motivation-grid,#screen-4 .motivation-grid,#screen-5 .motivation-grid,#screen-7 .motivation-grid{flex-wrap:wrap}
 #screen-1 .motivation-card,#screen-3 .motivation-card,#screen-4 .motivation-card,#screen-5 .motivation-card,#screen-7 .motivation-card{flex:1 1 100%;width:100%}
 #screen-7 .motivation-card:nth-child(4),#screen-7 .motivation-card:nth-child(5){grid-column:auto}
@@ -530,25 +538,40 @@ body{background:var(--cream)}
 <!-- Q2: LOCATION -->
 <div class="screen" id="screen-2">
   <div class="q-eyebrow" data-step-count="2">2 of 7</div>
-  <h1 class="q-title">Where would your setup live?</h1>
-  <p class="q-sub">Outdoor spots want roughly 6+ hours of sun.<br>Indoors is fine too, we'll add a grow light to your list where needed.</p>
-  <div class="motivation-grid">
-    <div class="motivation-card" data-val="bench" onclick="pickAnswer(this,'location')">
-      <div class="motivation-label">Kitchen bench</div>
-    </div>
+  <h1 class="q-title" id="location-title">Where would your setup live?</h1>
+  <p class="q-sub" id="location-subtitle">Outdoor spots want roughly 6+ hours of sun.<br>Indoors is fine too, we'll add a grow light to your list where needed.</p>
+  <div class="motivation-grid" id="standard-location-options">
     <div class="motivation-card" data-val="indoor_floor" onclick="pickAnswer(this,'location')">
       <div class="motivation-label">Indoor floor space</div>
+      <div class="option-sub">Room for a freestanding setup</div>
     </div>
     <div class="motivation-card" data-val="balcony" onclick="pickAnswer(this,'location')">
       <div class="motivation-label">Balcony or courtyard</div>
-      <div class="option-sub">Outdoors with some sun</div>
+      <div class="option-sub">Compact outdoor space with some sun</div>
     </div>
     <div class="motivation-card" data-val="backyard" onclick="pickAnswer(this,'location')">
       <div class="motivation-label">Sunny backyard</div>
-      <div class="option-sub">6+ hours of sun</div>
+      <div class="option-sub">Room for larger systems and 6+ hours of sun</div>
+    </div>
+    <div class="motivation-card" data-val="bench" onclick="pickAnswer(this,'location')">
+      <div class="motivation-label">Kitchen bench</div>
     </div>
     <div class="motivation-card" data-val="wall" onclick="pickAnswer(this,'location')">
       <div class="motivation-label">Garden wall or fence</div>
+    </div>
+  </div>
+  <div class="motivation-grid" id="microgreen-location-options" hidden>
+    <div class="motivation-card" data-val="micro_bench" onclick="pickAnswer(this,'location')">
+      <div class="motivation-label">One tray on a bright bench</div>
+      <div class="option-sub">The smallest footprint</div>
+    </div>
+    <div class="motivation-card" data-val="micro_shelf" onclick="pickAnswer(this,'location')">
+      <div class="motivation-label">Space for a few trays</div>
+      <div class="option-sub">Room for staggered harvests</div>
+    </div>
+    <div class="motivation-card" data-val="micro_rack" onclick="pickAnswer(this,'location')">
+      <div class="motivation-label">Room for a growing rack</div>
+      <div class="option-sub">A dedicated high-volume setup</div>
     </div>
   </div>
   <div class="btn-row"><button class="back-btn" onclick="goBack()">&larr; Back</button><button class="next-btn" id="next-2" disabled onclick="goTo(3)">
@@ -1014,6 +1037,35 @@ function updateCropAvailability() {
   document.getElementById('next-1').disabled = A.crops.length === 0;
 }
 
+const STANDARD_LOCATION_VALUES = ['bench', 'indoor_floor', 'balcony', 'backyard', 'wall'];
+const MICROGREEN_LOCATION_VALUES = ['micro_bench', 'micro_shelf', 'micro_rack'];
+
+function updateLocationQuestion() {
+  const isMicrogreens = A.crops.length === 1 && A.crops[0] === 'microgreens';
+  const title = document.getElementById('location-title');
+  const subtitle = document.getElementById('location-subtitle');
+  const standardOptions = document.getElementById('standard-location-options');
+  const microgreenOptions = document.getElementById('microgreen-location-options');
+  const allowedValues = isMicrogreens ? MICROGREEN_LOCATION_VALUES : STANDARD_LOCATION_VALUES;
+
+  title.textContent = isMicrogreens
+    ? 'How much growing space can you give your microgreens?'
+    : 'Where would your setup live?';
+  subtitle.textContent = isMicrogreens
+    ? 'Your available space sets the largest setup we will recommend.'
+    : "Outdoor spots want roughly 6+ hours of sun. Indoors is fine too; we'll add a grow light where needed.";
+  standardOptions.hidden = isMicrogreens;
+  microgreenOptions.hidden = !isMicrogreens;
+
+  if (A.location && !allowedValues.includes(A.location)) {
+    A.location = null;
+    document.querySelectorAll('#screen-2 .motivation-card').forEach(function(card) {
+      card.classList.remove('selected');
+    });
+    document.getElementById('next-2').disabled = true;
+  }
+}
+
 function toggleCrop(el) {
   const val = el.dataset.val;
   const idx = A.crops.indexOf(val);
@@ -1037,6 +1089,7 @@ function toggleCrop(el) {
     trackAnswer(1, val, el.querySelector('.motivation-label').textContent.trim());
   }
   updateCropAvailability();
+  updateLocationQuestion();
   const note = document.getElementById('crop-note');
   if (note) note.hidden = !A.crops.includes('microgreens');
 }
@@ -1375,18 +1428,17 @@ function updateProgress(step) {
 /* ---------------- DERIVATION ENGINE ---------------- */
 function deriveMatch() {
   const cr = A.crops, l = A.location, h = A.harvest;
-  const flags = { budget: false, stretch: false, farOver: false, confidence: false, essentialTotal: 0, budgetOver: 0, budgetAlternative: null, preferenceScenario: null, preferenceReason: null };
+  const flags = { budget: false, stretch: false, farOver: false, confidence: false, spaceCapped: false, spaceContext: null, essentialTotal: 0, budgetOver: 0, budgetAlternative: null, preferenceScenario: null, preferenceReason: null };
   let sys;
   if (cr.includes('microgreens')) sys = 'microgreens';
   else if (cr.includes('fruiting')) sys = 'dwc_bucket';
   else if (l === 'wall') sys = 'salad_table';
   else if (l === 'bench') sys = 'mini_garden';
   else if (l === 'indoor_floor') {
-    // Indoor floor space spans a wide price range. The Grow Shelf is a premium
-    // setup and is only offered when the visitor opts into that spend.
+    // Indoor floor space is reserved for freestanding systems. Benchtop
+    // gardens are only eligible when the visitor explicitly chooses a bench.
     if (A.budget === 'premium') sys = 'grow_shelf';
-    else if (A.budget === 'high') sys = 'tower';
-    else sys = 'mini_garden';
+    else sys = 'tower';
   }
   else if (cr.includes('salad')) sys = 'salad_table';
   else sys = 'tower';
@@ -1402,10 +1454,34 @@ function deriveMatch() {
     }
   }
 
+  // Keep this as a hard eligibility rule so future matching changes cannot
+  // accidentally surface a benchtop garden for a floor or outdoor location.
+  if (sys === 'mini_garden' && l !== 'bench') {
+    sys = l === 'indoor_floor' && A.budget === 'premium' ? 'grow_shelf' : 'tower';
+  }
+
   let size;
   if (sys === 'salad_table') size = (l === 'wall') ? 'vertical' : (h === 'serious' ? 'large' : 'small');
   else if (sys === 'grow_shelf') size = (h === 'serious') ? 'large' : 'small';
   else size = h === 'taste' ? 'small' : (h === 'weekly' ? 'medium' : 'large');
+
+  // Microgreen space answers set a practical maximum. Harvest goals still
+  // choose within that limit, so a larger space never forces a larger setup.
+  if (sys === 'microgreens') {
+    if (l === 'micro_bench' && size !== 'small') {
+      size = 'small'; flags.spaceCapped = true; flags.spaceContext = 'micro_bench';
+    } else if (l === 'micro_shelf' && size === 'large') {
+      size = 'medium'; flags.spaceCapped = true; flags.spaceContext = 'micro_shelf';
+    }
+  }
+
+  // Balconies and courtyards are treated as compact outdoor spaces. Keep
+  // high-volume answers to systems that are practical in the smaller area;
+  // a sunny backyard can continue through to the full-size alternatives.
+  if (l === 'balcony') {
+    if (sys === 'salad_table' && size === 'large') { size = 'small'; flags.spaceCapped = true; flags.spaceContext = 'balcony'; }
+    else if (size === 'large' && (sys === 'dwc_bucket' || sys === 'tower')) { size = 'medium'; flags.spaceCapped = true; flags.spaceContext = 'balcony'; }
+  }
 
   // The bench range has no worthwhile full-size step-up, so high-volume
   // bench growers receive the better-value mid-size recommendation.
@@ -1437,16 +1513,19 @@ const SYS_CROP_REASON = {
   microgreens: 'it is the fastest path to harvest - seed to plate in under two weeks',
   mini_garden: 'an all-in-one benchtop unit with built-in light is the easiest way to grow herbs and greens indoors',
   dwc_bucket: 'deep water culture gives big fruiting plants the root space and nutrients they need',
-  tower: 'a vertical tower packs the widest mix of crops into the smallest outdoor footprint',
+  tower: 'a vertical tower packs the widest mix of crops into a small floor footprint',
   salad_table: 'a flat NFT table is the easiest way to plant, tend and harvest salad greens in volume',
   grow_shelf: 'a shelf system stacks growing levels under their own lights - real volume, indoors',
 };
 const LOC_REASON = {
   bench: 'It fits on a kitchen bench with lighting built in - no sun needed.',
-  indoor_floor: 'It stands on its own small footprint indoors under its own lights.',
-  balcony: 'It suits a balcony or courtyard that gets decent sun.',
-  backyard: 'Your sunny spot gives it the 6+ hours of light it wants.',
+  indoor_floor: 'It is a freestanding indoor setup, with lighting included or added where needed.',
+  balcony: 'Its compact footprint suits a balcony or courtyard without taking over the space.',
+  backyard: 'Your sunny backyard has the light and room needed for a larger, higher-capacity setup.',
   wall: 'It mounts on a wall or fence and uses zero floor space.',
+  micro_bench: 'One bright bench gives a single tray enough room without taking over the kitchen.',
+  micro_shelf: 'You have room for several trays and staggered harvests on a shelf.',
+  micro_rack: 'You have dedicated rack space for multiple trays and higher-volume growing.',
 };
 const HARVEST_REASON = {
   taste: "We sized it compact - enough for steady herbs and garnishes without becoming a chore.",
@@ -1468,7 +1547,15 @@ function buildReasons(sys, size, flags) {
     items.push('You want to grow ' + cropText() + ', and ' + SYS_CROP_REASON[sys] + '.');
     items.push(LOC_REASON[A.location]);
   }
-  items.push(HARVEST_REASON[A.harvest]);
+  if (flags.spaceContext === 'micro_bench') {
+    items.push('You asked for a larger harvest, but one tray fits this space best, so we kept the setup compact.');
+  } else if (flags.spaceContext === 'micro_shelf') {
+    items.push('You asked for serious output, so we chose the largest setup that still suits a few trays on a shelf.');
+  } else if (flags.spaceCapped) {
+    items.push('You asked for serious output, so we chose the highest-capacity version that still suits a compact balcony or courtyard.');
+  } else {
+    items.push(HARVEST_REASON[A.harvest]);
+  }
   if (flags.confidence) {
     items.push("You told us you're new to growing, so we stepped down from the biggest version - fewer plants to keep alive while you learn. It's below if you want it anyway.");
   } else if (A.confidence === 'none' || A.confidence === 'killer') {
@@ -1559,6 +1646,7 @@ function showResult() {
       essential_starting_total: Number(match.flags.essentialTotal.toFixed(2)),
       budget_over: Number(match.flags.budgetOver.toFixed(2)),
       confidence_adjusted: match.flags.confidence,
+      space_adjusted: match.flags.spaceCapped,
       preference_used: !!match.flags.preferenceScenario,
       preference_scenario: match.flags.preferenceScenario,
       selected_system_preference: A.systemPreference,
@@ -1889,6 +1977,7 @@ function restart() {
   document.querySelectorAll('.motivation-card').forEach(function(c){ c.classList.remove('selected'); c.classList.remove('disabled'); });
   const cropNote = document.getElementById('crop-note');
   if (cropNote) cropNote.hidden = true;
+  updateLocationQuestion();
   document.getElementById('email-input').value = '';
   for (let i = 1; i <= 7; i++) document.getElementById('next-' + i).disabled = true;
   document.getElementById('next-8').disabled = false;
@@ -1912,7 +2001,7 @@ function restart() {
    falls back to the normal quiz rather than rendering a broken result. */
 const LINK_VALUES = {
   crops: ['herbs', 'salad', 'fruiting', 'microgreens'],
-  location: ['bench', 'indoor_floor', 'balcony', 'backyard', 'wall'],
+  location: ['bench', 'indoor_floor', 'balcony', 'backyard', 'wall', 'micro_bench', 'micro_shelf', 'micro_rack'],
   harvest: ['taste', 'weekly', 'serious'],
   confidence: ['none', 'killer', 'somewhat', 'very'],
   budget: ['low', 'mid', 'high', 'premium'],
@@ -1949,14 +2038,23 @@ function restoreAnswersFromUrl() {
   };
 
   const crops = many('crops', LINK_VALUES.crops);
-  const location_ = one('loc', LINK_VALUES.location);
+  let location_ = one('loc', LINK_VALUES.location);
   const harvest = one('harvest', LINK_VALUES.harvest);
   const budget = one('budget', LINK_VALUES.budget);
   if (!crops.length || !location_ || !harvest || !budget) return false;
-  // Microgreens is exclusive in the quiz, and premium budget is only offered
-  // for indoor floor space - reject links that contradict those rules.
+  // Microgreens is exclusive in the quiz. Older saved links used the standard
+  // location answers, so translate those to the closest tray-space answer.
   if (crops.indexOf('microgreens') !== -1 && crops.length > 1) return false;
-  if (budget === 'premium' && location_ !== 'indoor_floor') return false;
+  const isMicrogreens = crops.length === 1 && crops[0] === 'microgreens';
+  if (isMicrogreens && !MICROGREEN_LOCATION_VALUES.includes(location_)) {
+    const legacyMicrogreenLocations = {
+      bench: 'micro_bench', indoor_floor: 'micro_shelf', balcony: 'micro_shelf',
+      backyard: 'micro_rack', wall: 'micro_rack'
+    };
+    location_ = legacyMicrogreenLocations[location_] || null;
+  }
+  if (!location_ || (!isMicrogreens && MICROGREEN_LOCATION_VALUES.includes(location_))) return false;
+  if (budget === 'premium' && (isMicrogreens || location_ !== 'indoor_floor')) return false;
 
   A.crops = crops;
   A.location = location_;
