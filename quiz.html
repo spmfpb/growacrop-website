@@ -313,7 +313,7 @@ body{background:var(--cream)}
 .screen{max-width:780px;padding:56px 24px 80px;text-align:center}
 .q-eyebrow{font-size:13px;font-weight:400;letter-spacing:0;text-transform:none;color:#8b8b83;margin-bottom:14px}
 .q-title{font-size:29px;font-weight:700;color:#12321f;line-height:1.25;margin-bottom:14px;letter-spacing:-.01em}
-.q-sub{font-size:15px;color:#77776f;max-width:580px;margin:0 auto 34px;line-height:1.6}
+.q-sub{font-size:15px;color:#77776f;max-width:580px;margin:0 auto 24px;line-height:1.6}
 .q-why{font-size:12.5px;color:#a5a49b;margin:0 auto 34px;max-width:540px}
 .q-note{font-size:12.5px;color:#8a6d2f;margin:-26px auto 26px;max-width:540px;line-height:1.5}
 .q-note[hidden]{display:none}
@@ -343,6 +343,7 @@ body{background:var(--cream)}
 .next-btn:hover,.back-btn:hover{background:none;color:#12321f}
 .next-btn svg{stroke:currentColor;width:14px;height:14px}
 .next-btn:disabled{opacity:.3}
+.next-btn[hidden]{display:none}
 .email-wrap{max-width:440px;margin:0 auto}
 .email-input{border:1px solid #e4e2da;border-radius:8px;text-align:center;padding:14px 16px}
 .email-input:focus{border-color:#12321f}
@@ -400,7 +401,8 @@ body{background:var(--cream)}
 @media(min-width:1025px){
   .screen{padding-top:calc(56px + 2cm)}
   .screen > .q-sub{min-height:48px}
-  #screen-7 > .q-sub,#screen-8 > .q-sub{margin-bottom:63px}
+  #screen-7 > .q-sub{margin-bottom:24px}
+  #screen-8 > .q-sub{margin-bottom:24px}
 }
 @media(max-width:700px){
   .quiz-page-main{min-height:calc(100svh - 148px);margin-top:0}
@@ -706,12 +708,11 @@ body{background:var(--cream)}
 <div class="screen" id="screen-8">
   <div class="q-eyebrow" data-step-count="8">8 of 8</div>
   <h1 class="q-title">Want me to email your plan?</h1>
-  <p class="q-sub">I'll email you a link to your recommendation so you can come back to it anytime.</p>
+  <p class="q-sub">This won't sign you up to a mailing list.<br>I may reach out once to ask what you thought.</p>
   <div class="email-wrap">
     <input class="email-input" type="email" id="email-input" placeholder="you@optional.com" oninput="checkEmail()">
-    <p class="email-note"><span>This won't sign you up to a mailing list. I may reach out once to ask what you thought.</span></p>
-    <div class="btn-row"><button class="next-btn" id="next-8" onclick="showResult()">
-      Skip <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    <div class="btn-row"><button class="next-btn" id="next-8" hidden onclick="showResult()">
+      Send <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </button></div>
   </div>
 </div>
@@ -1107,7 +1108,9 @@ function toggleMotivation(el) {
 function checkEmail() {
   const val = document.getElementById('email-input').value.trim();
   const valid = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(val);
-  document.getElementById('next-8').disabled = val !== '' && !valid;
+  const sendButton = document.getElementById('next-8');
+  sendButton.hidden = val === '';
+  sendButton.disabled = !valid;
   A.email = val;
 }
 
@@ -1982,7 +1985,8 @@ function restart() {
   updateLocationQuestion();
   document.getElementById('email-input').value = '';
   for (let i = 1; i <= 7; i++) document.getElementById('next-' + i).disabled = true;
-  document.getElementById('next-8').disabled = false;
+  document.getElementById('next-8').hidden = true;
+  document.getElementById('next-8').disabled = true;
   document.getElementById('result-screen').classList.remove('active');
   document.querySelector('.quiz-page-main').classList.remove('recommendation-mode');
   document.querySelector('.result-nav-recommendations-link').classList.remove('is-visible');
